@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Server tests
+        run: bun run --filter '@app/server' test
+
+      - name: Web unit tests
+        run: bun run --filter '@app/web' test
+
+      - name: OpenAPI drift check
+        run: |
+          bun run gen:openapi
+          git diff --exit-code docs/openapi.json
+
+      - name: Build web
+        run: bun run --filter '@app/web' build
+
+      - name: Install Playwright browsers
+        run: bun --bun playwright install --with-deps chromium
+        working-directory: packages/web
+
+      - name: e2e
+        run: bun run e2e

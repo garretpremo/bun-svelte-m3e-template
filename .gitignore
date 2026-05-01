@@ -1,0 +1,21 @@
+node_modules/
+dist/
+build/
+.svelte-kit/
+.env
+.env.local
+data/*.sqlite
+data/*.sqlite-journal
+data/*.sqlite-wal
+data/*.sqlite-shm
+*.log
+
+# apijack runtime state — generated CLI is rebuilt by `appcli generate`,
+# config/session are env-specific.
+packages/web/tests/e2e/generated/
+packages/web/tests/e2e/config.json
+packages/web/tests/e2e/session.json
+.DS_Store
+test-results/
+playwright-report/
+coverage/

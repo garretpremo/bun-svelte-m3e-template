@@ -1,0 +1,29 @@
+# Per-test seeding: creates a fresh user + 3 notes.
+# Each note step appears in the RoutineResult.steps[] log; the seed
+# fixture collects ids from there. The fresh user id is exposed under
+# `output.user.id`.
+#
+# Note: apijack 1.11 `range:` requires literal `[number, number]` — the
+# count is fixed at 3 here. To vary count per call, expand the loop or
+# use forEach against a precomputed list.
+name: seed-user-with-notes
+description: Create a fresh user plus 3 notes for a single test.
+steps:
+  - name: create-user
+    command: users create
+    args:
+      # $_uuid resolves at step time (single function call); $_timestamp
+      # is also a built-in variable but resolves via interpolation here.
+      --email: "fixture-$_uuid@example.test"
+      --displayName: Fixture
+    output: user
+
+  - name: create-notes
+    range: [1, 3]
+    as: i
+    steps:
+      - name: create-note
+        command: notes create
+        args:
+          --title: "Seed note $i"
+          --body: ""

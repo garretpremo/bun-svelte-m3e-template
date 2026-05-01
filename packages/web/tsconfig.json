@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+    "types": ["bun"]
+  },
+  "include": [
+    "src/**/*", "tests/**/*",
+    "src/types/**/*.d.ts",
+    "vite.config.ts", "vitest.config.ts", "playwright.config.ts", "svelte.config.js",
+    ".svelte-kit/ambient.d.ts",
+    ".svelte-kit/types/**/$types.d.ts"
+  ],
+  "exclude": [
+    // apijack-generated CLI is rebuilt by `appcli generate` and ships TS source
+    // that doesn't satisfy our strict tsconfig — runtime use only.
+    "tests/e2e/generated/**"
+  ]
+}

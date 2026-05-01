@@ -1,0 +1,13 @@
+# Per-test teardown: deletes the seeded user (cascade removes notes).
+# Pass --set userId=<id> when invoking, or supply { vars: { userId } }
+# to runRoutine.
+name: teardown-seed
+description: Delete a seeded user; tolerates already-gone state.
+variables:
+  userId: ""
+steps:
+  - name: delete-user
+    command: users delete
+    args-positional:
+      - "$userId"
+    continueOnError: true

@@ -1,0 +1,23 @@
+{
+  "name": "bun-svelte-m3e-template",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev":           "bun run --cwd packages/server dev & bun run --cwd packages/web dev",
+    "build":         "bun run --filter '@app/web' build && bun run --filter '@app/server' typecheck",
+    "start":         "bun run packages/server/src/index.ts",
+    "test":          "bun run --filter '*' test",
+    "typecheck":     "bun run --filter '*' typecheck",
+    "lint":          "biome check .",
+    "format":        "biome format --write .",
+    "gen:openapi":   "bun run packages/server/scripts/gen-openapi.ts",
+    "e2e":           "bun run --filter '@app/web' test:e2e",
+    "e2e:routine":   "bun run packages/web/tests/e2e/cli.ts routine run"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/bun": "^1.2.0",
+    "typescript": "^5.6.0"
+  }
+}

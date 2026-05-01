@@ -1,0 +1,14 @@
+# Idempotent baseline: ensures a default test user exists.
+# Invoked once by Playwright global-setup before the suite.
+# A pre-existing user surfaces as a 4xx from `users create`; we tolerate it
+# with `continueOnError` so reruns don't blow up.
+name: setup-baseline
+description: Ensure the default e2e@example.test user exists.
+steps:
+  - name: ensure-default-user
+    command: users create
+    args:
+      --email: e2e@example.test
+      --displayName: E2E
+    output: user
+    continueOnError: true

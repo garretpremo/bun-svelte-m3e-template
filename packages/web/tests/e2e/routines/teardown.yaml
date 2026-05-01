@@ -1,0 +1,10 @@
+# Suite teardown — best-effort cleanup of the default test user.
+# The baseline user's id is environment-dependent (sqlite assigns UUIDs),
+# so this routine only attempts a best-effort delete and never fails the
+# suite. A real follow-up will fetch the user id and delete by it.
+name: teardown
+description: Best-effort suite teardown.
+steps:
+  - name: noop
+    command: users list
+    continueOnError: true

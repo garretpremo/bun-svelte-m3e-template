@@ -1,0 +1,38 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+  "files": {
+    "ignore": ["dist", "build", ".svelte-kit", "node_modules", "**/openapi.json"]
+  },
+  "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 100 },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": { "noNonNullAssertion": "off" },
+      "suspicious": { "noExplicitAny": "warn" }
+    }
+  },
+  "overrides": [
+    {
+      "include": ["packages/server/src/contract/**"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "bun:sqlite": "Forbidden in /contract — runtime-only.",
+                  "bun:ffi": "Forbidden in /contract — runtime-only.",
+                  "node:fs": "Forbidden in /contract — runtime-only.",
+                  "node:path": "Forbidden in /contract — runtime-only.",
+                  "node:child_process": "Forbidden in /contract — runtime-only."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
