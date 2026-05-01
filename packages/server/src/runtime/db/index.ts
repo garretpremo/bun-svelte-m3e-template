@@ -1,10 +1,10 @@
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
 import { mkdirSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { env } from "../../env";
-import type { Db } from "./types";
-import { makeSqliteDb } from "./sqlite";
 import { makePostgresDb } from "./postgres";
+import { makeSqliteDb } from "./sqlite";
+import type { Db } from "./types";
 
 // Resolve `data/` relative to the repo root, not cwd. `bun run --filter '*' dev`
 // invokes each workspace's dev script with cwd set to the package, so a plain
@@ -17,7 +17,7 @@ let _db: Db | null = null;
 
 export function getDb(): Db {
   if (_db) return _db;
-  if (env.DATABASE_URL && env.DATABASE_URL.startsWith("postgres")) {
+  if (env.DATABASE_URL?.startsWith("postgres")) {
     _db = makePostgresDb(env.DATABASE_URL);
   } else if (env.NODE_ENV === "test") {
     _db = makeSqliteDb(":memory:");

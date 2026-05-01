@@ -1,6 +1,6 @@
 import { sveltekit } from "@sveltejs/kit/vite";
-import { defineConfig } from "vite";
 import { SvelteKitPWA } from "@vite-pwa/sveltekit";
+import { defineConfig } from "vite";
 
 const SERVER_PORT = process.env.SERVER_PORT ?? "3000";
 
@@ -24,10 +24,10 @@ export default defineConfig({
     port: 5173,
     strictPort: false,
     proxy: {
-      "/api":          `http://localhost:${SERVER_PORT}`,
-      "/ws":           { target: `ws://localhost:${SERVER_PORT}`, ws: true },
+      "/api": `http://localhost:${SERVER_PORT}`,
+      "/ws": { target: `ws://localhost:${SERVER_PORT}`, ws: true },
       "/openapi.json": `http://localhost:${SERVER_PORT}`,
-      "/docs":         `http://localhost:${SERVER_PORT}`,
+      "/docs": `http://localhost:${SERVER_PORT}`,
     },
   },
 });

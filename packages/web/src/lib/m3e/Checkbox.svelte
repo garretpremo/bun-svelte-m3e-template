@@ -1,8 +1,13 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-  if (browser) void import("@m3e/checkbox");
-  interface Props { checked?: boolean; disabled?: boolean; onchange?: (e: Event) => void; label?: string }
-  let { checked = $bindable(false), disabled, onchange, label }: Props = $props();
+import { browser } from "$app/environment";
+if (browser) void import("@m3e/checkbox");
+interface Props {
+  checked?: boolean;
+  disabled?: boolean;
+  onchange?: (e: Event) => void;
+  label?: string;
+}
+const { checked = $bindable(false), disabled, onchange, label }: Props = $props();
 </script>
 
 <label style="display:inline-flex; align-items:center; gap:0.5rem;">

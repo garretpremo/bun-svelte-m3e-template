@@ -22,20 +22,17 @@ interface CreatedNote {
 }
 
 export const test = base.extend<{ seed: SeedResult }>({
+  // biome-ignore lint/correctness/noEmptyPattern: Playwright fixture signature requires the empty destructure.
   seed: async ({}, use) => {
     const result = await cli.runRoutine("seed-user-with-notes");
     if (result.status !== "ok") {
-      throw new Error(
-        `seed-user-with-notes failed: ${JSON.stringify(result.steps)}`,
-      );
+      throw new Error(`seed-user-with-notes failed: ${JSON.stringify(result.steps)}`);
     }
 
     // The user output is exposed via the named output alias.
     const user = (result.output as { user?: CreatedUser }).user;
     if (!user) {
-      throw new Error(
-        `seed-user-with-notes returned no user: ${JSON.stringify(result.output)}`,
-      );
+      throw new Error(`seed-user-with-notes returned no user: ${JSON.stringify(result.output)}`);
     }
 
     // Iterated note steps don't aggregate into an array under a single
@@ -57,9 +54,7 @@ export const test = base.extend<{ seed: SeedResult }>({
       vars: { userId: user.id },
     });
     if (teardown.status !== "ok") {
-      console.warn(
-        `teardown-seed failed: ${JSON.stringify(teardown.steps)}`,
-      );
+      console.warn(`teardown-seed failed: ${JSON.stringify(teardown.steps)}`);
     }
   },
 });

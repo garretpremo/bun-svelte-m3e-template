@@ -10,10 +10,12 @@ export type ErrorEnvelope = z.infer<typeof ErrorEnvelope>;
 
 export const ZodErrorShape = ErrorEnvelope.extend({
   code: z.literal("validation/failed"),
-  details: z.array(z.object({
-    path: z.array(z.union([z.string(), z.number()])),
-    message: z.string(),
-  })),
+  details: z.array(
+    z.object({
+      path: z.array(z.union([z.string(), z.number()])),
+      message: z.string(),
+    }),
+  ),
 });
 export type ZodErrorShape = z.infer<typeof ZodErrorShape>;
 

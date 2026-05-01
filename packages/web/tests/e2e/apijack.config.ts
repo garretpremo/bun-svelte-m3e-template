@@ -1,6 +1,6 @@
-import { ApiKeyStrategy, createCli } from "@apijack/core";
-import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { ApiKeyStrategy, createCli } from "@apijack/core";
 
 const here = dirname(fileURLToPath(import.meta.url));
 // configPath's parent directory is where apijack looks for routines/ and

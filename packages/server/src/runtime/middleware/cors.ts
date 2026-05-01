@@ -1,10 +1,11 @@
 import { env } from "../../env";
 
 export function corsHeaders(originHeader: string | null): HeadersInit {
-  const allowed = env.ALLOWED_ORIGINS.split(",").map(s => s.trim());
-  const origin = originHeader && (allowed.includes("*") || allowed.includes(originHeader))
-    ? originHeader
-    : allowed[0] ?? "*";
+  const allowed = env.ALLOWED_ORIGINS.split(",").map((s) => s.trim());
+  const origin =
+    originHeader && (allowed.includes("*") || allowed.includes(originHeader))
+      ? originHeader
+      : (allowed[0] ?? "*");
   return {
     "access-control-allow-origin": origin,
     "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",

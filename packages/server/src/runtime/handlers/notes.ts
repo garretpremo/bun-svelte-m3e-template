@@ -1,9 +1,10 @@
-import type { RouteBinding } from "../dispatch";
-import { createNote, listNotes, getNote, deleteNote } from "../../contract/routes/notes";
+import { createNote, deleteNote, getNote, listNotes } from "../../contract/routes/notes";
 import { getDb } from "../db";
+import type { RouteBinding } from "../dispatch";
 import { broadcastNoteCreated, broadcastNoteDeleted } from "../ws/notes";
 
-const httpError = (status: number, body: unknown) => Object.assign(new Error("http"), { status, body });
+const httpError = (status: number, body: unknown) =>
+  Object.assign(new Error("http"), { status, body });
 
 // MVP: pull userId off the Authorization header. The auth middleware (stub for
 // now) is the swap point. We use a fixed test user in dev so the showcase works

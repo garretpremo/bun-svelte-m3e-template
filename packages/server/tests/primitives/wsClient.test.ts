@@ -1,20 +1,29 @@
 // packages/server/tests/primitives/wsClient.test.ts
 import { describe, expect, test } from "bun:test";
-import { createWsClient } from "../../src/contract/primitives/wsClient";
 import { notesMessages } from "../../src/contract/messages/notes";
+import { createWsClient } from "../../src/contract/primitives/wsClient";
 
 class FakeWebSocket {
   static OPEN = 1;
   readyState = FakeWebSocket.OPEN;
   sent: string[] = [];
   listeners: Record<string, Array<(e: unknown) => void>> = {};
-  send(data: string) { this.sent.push(data); }
+  send(data: string) {
+    this.sent.push(data);
+  }
   close() {}
   addEventListener(name: string, fn: (e: unknown) => void) {
-    (this.listeners[name] ||= []).push(fn);
+    let arr = this.listeners[name];
+    if (!arr) {
+      arr = [];
+      this.listeners[name] = arr;
+    }
+    arr.push(fn);
   }
   removeEventListener() {}
-  dispatch(name: string, e: unknown) { (this.listeners[name] ?? []).forEach(fn => fn(e)); }
+  dispatch(name: string, e: unknown) {
+    for (const fn of this.listeners[name] ?? []) fn(e);
+  }
 }
 
 describe("createWsClient", () => {
@@ -26,7 +35,9 @@ describe("createWsClient", () => {
     );
     ws.connect();
     let received: unknown = null;
-    ws.on("note:created", (payload: unknown) => { received = payload; });
+    ws.on("note:created", (payload: unknown) => {
+      received = payload;
+    });
     const note = {
       id: "11111111-1111-4111-8111-111111111111",
       userId: "22222222-2222-4222-8222-222222222222",
@@ -48,7 +59,10 @@ describe("createWsClient", () => {
     ws.connect();
     // no client-to-server messages in `notes`; adapt to just verify shape
     // bypass type check for the test
-    (ws as any).rawSend({ type: "note:deleted", payload: { id: "33333333-3333-4333-8333-333333333333" } });
+    (ws as any).rawSend({
+      type: "note:deleted",
+      payload: { id: "33333333-3333-4333-8333-333333333333" },
+    });
     expect(fake.sent[0]).toContain('"type":"note:deleted"');
   });
 });

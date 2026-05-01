@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  interface Props {
-    size?: 'small' | 'medium' | 'large';
-    centered?: boolean;
-    leadingIcon?: Snippet;
-    title?: Snippet;
-    trailingIcon?: Snippet;
-  }
-  let { size = 'small', centered = false, leadingIcon, title, trailingIcon }: Props = $props();
+import type { Snippet } from "svelte";
+interface Props {
+  size?: "small" | "medium" | "large";
+  centered?: boolean;
+  leadingIcon?: Snippet;
+  title?: Snippet;
+  trailingIcon?: Snippet;
+}
+const { size = "small", centered = false, leadingIcon, title, trailingIcon }: Props = $props();
 </script>
 
 <m3e-app-bar {size} {centered}>

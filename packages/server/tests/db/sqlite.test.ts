@@ -23,7 +23,7 @@ describe("sqlite Db", () => {
     const a = await db.notes.create(user.id, { title: "first", body: "hi" });
     const b = await db.notes.create(user.id, { title: "second", body: "" });
     const list = await db.notes.list({ limit: 10 });
-    expect(list.map(n => n.id).sort()).toEqual([a.id, b.id].sort());
+    expect(list.map((n) => n.id).sort()).toEqual([a.id, b.id].sort());
     expect((await db.notes.get(a.id))?.title).toBe("first");
     expect(await db.notes.delete(a.id)).toBe(true);
     expect(await db.notes.get(a.id)).toBeNull();
@@ -37,8 +37,12 @@ describe("sqlite Db", () => {
     const db = makeSqliteDb(":memory:");
     await db.users.create({ email: "x@x.co", displayName: "X" });
     let threw = false;
-    try { await db.users.create({ email: "x@x.co", displayName: "Y" }); }
-    catch (e: any) { threw = true; expect(String(e.message)).toContain("UNIQUE"); }
+    try {
+      await db.users.create({ email: "x@x.co", displayName: "Y" });
+    } catch (e: any) {
+      threw = true;
+      expect(String(e.message)).toContain("UNIQUE");
+    }
     expect(threw).toBe(true);
     await db.close();
   });

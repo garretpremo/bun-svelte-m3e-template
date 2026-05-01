@@ -1,5 +1,5 @@
-import { createWsClient, allMessages } from "@app/server/contract";
 import { browser } from "$app/environment";
+import { allMessages, createWsClient } from "@app/server/contract";
 
 const url = browser
   ? `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws`

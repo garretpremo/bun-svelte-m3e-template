@@ -1,6 +1,6 @@
-import { fileURLToPath } from "node:url";
-import { dirname, join, resolve } from "node:path";
 import { existsSync, statSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { env } from "../env";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -9,11 +9,11 @@ const distRoot = resolve(repoRoot, "packages/web/dist");
 
 function contentType(path: string): string {
   if (path.endsWith(".html")) return "text/html; charset=utf-8";
-  if (path.endsWith(".js"))   return "application/javascript; charset=utf-8";
-  if (path.endsWith(".css"))  return "text/css; charset=utf-8";
+  if (path.endsWith(".js")) return "application/javascript; charset=utf-8";
+  if (path.endsWith(".css")) return "text/css; charset=utf-8";
   if (path.endsWith(".json")) return "application/json; charset=utf-8";
-  if (path.endsWith(".svg"))  return "image/svg+xml";
-  if (path.endsWith(".png"))  return "image/png";
+  if (path.endsWith(".svg")) return "image/svg+xml";
+  if (path.endsWith(".png")) return "image/png";
   if (path.endsWith(".webmanifest")) return "application/manifest+json";
   if (path.endsWith(".woff2")) return "font/woff2";
   return "application/octet-stream";

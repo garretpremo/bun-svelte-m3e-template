@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { defineRoute } from "../primitives/defineRoute";
-import { NoteCreate, NoteId, NoteSchema } from "../schemas/note";
 import { AuthErrorShape, NotFoundShape, ZodErrorShape } from "../schemas/errors";
+import { NoteCreate, NoteId, NoteSchema } from "../schemas/note";
 
 export const createNote = defineRoute({
   method: "POST",
@@ -48,4 +48,9 @@ export const deleteNote = defineRoute({
   tags: ["notes"],
 });
 
-export const notesRoutes = { create: createNote, list: listNotes, get: getNote, delete: deleteNote };
+export const notesRoutes = {
+  create: createNote,
+  list: listNotes,
+  get: getNote,
+  delete: deleteNote,
+};

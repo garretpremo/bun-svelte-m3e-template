@@ -1,6 +1,6 @@
 /// <reference types="@sveltejs/kit" />
 import { build, files, version } from "$service-worker";
-import { precacheAndRoute, cleanupOutdatedCaches } from "workbox-precaching";
+import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 
 declare const self: ServiceWorkerGlobalScope & {
   __WB_MANIFEST: Array<{ url: string; revision: string | null }>;

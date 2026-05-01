@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test("clicking a shape morphs it (label updates)", async ({ page }) => {
   await page.goto("/showcase/shapes");

@@ -1,10 +1,12 @@
 <script lang="ts">
-  import Shape from "$lib/m3e/Shape.svelte";
-  import Button from "$lib/m3e/Button.svelte";
+import Button from "$lib/m3e/Button.svelte";
+import Shape from "$lib/m3e/Shape.svelte";
 
-  const shapes = ["circle", "soft-burst", "puffy", "8-leaf-clover", "sunny", "heart"];
-  let i = $state(0);
-  const cycle = () => { i = (i + 1) % shapes.length; };
+const shapes = ["circle", "soft-burst", "puffy", "8-leaf-clover", "sunny", "heart"];
+let i = $state(0);
+const cycle = () => {
+  i = (i + 1) % shapes.length;
+};
 </script>
 
 <section style="padding: var(--space-4xl) 0; text-align: center;">

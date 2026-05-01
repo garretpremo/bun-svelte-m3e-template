@@ -1,19 +1,20 @@
+import { allRoutes } from "../contract/routes";
 import { env } from "../env";
-import { dispatchHttp, type RouteBinding } from "./dispatch";
+import { type RouteBinding, dispatchHttp } from "./dispatch";
 import { notesBindings } from "./handlers/notes";
 import { usersBindings } from "./handlers/users";
-import { wsOnOpen, wsOnClose, dispatchWs } from "./ws";
-import { generateOpenApi } from "./openapi/generate";
-import { scalarDocsResponse } from "./openapi/docs";
-import { serveStatic } from "./static";
 import { corsHeaders, preflight } from "./middleware/cors";
-import { allRoutes } from "../contract/routes";
+import { scalarDocsResponse } from "./openapi/docs";
+import { generateOpenApi } from "./openapi/generate";
+import { serveStatic } from "./static";
+import { dispatchWs, wsOnClose, wsOnOpen } from "./ws";
 
 const bindings: RouteBinding[] = [...notesBindings, ...usersBindings];
 
 const openapiSpec = JSON.stringify(
   generateOpenApi(allRoutes, { title: "App API", version: "0.1.0" }),
-  null, 2,
+  null,
+  2,
 );
 
 export function start(): void {
@@ -50,7 +51,9 @@ export function start(): void {
     websocket: {
       open: wsOnOpen,
       close: wsOnClose,
-      message(ws, msg) { dispatchWs(ws, msg); },
+      message(ws, msg) {
+        dispatchWs(ws, msg);
+      },
     },
   });
   console.log(`server listening on http://localhost:${env.PORT}`);

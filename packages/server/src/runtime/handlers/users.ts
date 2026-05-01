@@ -1,8 +1,9 @@
-import type { RouteBinding } from "../dispatch";
-import { createUser, getUser, deleteUser } from "../../contract/routes/users";
+import { createUser, deleteUser, getUser } from "../../contract/routes/users";
 import { getDb } from "../db";
+import type { RouteBinding } from "../dispatch";
 
-const httpError = (status: number, body: unknown) => Object.assign(new Error("http"), { status, body });
+const httpError = (status: number, body: unknown) =>
+  Object.assign(new Error("http"), { status, body });
 
 export const usersBindings: RouteBinding[] = [
   {

@@ -1,11 +1,24 @@
 <script lang="ts">
-  import Shape from "$lib/m3e/Shape.svelte";
-  import Button from "$lib/m3e/Button.svelte";
+import Button from "$lib/m3e/Button.svelte";
+import Shape from "$lib/m3e/Shape.svelte";
 
-  const NAMES = ["circle","sunny","very-sunny","puffy","soft-burst","8-leaf-clover","heart","gem","diamond","square"];
-  let i = $state(0);
-  let size = $state(160);
-  const next = () => { i = (i + 1) % NAMES.length; };
+const NAMES = [
+  "circle",
+  "sunny",
+  "very-sunny",
+  "puffy",
+  "soft-burst",
+  "8-leaf-clover",
+  "heart",
+  "gem",
+  "diamond",
+  "square",
+];
+let i = $state(0);
+const size = $state(160);
+const next = () => {
+  i = (i + 1) % NAMES.length;
+};
 </script>
 
 <section>

@@ -1,19 +1,49 @@
 <script lang="ts">
-  import Shape from "$lib/m3e/Shape.svelte";
+import Shape from "$lib/m3e/Shape.svelte";
 
-  const NAMES = [
-    "4-leaf-clover","4-sided-cookie","6-sided-cookie","7-sided-cookie","8-leaf-clover",
-    "9-sided-cookie","12-sided-cookie","arch","arrow","boom","bun","burst","circle","diamond",
-    "fan","flower","gem","ghost-ish","heart","hexagon","oval","pentagon","pill",
-    "pixel-circle","pixel-triangle","puffy","puffy-diamond","semicircle","slanted",
-    "soft-boom","soft-burst","square","sunny","triangle","very-sunny",
-  ] as const;
+const NAMES = [
+  "4-leaf-clover",
+  "4-sided-cookie",
+  "6-sided-cookie",
+  "7-sided-cookie",
+  "8-leaf-clover",
+  "9-sided-cookie",
+  "12-sided-cookie",
+  "arch",
+  "arrow",
+  "boom",
+  "bun",
+  "burst",
+  "circle",
+  "diamond",
+  "fan",
+  "flower",
+  "gem",
+  "ghost-ish",
+  "heart",
+  "hexagon",
+  "oval",
+  "pentagon",
+  "pill",
+  "pixel-circle",
+  "pixel-triangle",
+  "puffy",
+  "puffy-diamond",
+  "semicircle",
+  "slanted",
+  "soft-boom",
+  "soft-burst",
+  "square",
+  "sunny",
+  "triangle",
+  "very-sunny",
+] as const;
 
-  // Click a shape to morph it to the next name in the list.
-  let indices = $state(NAMES.map((_, i) => i));
-  function cycle(i: number) {
-    indices[i] = (indices[i] + 1) % NAMES.length;
-  }
+// Click a shape to morph it to the next name in the list.
+const indices = $state(NAMES.map((_, i) => i));
+function cycle(i: number) {
+  indices[i] = (indices[i] + 1) % NAMES.length;
+}
 </script>
 
 <section>

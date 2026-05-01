@@ -1,20 +1,20 @@
 <script lang="ts">
-  import Button from "$lib/m3e/Button.svelte";
-  import Card from "$lib/m3e/Card.svelte";
-  import Dialog from "$lib/m3e/Dialog.svelte";
-  import Snackbar from "$lib/m3e/Snackbar.svelte";
-  import Fab from "$lib/m3e/Fab.svelte";
-  import Switch from "$lib/m3e/Switch.svelte";
-  import Checkbox from "$lib/m3e/Checkbox.svelte";
-  import Chip from "$lib/m3e/Chip.svelte";
-  import ChipSet from "$lib/m3e/ChipSet.svelte";
+import Button from "$lib/m3e/Button.svelte";
+import Card from "$lib/m3e/Card.svelte";
+import Checkbox from "$lib/m3e/Checkbox.svelte";
+import Chip from "$lib/m3e/Chip.svelte";
+import ChipSet from "$lib/m3e/ChipSet.svelte";
+import Dialog from "$lib/m3e/Dialog.svelte";
+import Fab from "$lib/m3e/Fab.svelte";
+import Snackbar from "$lib/m3e/Snackbar.svelte";
+import Switch from "$lib/m3e/Switch.svelte";
 
-  let dialogOpen = $state(false);
-  let snackbarOpen = $state(false);
-  let switchOn = $state(true);
-  let checked = $state(false);
-  const filters = ["alpha", "beta", "gamma", "delta"];
-  let active = $state("alpha");
+const dialogOpen = $state(false);
+const snackbarOpen = $state(false);
+const switchOn = $state(true);
+const checked = $state(false);
+const filters = ["alpha", "beta", "gamma", "delta"];
+const active = $state("alpha");
 </script>
 
 <section>

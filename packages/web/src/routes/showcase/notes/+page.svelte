@@ -1,57 +1,64 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
-  import { api } from "$lib/api.svelte";
-  import { ws } from "$lib/ws";
-  import { NoteCreate, type Note } from "@app/server/contract";
-  import Button from "$lib/m3e/Button.svelte";
-  import Card from "$lib/m3e/Card.svelte";
-  import FormField from "$lib/m3e/FormField.svelte";
+import { api } from "$lib/api.svelte";
+import Button from "$lib/m3e/Button.svelte";
+import Card from "$lib/m3e/Card.svelte";
+import FormField from "$lib/m3e/FormField.svelte";
+import { ws } from "$lib/ws";
+import { type Note, NoteCreate } from "@app/server/contract";
+import { onDestroy, onMount } from "svelte";
 
-  let title = $state("");
-  let body = $state("");
-  let error = $state("");
-  let notes = $state<Note[]>([]);
-  let loading = $state(true);
+let title = $state("");
+let body = $state("");
+let error = $state("");
+let notes = $state<Note[]>([]);
+let loading = $state(true);
 
-  let unsubCreated: (() => void) | null = null;
-  let unsubDeleted: (() => void) | null = null;
+let unsubCreated: (() => void) | null = null;
+let unsubDeleted: (() => void) | null = null;
 
-  async function refresh() {
-    notes = await api.notes.list({ query: { limit: 20 } });
-    loading = false;
-  }
+async function refresh() {
+  notes = await api.notes.list({ query: { limit: 20 } });
+  loading = false;
+}
 
-  onMount(() => {
-    void refresh();
-    unsubCreated = ws.on("note:created", (n) => { notes = [n, ...notes].slice(0, 20); });
-    unsubDeleted = ws.on("note:deleted", ({ id }) => { notes = notes.filter(n => n.id !== id); });
+onMount(() => {
+  void refresh();
+  unsubCreated = ws.on("note:created", (n) => {
+    notes = [n, ...notes].slice(0, 20);
   });
-  onDestroy(() => { unsubCreated?.(); unsubDeleted?.(); });
-
-  async function submit(e: Event) {
-    e.preventDefault();
-    error = "";
-    const parsed = NoteCreate.safeParse({ title, body });
-    if (!parsed.success) {
-      error = parsed.error.issues[0]?.message ?? "invalid";
-      return;
-    }
-    const created = await api.notes.create({ body: parsed.data });
-    // Optimistic local update; WS broadcast still notifies other tabs. Avoid
-    // double-insert by relying on the (n.id) keyed each: the WS broadcast for
-    // this client's create will arrive but find the id already present.
-    if (!notes.some((n) => n.id === created.id)) {
-      notes = [created, ...notes].slice(0, 20);
-    }
-    title = "";
-    body = "";
-  }
-
-  async function remove(id: string) {
-    await api.notes.delete({ params: { id } });
-    // Optimistic local removal; WS broadcast updates other tabs.
+  unsubDeleted = ws.on("note:deleted", ({ id }) => {
     notes = notes.filter((n) => n.id !== id);
+  });
+});
+onDestroy(() => {
+  unsubCreated?.();
+  unsubDeleted?.();
+});
+
+async function submit(e: Event) {
+  e.preventDefault();
+  error = "";
+  const parsed = NoteCreate.safeParse({ title, body });
+  if (!parsed.success) {
+    error = parsed.error.issues[0]?.message ?? "invalid";
+    return;
   }
+  const created = await api.notes.create({ body: parsed.data });
+  // Optimistic local update; WS broadcast still notifies other tabs. Avoid
+  // double-insert by relying on the (n.id) keyed each: the WS broadcast for
+  // this client's create will arrive but find the id already present.
+  if (!notes.some((n) => n.id === created.id)) {
+    notes = [created, ...notes].slice(0, 20);
+  }
+  title = "";
+  body = "";
+}
+
+async function remove(id: string) {
+  await api.notes.delete({ params: { id } });
+  // Optimistic local removal; WS broadcast updates other tabs.
+  notes = notes.filter((n) => n.id !== id);
+}
 </script>
 
 <section>

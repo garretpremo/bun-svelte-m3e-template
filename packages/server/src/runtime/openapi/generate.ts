@@ -1,4 +1,4 @@
-import { z } from "zod";
+import type { z } from "zod";
 import type { RouteDefinition } from "../../contract/primitives/defineRoute";
 
 export interface OpenApiSpec {
@@ -8,7 +8,9 @@ export interface OpenApiSpec {
   components: { schemas: Record<string, unknown> };
 }
 
-interface JsonSchema { [k: string]: unknown }
+interface JsonSchema {
+  [k: string]: unknown;
+}
 
 // Zod 4 internals: `_def.type` is a string tag like "string", "object",
 // "array", "literal", "enum", "optional", "default", "never", etc.
@@ -17,9 +19,12 @@ interface JsonSchema { [k: string]: unknown }
 function zodToJsonSchema(schema: z.ZodType): JsonSchema {
   const def: any = (schema as any)._def;
   switch (def?.type) {
-    case "string":  return { type: "string" };
-    case "number":  return { type: "number" };
-    case "boolean": return { type: "boolean" };
+    case "string":
+      return { type: "string" };
+    case "number":
+      return { type: "number" };
+    case "boolean":
+      return { type: "boolean" };
     case "literal": {
       const vals = def.values as unknown[];
       return vals.length === 1 ? { const: vals[0] } : { enum: vals };
@@ -28,7 +33,8 @@ function zodToJsonSchema(schema: z.ZodType): JsonSchema {
       const entries = def.entries as Record<string, unknown>;
       return { type: "string", enum: Object.values(entries) };
     }
-    case "array":   return { type: "array", items: zodToJsonSchema(def.element) };
+    case "array":
+      return { type: "array", items: zodToJsonSchema(def.element) };
     case "object": {
       const shape = def.shape as Record<string, z.ZodType>;
       const properties: Record<string, JsonSchema> = {};
@@ -42,11 +48,16 @@ function zodToJsonSchema(schema: z.ZodType): JsonSchema {
         ? { type: "object", properties, required }
         : { type: "object", properties };
     }
-    case "optional": return zodToJsonSchema(def.innerType);
-    case "default":  return zodToJsonSchema(def.innerType);
-    case "nullable": return { ...zodToJsonSchema(def.innerType), nullable: true };
-    case "never":    return {};
-    default:         return {};
+    case "optional":
+      return zodToJsonSchema(def.innerType);
+    case "default":
+      return zodToJsonSchema(def.innerType);
+    case "nullable":
+      return { ...zodToJsonSchema(def.innerType), nullable: true };
+    case "never":
+      return {};
+    default:
+      return {};
   }
 }
 
@@ -83,7 +94,10 @@ export function generateOpenApi(
         if (ps) {
           for (const [name, schema] of Object.entries(ps)) {
             (op.parameters as unknown[]).push({
-              name, in: "path", required: true, schema: zodToJsonSchema(schema),
+              name,
+              in: "path",
+              required: true,
+              schema: zodToJsonSchema(schema),
             });
           }
         }
@@ -93,7 +107,10 @@ export function generateOpenApi(
         if (qs) {
           for (const [name, schema] of Object.entries(qs)) {
             (op.parameters as unknown[]).push({
-              name, in: "query", required: false, schema: zodToJsonSchema(schema),
+              name,
+              in: "query",
+              required: false,
+              schema: zodToJsonSchema(schema),
             });
           }
         }

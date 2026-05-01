@@ -1,5 +1,5 @@
-import { createApiClient, allRoutes } from "@app/server/contract";
 import { browser } from "$app/environment";
+import { allRoutes, createApiClient } from "@app/server/contract";
 
 const inflightState = $state({ count: 0 });
 

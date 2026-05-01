@@ -4,9 +4,9 @@
 // docs/openapi.json. CI fails on drift — regenerate via `bun run gen:openapi`.
 
 import { describe, expect, test } from "bun:test";
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
 import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { allRoutes } from "../src/contract/routes";
 import { generateOpenApi } from "../src/runtime/openapi/generate";
 

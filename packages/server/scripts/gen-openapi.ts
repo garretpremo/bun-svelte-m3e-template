@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { allRoutes } from "../src/contract/routes";
@@ -14,5 +14,5 @@ const spec = generateOpenApi(allRoutes, {
 });
 
 mkdirSync(dirname(out), { recursive: true });
-writeFileSync(out, JSON.stringify(spec, null, 2) + "\n");
+writeFileSync(out, `${JSON.stringify(spec, null, 2)}\n`);
 console.log(`wrote ${out}`);

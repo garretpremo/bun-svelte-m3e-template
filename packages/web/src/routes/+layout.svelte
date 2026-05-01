@@ -1,14 +1,14 @@
 <script lang="ts">
-  import "$lib/m3e/setup";
-  import "../styles/theme.css";
-  import "../styles/animations.css";
-  import "../styles/material-symbols.css";
-  import Theme from "$lib/m3e/Theme.svelte";
-  import AppBar from "$lib/m3e/AppBar.svelte";
-  import Icon from "$lib/m3e/Icon.svelte";
-  import IconButton from "$lib/m3e/IconButton.svelte";
-  import NetworkRequestIndicator from "$lib/components/NetworkRequestIndicator.svelte";
-  let { children } = $props();
+import "$lib/m3e/setup";
+import "../styles/theme.css";
+import "../styles/animations.css";
+import "../styles/material-symbols.css";
+import NetworkRequestIndicator from "$lib/components/NetworkRequestIndicator.svelte";
+import AppBar from "$lib/m3e/AppBar.svelte";
+import Icon from "$lib/m3e/Icon.svelte";
+import IconButton from "$lib/m3e/IconButton.svelte";
+import Theme from "$lib/m3e/Theme.svelte";
+const { children } = $props();
 </script>
 
 <Theme color="#4A90D9" scheme="light" motion="expressive">

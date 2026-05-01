@@ -5,16 +5,23 @@
 // node:fs from src/contract/**, this test fails — fix the contract export.
 
 import { describe, expect, test } from "bun:test";
-import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "../../..");
 const contractEntry = resolve(repoRoot, "packages/server/src/contract/index.ts");
 
 const FORBIDDEN = [
-  "bun:sqlite", "bun:ffi", "bun:test",
-  "node:fs", "node:path", "node:child_process", "node:dns", "node:os", "node:crypto",
+  "bun:sqlite",
+  "bun:ffi",
+  "bun:test",
+  "node:fs",
+  "node:path",
+  "node:child_process",
+  "node:dns",
+  "node:os",
+  "node:crypto",
 ];
 
 describe("contract purity", () => {

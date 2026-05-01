@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures/seed";
+import { expect, test } from "./fixtures/seed";
 
 test("user can create and delete a note via the UI", async ({ page }) => {
   await page.goto("/showcase/notes");
@@ -9,7 +9,10 @@ test("user can create and delete a note via the UI", async ({ page }) => {
   await expect(page.getByText("playwright-note")).toBeVisible();
 
   // Delete the note we just created.
-  await page.getByRole("button", { name: /delete/i }).first().click();
+  await page
+    .getByRole("button", { name: /delete/i })
+    .first()
+    .click();
   await expect(page.getByText("playwright-note")).not.toBeVisible({
     timeout: 5_000,
   });

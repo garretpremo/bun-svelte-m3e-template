@@ -14,7 +14,12 @@ export interface ApiInput {
   body?: unknown;
 }
 
-type Output<R extends RouteDefinition<any, any, any, any>> = R extends RouteDefinition<any, any, any, infer TR>
+type Output<R extends RouteDefinition<any, any, any, any>> = R extends RouteDefinition<
+  any,
+  any,
+  any,
+  infer TR
+>
   ? z.infer<TR>
   : never;
 
@@ -42,7 +47,11 @@ export function createApiClient<TRoutes extends RouteRegistry>(
     const handlers: Record<string, (input?: any) => Promise<any>> = {};
     for (const routeName of Object.keys(group)) {
       const route = group[routeName]!;
-      handlers[routeName] = async (input?: { params?: Record<string, string>; query?: Record<string, unknown>; body?: unknown }) => {
+      handlers[routeName] = async (input?: {
+        params?: Record<string, string>;
+        query?: Record<string, unknown>;
+        body?: unknown;
+      }) => {
         let path = route.path;
         if (input?.params) {
           for (const [k, v] of Object.entries(input.params)) {
@@ -61,7 +70,7 @@ export function createApiClient<TRoutes extends RouteRegistry>(
         const headers: Record<string, string> = {};
         if (input?.body !== undefined) headers["content-type"] = "application/json";
         const token = options.getAuthToken?.();
-        if (token) headers["Authorization"] = `Bearer ${token}`;
+        if (token) headers.Authorization = `Bearer ${token}`;
         const init: RequestInit = { method: route.method, headers };
         if (input?.body !== undefined) {
           init.body = JSON.stringify(input.body);

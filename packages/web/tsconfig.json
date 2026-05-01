@@ -8,9 +8,13 @@
     "types": ["bun"]
   },
   "include": [
-    "src/**/*", "tests/**/*",
+    "src/**/*",
+    "tests/**/*",
     "src/types/**/*.d.ts",
-    "vite.config.ts", "vitest.config.ts", "playwright.config.ts", "svelte.config.js",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "svelte.config.js",
     ".svelte-kit/ambient.d.ts",
     ".svelte-kit/types/**/$types.d.ts"
   ],

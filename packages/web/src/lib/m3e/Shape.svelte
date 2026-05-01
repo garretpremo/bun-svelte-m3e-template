@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-  import type { Snippet } from 'svelte';
-  if (browser) void import("@m3e/shape");
+import { browser } from "$app/environment";
+import type { Snippet } from "svelte";
+if (browser) void import("@m3e/shape");
 
-  interface Props {
-    name?: string;
-    size?: string;
-    color?: string;
-    onclick?: (e: MouseEvent) => void;
-    children?: Snippet;
-  }
-  let { name = "circle", size = "96px", color, onclick, children }: Props = $props();
+interface Props {
+  name?: string;
+  size?: string;
+  color?: string;
+  onclick?: (e: MouseEvent) => void;
+  children?: Snippet;
+}
+const { name = "circle", size = "96px", color, onclick, children }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->

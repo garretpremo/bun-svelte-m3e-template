@@ -1,22 +1,28 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-  import type { Snippet } from 'svelte';
-  if (browser) void import("@m3e/button");
+import { browser } from "$app/environment";
+import type { Snippet } from "svelte";
+if (browser) void import("@m3e/button");
 
-  interface Props {
-    variant?: 'filled' | 'outlined' | 'text' | 'elevated' | 'tonal';
-    size?: 'small' | 'medium' | 'large';
-    disabled?: boolean;
-    type?: 'button' | 'submit' | 'reset';
-    href?: string;
-    icon?: Snippet;
-    children?: Snippet;
-    onclick?: (e: MouseEvent) => void;
-  }
-  let {
-    variant = 'filled', size = 'medium', disabled, type = 'button', href,
-    icon, children, onclick,
-  }: Props = $props();
+interface Props {
+  variant?: "filled" | "outlined" | "text" | "elevated" | "tonal";
+  size?: "small" | "medium" | "large";
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+  href?: string;
+  icon?: Snippet;
+  children?: Snippet;
+  onclick?: (e: MouseEvent) => void;
+}
+const {
+  variant = "filled",
+  size = "medium",
+  disabled,
+  type = "button",
+  href,
+  icon,
+  children,
+  onclick,
+}: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->

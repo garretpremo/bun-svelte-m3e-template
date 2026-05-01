@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-  import type { Snippet } from 'svelte';
-  if (browser) void import("@m3e/form-field");
+import { browser } from "$app/environment";
+import type { Snippet } from "svelte";
+if (browser) void import("@m3e/form-field");
 
-  interface Props {
-    label: string;
-    variant?: 'filled' | 'outlined';
-    error?: string;
-    children?: Snippet;
-  }
-  let { label, variant = 'outlined', error, children }: Props = $props();
+interface Props {
+  label: string;
+  variant?: "filled" | "outlined";
+  error?: string;
+  children?: Snippet;
+}
+const { label, variant = "outlined", error, children }: Props = $props();
 </script>
 
 <m3e-form-field {label} {variant} aria-invalid={error ? 'true' : null}>

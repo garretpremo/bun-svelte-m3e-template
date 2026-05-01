@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { defineMessage } from "../primitives/defineMessage";
-import { NoteSchema, NoteId } from "../schemas/note";
+import { NoteId, NoteSchema } from "../schemas/note";
 
 export const noteCreated = defineMessage({
   type: "note:created",

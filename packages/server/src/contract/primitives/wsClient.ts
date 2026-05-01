@@ -56,7 +56,7 @@ export function createWsClient<TReg extends MessageRegistry>(
         if (!def) return;
         const parsed = def.payload.parse(env.payload);
         const set = handlers.get(env.type);
-        if (set) set.forEach((fn) => fn(parsed));
+        if (set) for (const fn of set) fn(parsed);
       } catch (err) {
         console.warn("ws message parse error", err);
       }
@@ -70,11 +70,19 @@ export function createWsClient<TReg extends MessageRegistry>(
   };
 
   return {
-    connect() { open(); },
-    close() { socket?.close(); socket = null; },
+    connect() {
+      open();
+    },
+    close() {
+      socket?.close();
+      socket = null;
+    },
     on(type, handler) {
       let set = handlers.get(type);
-      if (!set) { set = new Set(); handlers.set(type, set); }
+      if (!set) {
+        set = new Set();
+        handlers.set(type, set);
+      }
       set.add(handler as (p: unknown) => void);
       return () => set!.delete(handler as (p: unknown) => void);
     },

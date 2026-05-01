@@ -13,7 +13,9 @@ export type Handler<R extends RouteDefinition<any, any, any, any>> = (
   ctx: HandlerContext<R>,
 ) => Promise<R["response"] extends z.ZodType ? z.infer<R["response"]> : never>;
 
-export interface RouteBinding<R extends RouteDefinition<any, any, any, any> = RouteDefinition<any, any, any, any>> {
+export interface RouteBinding<
+  R extends RouteDefinition<any, any, any, any> = RouteDefinition<any, any, any, any>,
+> {
   route: R;
   handler: Handler<R>;
 }
@@ -47,10 +49,7 @@ function zodErrorBody(err: any) {
   };
 }
 
-export async function dispatchHttp(
-  req: Request,
-  bindings: RouteBinding[],
-): Promise<Response> {
+export async function dispatchHttp(req: Request, bindings: RouteBinding[]): Promise<Response> {
   const url = new URL(req.url);
   for (const b of bindings) {
     if (b.route.method !== req.method) continue;
@@ -59,7 +58,9 @@ export async function dispatchHttp(
     try {
       const parsedParams = b.route.params ? b.route.params.parse(params) : {};
       const queryObj: Record<string, string> = {};
-      url.searchParams.forEach((v, k) => { queryObj[k] = v; });
+      url.searchParams.forEach((v, k) => {
+        queryObj[k] = v;
+      });
       const parsedQuery = b.route.query ? b.route.query.parse(queryObj) : {};
       let parsedBody: unknown = undefined;
       if (b.route.body) {
@@ -83,5 +84,8 @@ export async function dispatchHttp(
       return jsonResponse(500, { code: "internal", message: "internal server error" });
     }
   }
-  return jsonResponse(404, { code: "not_found", message: `no route for ${req.method} ${url.pathname}` });
+  return jsonResponse(404, {
+    code: "not_found",
+    message: `no route for ${req.method} ${url.pathname}`,
+  });
 }

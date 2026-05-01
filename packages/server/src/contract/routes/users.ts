@@ -1,7 +1,7 @@
-import { defineRoute } from "../primitives/defineRoute";
-import { UserCreate, UserSchema, UserId } from "../schemas/user";
 import { z } from "zod";
+import { defineRoute } from "../primitives/defineRoute";
 import { ConflictShape, NotFoundShape, ZodErrorShape } from "../schemas/errors";
+import { UserCreate, UserId, UserSchema } from "../schemas/user";
 
 export const createUser = defineRoute({
   method: "POST",

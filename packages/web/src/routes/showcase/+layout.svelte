@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  let { children } = $props();
-  const items = [
-    { href: "/showcase/shapes",     label: "Shapes" },
-    { href: "/showcase/morph",      label: "Morph" },
-    { href: "/showcase/components", label: "Components" },
-    { href: "/showcase/notes",      label: "Notes (CRUD)" },
-  ];
+import { page } from "$app/stores";
+const { children } = $props();
+const items = [
+  { href: "/showcase/shapes", label: "Shapes" },
+  { href: "/showcase/morph", label: "Morph" },
+  { href: "/showcase/components", label: "Components" },
+  { href: "/showcase/notes", label: "Notes (CRUD)" },
+];
 </script>
 
 <nav style="display:flex; gap: var(--space-md); padding: var(--space-md) 0; flex-wrap:wrap;">

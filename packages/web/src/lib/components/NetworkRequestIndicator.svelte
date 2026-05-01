@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { getNetworkInflight } from "$lib/api.svelte";
-  // Tiny progress strip at the top while any request is inflight.
-  let active = $derived(getNetworkInflight() > 0);
+import { getNetworkInflight } from "$lib/api.svelte";
+// Tiny progress strip at the top while any request is inflight.
+const active = $derived(getNetworkInflight() > 0);
 </script>
 
 {#if active}

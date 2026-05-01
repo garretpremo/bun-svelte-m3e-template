@@ -4,14 +4,14 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev":       "vite dev",
-    "build":     "vite build",
-    "preview":   "vite preview",
-    "check":     "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "typecheck": "svelte-kit sync && tsc --noEmit -p tsconfig.tsc.json",
-    "test":      "vitest run",
-    "test:watch":"vitest",
-    "test:e2e":  "bun --bun playwright test"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "bun --bun playwright test"
   },
   "dependencies": {
     "@app/server": "workspace:*",

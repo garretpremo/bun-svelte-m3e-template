@@ -1,25 +1,41 @@
 import { Database } from "bun:sqlite";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
 import { randomUUID } from "node:crypto";
-import type { Db } from "./types";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { Note } from "../../contract/schemas/note";
 import type { User } from "../../contract/schemas/user";
 import { runMigrations } from "./migrations";
+import type { Db } from "./types";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-interface UserRow { id: string; email: string; display_name: string; created_at: string }
+interface UserRow {
+  id: string;
+  email: string;
+  display_name: string;
+  created_at: string;
+}
 interface NoteRow {
-  id: string; user_id: string; title: string; body: string;
-  created_at: string; updated_at: string;
+  id: string;
+  user_id: string;
+  title: string;
+  body: string;
+  created_at: string;
+  updated_at: string;
 }
 const toUser = (r: UserRow): User => ({
-  id: r.id, email: r.email, displayName: r.display_name, createdAt: r.created_at,
+  id: r.id,
+  email: r.email,
+  displayName: r.display_name,
+  createdAt: r.created_at,
 });
 const toNote = (r: NoteRow): Note => ({
-  id: r.id, userId: r.user_id, title: r.title, body: r.body,
-  createdAt: r.created_at, updatedAt: r.updated_at,
+  id: r.id,
+  userId: r.user_id,
+  title: r.title,
+  body: r.body,
+  createdAt: r.created_at,
+  updatedAt: r.updated_at,
 });
 
 export function makeSqliteDb(filename = "data/app.sqlite"): Db {
@@ -31,7 +47,9 @@ export function makeSqliteDb(filename = "data/app.sqlite"): Db {
   return {
     notes: {
       async list({ limit }) {
-        const rows = db.query("SELECT * FROM notes ORDER BY created_at DESC LIMIT ?").all(limit) as NoteRow[];
+        const rows = db
+          .query("SELECT * FROM notes ORDER BY created_at DESC LIMIT ?")
+          .all(limit) as NoteRow[];
         return rows.map(toNote);
       },
       async get(id) {
@@ -59,16 +77,20 @@ export function makeSqliteDb(filename = "data/app.sqlite"): Db {
         return row ? toUser(row) : null;
       },
       async getByEmail(email) {
-        const row = db.query("SELECT * FROM users WHERE email = ?").get(email) as UserRow | undefined;
+        const row = db.query("SELECT * FROM users WHERE email = ?").get(email) as
+          | UserRow
+          | undefined;
         return row ? toUser(row) : null;
       },
       async create(input) {
         const id = randomUUID();
         const now = new Date().toISOString();
-        db.run(
-          "INSERT INTO users (id, email, display_name, created_at) VALUES (?, ?, ?, ?)",
-          [id, input.email, input.displayName, now],
-        );
+        db.run("INSERT INTO users (id, email, display_name, created_at) VALUES (?, ?, ?, ?)", [
+          id,
+          input.email,
+          input.displayName,
+          now,
+        ]);
         const row = db.query("SELECT * FROM users WHERE id = ?").get(id) as UserRow;
         return toUser(row);
       },
@@ -77,6 +99,8 @@ export function makeSqliteDb(filename = "data/app.sqlite"): Db {
         return res.changes > 0;
       },
     },
-    close() { db.close(); },
+    close() {
+      db.close();
+    },
   };
 }

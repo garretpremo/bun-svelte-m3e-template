@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { z } from "zod";
 import { defineRoute } from "../../src/contract/primitives/defineRoute";
-import { matchRoute, dispatchHttp, type RouteBinding } from "../../src/runtime/dispatch";
+import { type RouteBinding, dispatchHttp, matchRoute } from "../../src/runtime/dispatch";
 
 describe("matchRoute", () => {
   test("static path", () => {
