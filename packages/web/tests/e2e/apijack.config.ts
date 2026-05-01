@@ -1,3 +1,4 @@
+import { existsSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ApiKeyStrategy, createCli } from "@apijack/core";
@@ -10,6 +11,26 @@ const configPath = resolve(here, "config.json");
 // The generated CLI lives next to the routines so it persists across test
 // runs and isn't accidentally treated as src by Vite.
 const generatedDir = resolve(here, "generated");
+
+// Self-bootstrap apijack's env config so e2e runs work in CI / clean clones
+// without an interactive `appcli setup` step. Honors SERVER_PORT (matches the
+// vite proxy / dev orchestration) and falls back to port 3000.
+if (!existsSync(configPath)) {
+  const port = process.env.SERVER_PORT ?? "3000";
+  writeFileSync(
+    configPath,
+    `${JSON.stringify(
+      {
+        active: "local",
+        environments: {
+          local: { url: `http://localhost:${port}`, user: "noop", password: "noop" },
+        },
+      },
+      null,
+      2,
+    )}\n`,
+  );
+}
 
 export const cli = createCli({
   name: "appcli",
