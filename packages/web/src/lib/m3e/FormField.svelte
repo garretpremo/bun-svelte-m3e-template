@@ -9,7 +9,7 @@ interface Props {
   error?: string;
   children?: Snippet;
 }
-const { label, variant = "outlined", error, children }: Props = $props();
+let { label, variant = "outlined", error, children }: Props = $props();
 </script>
 
 <m3e-form-field {label} {variant} aria-invalid={error ? 'true' : null}>

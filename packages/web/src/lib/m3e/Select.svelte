@@ -8,7 +8,7 @@ interface Props {
   children?: Snippet;
   onchange?: (v: string) => void;
 }
-const { value = $bindable(""), label, children, onchange }: Props = $props();
+let { value = $bindable(""), label, children, onchange }: Props = $props();
 </script>
 
 <m3e-select {value} {label} onchange={(e: Event) => { value = (e.target as any).value; onchange?.(value); }}>

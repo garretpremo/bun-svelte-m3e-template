@@ -6,7 +6,7 @@ interface Props {
   activeStep?: number;
   children?: Snippet;
 }
-const { activeStep = 0, children }: Props = $props();
+let { activeStep = 0, children }: Props = $props();
 </script>
 
 <m3e-stepper active-step={activeStep}>{@render children?.()}</m3e-stepper>

@@ -5,7 +5,7 @@ interface Props {
   motion?: "standard" | "expressive";
   children?: import("svelte").Snippet;
 }
-const { color = "#4A90D9", scheme = "light", motion = "expressive", children }: Props = $props();
+let { color = "#4A90D9", scheme = "light", motion = "expressive", children }: Props = $props();
 </script>
 
 <m3e-theme {color} {scheme} {motion}>

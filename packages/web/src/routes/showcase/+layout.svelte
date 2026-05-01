@@ -1,6 +1,6 @@
 <script lang="ts">
 import { page } from "$app/stores";
-const { children } = $props();
+let { children } = $props();
 const items = [
   { href: "/showcase/shapes", label: "Shapes" },
   { href: "/showcase/morph", label: "Morph" },

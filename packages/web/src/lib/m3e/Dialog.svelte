@@ -9,7 +9,7 @@ interface Props {
   actions?: Snippet;
   onclose?: () => void;
 }
-const { open = $bindable(false), headline, children, actions, onclose }: Props = $props();
+let { open = $bindable(false), headline, children, actions, onclose }: Props = $props();
 </script>
 
 <m3e-dialog {open} {headline} onclose={() => { open = false; onclose?.(); }}>

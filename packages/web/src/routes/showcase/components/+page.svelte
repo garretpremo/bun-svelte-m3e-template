@@ -9,12 +9,14 @@ import Fab from "$lib/m3e/Fab.svelte";
 import Snackbar from "$lib/m3e/Snackbar.svelte";
 import Switch from "$lib/m3e/Switch.svelte";
 
-const dialogOpen = $state(false);
-const snackbarOpen = $state(false);
-const switchOn = $state(true);
-const checked = $state(false);
+// `$state` runes need `let` — Svelte rebinds via template event handlers.
+// Biome's useConst auto-fix is wrong for runes; never run --unsafe here.
+let dialogOpen = $state(false);
+let snackbarOpen = $state(false);
+let switchOn = $state(true);
+let checked = $state(false);
 const filters = ["alpha", "beta", "gamma", "delta"];
-const active = $state("alpha");
+let active = $state("alpha");
 </script>
 
 <section>

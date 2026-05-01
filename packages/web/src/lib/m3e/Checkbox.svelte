@@ -7,7 +7,7 @@ interface Props {
   onchange?: (e: Event) => void;
   label?: string;
 }
-const { checked = $bindable(false), disabled, onchange, label }: Props = $props();
+let { checked = $bindable(false), disabled, onchange, label }: Props = $props();
 </script>
 
 <label style="display:inline-flex; align-items:center; gap:0.5rem;">

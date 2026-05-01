@@ -8,7 +8,7 @@ interface Props {
   onclick?: (e: MouseEvent) => void;
   children?: Snippet;
 }
-const { selected, disabled, onclick, children }: Props = $props();
+let { selected, disabled, onclick, children }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->

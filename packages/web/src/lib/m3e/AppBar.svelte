@@ -7,7 +7,7 @@ interface Props {
   title?: Snippet;
   trailingIcon?: Snippet;
 }
-const { size = "small", centered = false, leadingIcon, title, trailingIcon }: Props = $props();
+let { size = "small", centered = false, leadingIcon, title, trailingIcon }: Props = $props();
 </script>
 
 <m3e-app-bar {size} {centered}>

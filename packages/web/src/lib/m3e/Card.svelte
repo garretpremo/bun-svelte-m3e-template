@@ -9,7 +9,7 @@ interface Props {
   footer?: Snippet;
   children?: Snippet;
 }
-const { variant = "outlined", header, footer, children }: Props = $props();
+let { variant = "outlined", header, footer, children }: Props = $props();
 </script>
 
 <m3e-card {variant}>

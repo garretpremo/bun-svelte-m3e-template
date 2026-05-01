@@ -15,7 +15,7 @@ const NAMES = [
   "square",
 ];
 let i = $state(0);
-const size = $state(160);
+let size = $state(160); // bind:value reassigns; needs let
 const next = () => {
   i = (i + 1) % NAMES.length;
 };

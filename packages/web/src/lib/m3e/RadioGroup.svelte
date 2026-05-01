@@ -8,7 +8,7 @@ interface Props {
   onchange?: (v: string) => void;
   children?: Snippet;
 }
-const { name, value = $bindable(""), onchange, children }: Props = $props();
+let { name, value = $bindable(""), onchange, children }: Props = $props();
 </script>
 
 <m3e-radio-group {name} {value} onchange={(e: Event) => { value = (e.target as any).value; onchange?.(value); }}>

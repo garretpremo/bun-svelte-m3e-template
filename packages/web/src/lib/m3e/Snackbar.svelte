@@ -8,7 +8,7 @@ interface Props {
   timeout?: number;
   actions?: Snippet;
 }
-const { open = $bindable(false), message = "", timeout = 4000, actions }: Props = $props();
+let { open = $bindable(false), message = "", timeout = 4000, actions }: Props = $props();
 </script>
 
 <m3e-snackbar {open} {message} {timeout} onclose={() => (open = false)}>

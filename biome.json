@@ -23,6 +23,21 @@
   },
   "overrides": [
     {
+      "include": ["**/*.svelte"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNonNullAssertion": "off",
+            "useConst": "off",
+            "noVar": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    },
+    {
       "include": ["packages/server/src/contract/**"],
       "linter": {
         "rules": {

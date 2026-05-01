@@ -10,7 +10,7 @@ interface Props {
   onclick?: (e: MouseEvent) => void;
   children?: Snippet;
 }
-const { name = "circle", size = "96px", color, onclick, children }: Props = $props();
+let { name = "circle", size = "96px", color, onclick, children }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->

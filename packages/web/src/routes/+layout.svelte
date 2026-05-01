@@ -8,7 +8,7 @@ import AppBar from "$lib/m3e/AppBar.svelte";
 import Icon from "$lib/m3e/Icon.svelte";
 import IconButton from "$lib/m3e/IconButton.svelte";
 import Theme from "$lib/m3e/Theme.svelte";
-const { children } = $props();
+let { children } = $props();
 </script>
 
 <Theme color="#4A90D9" scheme="light" motion="expressive">
