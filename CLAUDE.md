@@ -96,6 +96,40 @@ client-to-server messages) `ws.send("type", payload)`.
 4. **Never add `@m3e/all` as a dependency.** It eagerly imports every component
    and defeats the chunking strategy.
 
+## Color and theming
+
+- **Never hardcode colors** in component CSS or templates. Use M3 tokens
+  (`--md-sys-color-*`) so the theme picker (`/showcase/theme`) and dark mode
+  work. The only legitimate literals are the seed colors in
+  `$lib/stores/theme.svelte.ts` `PRESETS` and SSR fallbacks like
+  `background: var(--md-sys-color-background, #fdf8fd)`.
+- **One source of truth for the active seed/scheme.** It lives in
+  `$lib/stores/theme.svelte.ts` (`themeState`). The root `+layout.svelte` is
+  the only place that reads it and feeds `<Theme>`. Don't add second sources.
+- **`<m3e-theme>` MUST be a direct child of `<body>`.** That detection is
+  what makes M3E apply `--md-sys-color-background` to the body element and
+  style the document scrollbar. Do not reintroduce the
+  `<div style="display: contents">` wrapper that SvelteKit's default
+  `app.html` ships with — it breaks dark-mode body bg.
+- **Pick one family per visual purpose and stay consistent across pages.**
+  Decorative filled shapes use `var(--md-sys-color-primary)`; card/tile
+  backgrounds use the `surface-*` family; low-emphasis tinted regions use
+  the `*-container` family. Mixing `primary` on one page and
+  `primary-container` on another for the same role inverts under dark mode
+  (one is light, the other dark) and looks like a bug.
+- **Token cheatsheet:**
+  - **Surface family** (cards, tiles, page bg): `surface`,
+    `surface-container-{lowest|low|high|highest}`, `surface-variant` —
+    pair with `on-surface` / `on-surface-variant`.
+  - **Accent containers** (low-emphasis tinted backgrounds):
+    `primary-container`, `secondary-container`, `tertiary-container`,
+    `error-container` — pair with `on-<name>`.
+  - **Role accents** (high-emphasis fills, decorative shapes): `primary`,
+    `secondary`, `tertiary`, `error` — pair with `on-<name>`.
+  - **Inverse strip** (callouts): `inverse-surface` / `inverse-on-surface`.
+- **Adding a preset:** append to `PRESETS` in `$lib/stores/theme.svelte.ts`.
+  The picker renders them automatically.
+
 ## DB migration: sqlite → postgres
 
 Active impl: `bun:sqlite`. To migrate:

@@ -9,16 +9,40 @@ const cycle = () => {
 };
 </script>
 
-<section style="padding: var(--space-4xl) 0; text-align: center;">
+<section class="hero">
   <h1>bun-svelte-m3e-template</h1>
-  <p class="body-large" style="margin: var(--space-md) auto var(--space-2xl);">
+  <p class="body-large lede">
     Bun.serve backend + SvelteKit PWA + Material 3 Expressive UI. Click the shape below.
   </p>
-  <div style="display: flex; justify-content: center; padding: var(--space-2xl) 0;">
+  <div class="shape-row">
     <Shape name={shapes[i]} size="160px" color="var(--md-sys-color-primary)" onclick={cycle} />
   </div>
-  <div style="display: flex; gap: var(--space-md); justify-content: center; margin-top: var(--space-2xl);">
-    <a href="/showcase" style="text-decoration:none;"><Button variant="filled">Open showcase</Button></a>
-    <a href="/docs" style="text-decoration:none;"><Button variant="outlined">API reference</Button></a>
+  <div class="cta-row">
+    <a href="/showcase" class="bare-link"><Button variant="filled">Open showcase</Button></a>
+    <a href="/docs" class="bare-link"><Button variant="outlined">API reference</Button></a>
   </div>
 </section>
+
+<style>
+.hero {
+  padding: var(--space-4xl) 0;
+  text-align: center;
+}
+.lede {
+  margin: var(--space-md) auto var(--space-2xl);
+}
+.shape-row {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-2xl) 0;
+}
+.cta-row {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-top: var(--space-2xl);
+}
+.bare-link {
+  text-decoration: none;
+}
+</style>

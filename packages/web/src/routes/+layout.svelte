@@ -18,10 +18,10 @@ let { children } = $props();
       <IconButton aria-label="Menu"><Icon name="menu" /></IconButton>
     {/snippet}
     {#snippet title()}
-      <a href="/" style="text-decoration: none; color: inherit;">App</a>
+      <a href="/" class="title-link">App</a>
     {/snippet}
     {#snippet trailingIcon()}
-      <a href="/showcase" aria-label="Showcase"><IconButton aria-label="Showcase"><Icon name="palette" /></IconButton></a>
+      <a href="/showcase" aria-label="Showcase" class="bare-link"><IconButton aria-label="Showcase"><Icon name="palette" /></IconButton></a>
     {/snippet}
   </AppBar>
   <main class="page-content">
@@ -29,3 +29,13 @@ let { children } = $props();
   </main>
 </Theme>
 <NetworkRequestIndicator />
+
+<style>
+.title-link {
+  text-decoration: none;
+  color: inherit;
+}
+.bare-link {
+  text-decoration: none;
+}
+</style>

@@ -39,7 +39,6 @@ const NAMES = [
   "very-sunny",
 ] as const;
 
-// Click a shape to morph it to the next name in the list.
 const indices = $state(NAMES.map((_, i) => i));
 function cycle(i: number) {
   indices[i] = (indices[i] + 1) % NAMES.length;
@@ -49,22 +48,36 @@ function cycle(i: number) {
 <section>
   <h2>Shapes</h2>
   <p class="body-large">Click any shape to morph it to the next one.</p>
-  <div style="
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: var(--space-lg);
-    padding: var(--space-2xl) 0;
-  ">
+
+  <div class="grid">
     {#each NAMES as _, i}
-      <div style="display:flex; flex-direction:column; align-items:center; gap: var(--space-xs);">
+      <div class="tile">
         <Shape
           name={NAMES[indices[i]]}
           size="96px"
-          color="var(--md-sys-color-primary-container)"
+          color="var(--md-sys-color-primary)"
           onclick={() => cycle(i)}
         />
-        <small style="color: var(--md-sys-color-on-surface-variant);">{NAMES[indices[i]]}</small>
+        <small class="label">{NAMES[indices[i]]}</small>
       </div>
     {/each}
   </div>
 </section>
+
+<style>
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-lg);
+  padding: var(--space-2xl) 0;
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.label {
+  color: var(--md-sys-color-on-surface-variant);
+}
+</style>
