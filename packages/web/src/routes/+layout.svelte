@@ -8,10 +8,11 @@ import AppBar from "$lib/m3e/AppBar.svelte";
 import Icon from "$lib/m3e/Icon.svelte";
 import IconButton from "$lib/m3e/IconButton.svelte";
 import Theme from "$lib/m3e/Theme.svelte";
+import { themeState } from "$lib/stores/theme.svelte";
 let { children } = $props();
 </script>
 
-<Theme color="#4A90D9" scheme="light" motion="expressive">
+<Theme color={themeState.color} scheme={themeState.scheme} motion="expressive">
   <AppBar size="small">
     {#snippet leadingIcon()}
       <IconButton aria-label="Menu"><Icon name="menu" /></IconButton>

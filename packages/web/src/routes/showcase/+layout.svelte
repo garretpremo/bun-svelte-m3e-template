@@ -2,6 +2,7 @@
 import { page } from "$app/stores";
 let { children } = $props();
 const items = [
+  { href: "/showcase/theme", label: "Theme" },
   { href: "/showcase/shapes", label: "Shapes" },
   { href: "/showcase/morph", label: "Morph" },
   { href: "/showcase/components", label: "Components" },
