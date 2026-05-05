@@ -91,8 +91,10 @@ client-to-server messages) `ws.send("type", payload)`.
    </script>
    ```
 3. **Do NOT add to `lib/m3e/setup.ts`** unless the component appears on every
-   page's chrome. The setup file is reserved for Theme + AppBar + Icon +
-   IconButton + Divider; adding more there inflates first-paint payload.
+   page's chrome. The setup file is reserved for the global chrome —
+   Theme + AppBar + Icon + IconButton + Divider + DrawerContainer + NavMenu —
+   because the root layout's drawer-container + nav-menu render on every page.
+   Adding more there inflates first-paint payload.
 4. **Never add `@m3e/all` as a dependency.** It eagerly imports every component
    and defeats the chunking strategy.
 

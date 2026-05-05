@@ -13,5 +13,7 @@ if (browser) {
     import("@m3e/icon"),
     import("@m3e/icon-button"),
     import("@m3e/divider"),
+    import("@m3e/drawer-container"),
+    import("@m3e/nav-menu"),
   ]);
 }

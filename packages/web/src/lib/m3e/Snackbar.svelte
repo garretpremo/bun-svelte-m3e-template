@@ -11,6 +11,6 @@ interface Props {
 let { open = $bindable(false), message = "", timeout = 4000, actions }: Props = $props();
 </script>
 
-<m3e-snackbar {open} {message} {timeout} onclose={() => (open = false)}>
+<m3e-snackbar open={open || undefined} {message} {timeout} onclose={() => (open = false)}>
   {#if actions}<div slot="actions">{@render actions()}</div>{/if}
 </m3e-snackbar>

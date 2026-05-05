@@ -12,7 +12,7 @@ interface Props {
 let { open = $bindable(false), headline, children, actions, onclose }: Props = $props();
 </script>
 
-<m3e-dialog {open} {headline} onclose={() => { open = false; onclose?.(); }}>
+<m3e-dialog open={open || undefined} {headline} onclose={() => { open = false; onclose?.(); }}>
   {@render children?.()}
   {#if actions}<div slot="actions">{@render actions()}</div>{/if}
 </m3e-dialog>
