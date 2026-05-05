@@ -6,6 +6,7 @@
       "build",
       ".svelte-kit",
       "node_modules",
+      "**/test-results/**",
       "**/openapi.json",
       "packages/web/tests/e2e/generated/**",
       "packages/web/tests/e2e/config.json",

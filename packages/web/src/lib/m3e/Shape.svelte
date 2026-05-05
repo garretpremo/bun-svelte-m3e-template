@@ -14,14 +14,7 @@ interface Props {
   onclick?: (e: MouseEvent) => void;
   children?: Snippet;
 }
-let {
-  name = "circle",
-  size = "96px",
-  color,
-  unclip = false,
-  onclick,
-  children,
-}: Props = $props();
+let { name = "circle", size = "96px", color, unclip = false, onclick, children }: Props = $props();
 
 let host = $state<HTMLElement | undefined>();
 

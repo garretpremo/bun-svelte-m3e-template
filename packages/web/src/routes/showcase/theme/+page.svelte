@@ -5,11 +5,11 @@ import Chip from "$lib/m3e/Chip.svelte";
 import Shape from "$lib/m3e/Shape.svelte";
 import {
   PRESETS,
+  type ThemeScheme,
   isActivePreset,
   setPreset,
   setScheme,
   themeState,
-  type ThemeScheme,
 } from "$lib/stores/theme.svelte";
 
 const SCHEMES: { value: ThemeScheme; label: string }[] = [
