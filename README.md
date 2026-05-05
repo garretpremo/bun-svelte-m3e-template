@@ -15,7 +15,23 @@ Material 3 Expressive UI**. Ships with:
 
 ## Quick start
 
+Clone via GitHub's "Use this template" button, or one of:
+
 ```bash
+# gh CLI (recommended — creates a fresh repo with no template history)
+gh repo create my-app --template garretpremo/bun-svelte-m3e-template --private --clone
+
+# git clone (preserves template history; rename origin afterwards)
+git clone git@github.com:garretpremo/bun-svelte-m3e-template.git my-app
+
+# degit (fastest — downloads a tarball, no .git)
+bunx degit garretpremo/bun-svelte-m3e-template my-app
+```
+
+Then:
+
+```bash
+cd my-app
 bun install
 bun run dev
 # then open http://localhost:5173
