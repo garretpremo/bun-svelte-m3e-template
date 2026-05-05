@@ -26,11 +26,6 @@ let { children } = $props();
     {#snippet title()}
       <a href="/" class="title-link">App</a>
     {/snippet}
-    {#snippet trailingIcon()}
-      <a href="/showcase" aria-label="Showcase" class="bare-link"
-        ><IconButton aria-label="Showcase"><Icon name="palette" /></IconButton></a
-      >
-    {/snippet}
   </AppBar>
   <DrawerContainer start startMode="auto" startId="nav-drawer">
     {#snippet startSlot()}
@@ -79,8 +74,5 @@ let { children } = $props();
 .title-link {
   text-decoration: none;
   color: inherit;
-}
-.bare-link {
-  text-decoration: none;
 }
 </style>
