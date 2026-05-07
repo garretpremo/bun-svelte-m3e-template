@@ -3,6 +3,7 @@ import { api } from "$lib/api.svelte";
 import Button from "$lib/m3e/Button.svelte";
 import Card from "$lib/m3e/Card.svelte";
 import FormField from "$lib/m3e/FormField.svelte";
+import { STATIC_BUILD } from "$lib/static-build";
 import { ws } from "$lib/ws";
 import { type Note, NoteCreate } from "@app/server/contract";
 import { onDestroy, onMount } from "svelte";
@@ -22,6 +23,7 @@ async function refresh() {
 }
 
 onMount(() => {
+  if (STATIC_BUILD) return;
   void refresh();
   unsubCreated = ws.on("note:created", (n) => {
     notes = [n, ...notes].slice(0, 20);
@@ -68,6 +70,15 @@ async function remove(id: string) {
     `note:created` so other tabs see new notes appear live.
   </p>
 
+  {#if STATIC_BUILD}
+    <Card variant="outlined">
+      <h3>Demo unavailable</h3>
+      <p>
+        This page talks to the Bun server and isn't reachable from the static
+        Pages build. Run <code>bun run dev</code> locally to try it.
+      </p>
+    </Card>
+  {:else}
   <form onsubmit={submit} style="display:flex; flex-direction:column; gap: var(--space-md); max-width: 480px; margin: var(--space-2xl) 0;">
     <FormField label="Title" error={error || undefined}>
       <input type="text" name="title" aria-label="Title" bind:value={title} maxlength="120" />
@@ -97,5 +108,6 @@ async function remove(id: string) {
         </Card>
       {/each}
     </div>
+  {/if}
   {/if}
 </section>

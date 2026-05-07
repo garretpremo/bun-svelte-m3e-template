@@ -3,6 +3,7 @@ import "$lib/m3e/setup";
 import "../styles/theme.css";
 import "../styles/animations.css";
 import "../styles/material-symbols.css";
+import { base } from "$app/paths";
 import NetworkRequestIndicator from "$lib/components/NetworkRequestIndicator.svelte";
 import AppBar from "$lib/m3e/AppBar.svelte";
 import AppNav from "$lib/m3e/AppNav.svelte";
@@ -10,6 +11,7 @@ import DrawerContainer from "$lib/m3e/DrawerContainer.svelte";
 import Icon from "$lib/m3e/Icon.svelte";
 import IconButton from "$lib/m3e/IconButton.svelte";
 import Theme from "$lib/m3e/Theme.svelte";
+import { STATIC_BUILD } from "$lib/static-build";
 import { themeState } from "$lib/stores/theme.svelte";
 let { children } = $props();
 </script>
@@ -24,7 +26,7 @@ let { children } = $props();
       </IconButton>
     {/snippet}
     {#snippet title()}
-      <a href="/" class="title-link">App</a>
+      <a href={base || "/"} class="title-link">App</a>
     {/snippet}
   </AppBar>
   <DrawerContainer start startMode="auto" startId="nav-drawer">
@@ -36,7 +38,9 @@ let { children } = $props();
     </main>
   </DrawerContainer>
 </Theme>
-<NetworkRequestIndicator />
+{#if !STATIC_BUILD}
+  <NetworkRequestIndicator />
+{/if}
 
 <style>
 :global(html) {

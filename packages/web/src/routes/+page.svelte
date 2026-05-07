@@ -1,6 +1,8 @@
 <script lang="ts">
+import { base } from "$app/paths";
 import Button from "$lib/m3e/Button.svelte";
 import Shape from "$lib/m3e/Shape.svelte";
+import { STATIC_BUILD } from "$lib/static-build";
 
 const shapes = ["circle", "soft-burst", "puffy", "8-leaf-clover", "sunny", "heart"];
 let i = $state(0);
@@ -18,8 +20,10 @@ const cycle = () => {
     <Shape name={shapes[i]} size="160px" color="var(--md-sys-color-primary)" onclick={cycle} />
   </div>
   <div class="cta-row">
-    <a href="/showcase" class="bare-link"><Button variant="filled">Open showcase</Button></a>
-    <a href="/docs" class="bare-link"><Button variant="outlined">API reference</Button></a>
+    <a href="{base}/showcase" class="bare-link"><Button variant="filled">Open showcase</Button></a>
+    {#if !STATIC_BUILD}
+      <a href="{base}/docs" class="bare-link"><Button variant="outlined">API reference</Button></a>
+    {/if}
   </div>
 </section>
 

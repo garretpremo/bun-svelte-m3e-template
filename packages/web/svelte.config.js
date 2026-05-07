@@ -13,6 +13,7 @@ const config = {
       strict: true,
     }),
     alias: { $lib: "src/lib" },
+    paths: { base: /** @type {"" | `/${string}`} */ (process.env.BASE_PATH ?? "") },
   },
   compilerOptions: { customElement: false },
 };

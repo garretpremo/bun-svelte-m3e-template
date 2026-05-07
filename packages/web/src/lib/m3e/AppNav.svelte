@@ -1,7 +1,9 @@
 <script lang="ts">
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
+import { base } from "$app/paths";
 import { page } from "$app/stores";
+import { STATIC_BUILD } from "$lib/static-build";
 import { tick } from "svelte";
 if (browser) void import("@m3e/nav-menu");
 
@@ -11,28 +13,30 @@ type NavEntry = NavItem | NavGroup;
 
 const isGroup = (e: NavEntry): e is NavGroup => "children" in e;
 
+const showcaseChildren: NavItem[] = [
+  { href: "/showcase", label: "Overview", icon: "dashboard" },
+  { href: "/showcase/theme", label: "Theme", icon: "format_paint" },
+  { href: "/showcase/shapes", label: "Shapes", icon: "category" },
+  { href: "/showcase/morph", label: "Morph", icon: "animation" },
+  { href: "/showcase/components", label: "Components", icon: "widgets" },
+  ...(STATIC_BUILD
+    ? []
+    : [{ href: "/showcase/notes", label: "Notes", icon: "edit_note" }]),
+];
+
 const items: NavEntry[] = [
   { href: "/", label: "Home", icon: "home" },
-  {
-    label: "Showcase",
-    icon: "palette",
-    open: true,
-    children: [
-      { href: "/showcase", label: "Overview", icon: "dashboard" },
-      { href: "/showcase/theme", label: "Theme", icon: "format_paint" },
-      { href: "/showcase/shapes", label: "Shapes", icon: "category" },
-      { href: "/showcase/morph", label: "Morph", icon: "animation" },
-      { href: "/showcase/components", label: "Components", icon: "widgets" },
-      { href: "/showcase/notes", label: "Notes", icon: "edit_note" },
-    ],
-  },
+  { label: "Showcase", icon: "palette", open: true, children: showcaseChildren },
 ];
+
+const rootPath = base || "/";
+const resolve = (href: string) => (href === "/" ? rootPath : `${base}${href}`);
 
 const leafItems = items.flatMap<NavItem>((e) => (isGroup(e) ? e.children : [e]));
 let menu = $state<HTMLElement | undefined>();
 const currentPath = $derived($page.url.pathname);
 
-const isSelected = (href: string) => (href === "/" ? currentPath === "/" : currentPath === href);
+const isSelected = (href: string) => currentPath === resolve(href);
 
 // Reactive `selected={...}` doesn't stick on initial render — m3e-nav-menu's
 // SelectionManager initializes during element upgrade and clears any
@@ -62,7 +66,7 @@ $effect(() => {
 
 const navigate = (href: string) => (e: Event) => {
   e.preventDefault();
-  void goto(href);
+  void goto(resolve(href));
 };
 </script>
 
