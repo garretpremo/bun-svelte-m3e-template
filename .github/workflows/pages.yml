@@ -26,6 +26,10 @@ jobs:
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
+      # Drop server-dependent routes from the static artifact. The source
+      # stays in the repo for self-hosted deploys; we just don't ship it
+      # to Pages where there's no Bun server to talk to.
+      - run: rm -rf packages/web/src/routes/showcase/notes
       - run: bun run --filter '@app/web' build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
