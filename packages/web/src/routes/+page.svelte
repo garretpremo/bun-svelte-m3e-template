@@ -2,13 +2,15 @@
 import { base } from "$app/paths";
 import Button from "$lib/m3e/Button.svelte";
 import Shape from "$lib/m3e/Shape.svelte";
-import { STATIC_BUILD } from "$lib/static-build";
+import { navItems } from "$lib/nav-items";
 
 const shapes = ["circle", "soft-burst", "puffy", "8-leaf-clover", "sunny", "heart"];
 let i = $state(0);
 const cycle = () => {
   i = (i + 1) % shapes.length;
 };
+
+const destinations = navItems.filter((n) => n.href !== "/");
 </script>
 
 <section class="hero">
@@ -19,11 +21,15 @@ const cycle = () => {
   <div class="shape-row">
     <Shape name={shapes[i]} size="160px" color="var(--md-sys-color-primary)" onclick={cycle} />
   </div>
-  <div class="cta-row">
-    <a href="{base}/showcase" class="bare-link"><Button variant="filled">Open showcase</Button></a>
-    {#if !STATIC_BUILD}
-      <a href="{base}/docs" class="bare-link"><Button variant="outlined">API reference</Button></a>
-    {/if}
+  <div class="cta-grid">
+    {#each destinations as d (d.href)}
+      <Button variant="tonal" size="large" href={`${base}${d.href}`}>
+        {#snippet icon()}
+          <m3e-icon slot="icon" name={d.icon}></m3e-icon>
+        {/snippet}
+        {d.label}
+      </Button>
+    {/each}
   </div>
 </section>
 
@@ -40,13 +46,11 @@ const cycle = () => {
   justify-content: center;
   padding: var(--space-2xl) 0;
 }
-.cta-row {
-  display: flex;
+.cta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: var(--space-md);
-  justify-content: center;
-  margin-top: var(--space-2xl);
-}
-.bare-link {
-  text-decoration: none;
+  max-width: 720px;
+  margin: var(--space-2xl) auto 0;
 }
 </style>

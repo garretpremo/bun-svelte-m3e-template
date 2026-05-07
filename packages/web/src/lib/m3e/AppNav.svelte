@@ -3,39 +3,15 @@ import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
 import { base } from "$app/paths";
 import { page } from "$app/stores";
-import { STATIC_BUILD } from "$lib/static-build";
+import { navItems } from "$lib/nav-items";
 import { tick } from "svelte";
 if (browser) void import("@m3e/nav-menu");
-
-type NavItem = { href: string; label: string; icon: string };
-type NavGroup = { label: string; icon: string; open?: boolean; children: NavItem[] };
-type NavEntry = NavItem | NavGroup;
-
-const isGroup = (e: NavEntry): e is NavGroup => "children" in e;
-
-const showcaseChildren: NavItem[] = [
-  { href: "/showcase", label: "Overview", icon: "dashboard" },
-  { href: "/showcase/theme", label: "Theme", icon: "format_paint" },
-  { href: "/showcase/shapes", label: "Shapes", icon: "category" },
-  { href: "/showcase/morph", label: "Morph", icon: "animation" },
-  { href: "/showcase/components", label: "Components", icon: "widgets" },
-  ...(STATIC_BUILD
-    ? []
-    : [{ href: "/showcase/notes", label: "Notes", icon: "edit_note" }]),
-];
-
-const items: NavEntry[] = [
-  { href: "/", label: "Home", icon: "home" },
-  { label: "Showcase", icon: "palette", open: true, children: showcaseChildren },
-];
 
 const rootPath = base || "/";
 const resolve = (href: string) => (href === "/" ? rootPath : `${base}${href}`);
 
-const leafItems = items.flatMap<NavItem>((e) => (isGroup(e) ? e.children : [e]));
 let menu = $state<HTMLElement | undefined>();
 const currentPath = $derived($page.url.pathname);
-
 const isSelected = (href: string) => currentPath === resolve(href);
 
 // Reactive `selected={...}` doesn't stick on initial render — m3e-nav-menu's
@@ -47,12 +23,8 @@ $effect(() => {
   void currentPath;
   void customElements.whenDefined("m3e-nav-menu-item").then(async () => {
     await tick();
-    // Apply unselects first, then the active selection. m3e propagates
-    // a leaf's `selected` up to its ancestor group items, so the *last*
-    // assignment wins for the ancestor's state — putting `true` last
-    // ensures the parent group reflects the active leaf.
-    const target = leafItems.find((i) => isSelected(i.href));
-    for (const item of leafItems) {
+    const target = navItems.find((i) => isSelected(i.href));
+    for (const item of navItems) {
       if (item === target) continue;
       const el = menu?.querySelector<HTMLElement>(`[data-href="${item.href}"]`);
       if (el) (el as unknown as { selected: boolean }).selected = false;
@@ -71,29 +43,13 @@ const navigate = (href: string) => (e: Event) => {
 </script>
 
 <m3e-nav-menu bind:this={menu}>
-  {#each items as item (isGroup(item) ? item.label : item.href)}
-    {#if isGroup(item)}
-      <m3e-nav-menu-item open={item.open || undefined}>
-        <m3e-icon slot="icon" name={item.icon}></m3e-icon>
-        <span slot="label">{item.label}</span>
-        {#each item.children as child (child.href)}
-          <m3e-nav-menu-item
-            data-href={child.href}
-            onclick={navigate(child.href)}
-          >
-            <m3e-icon slot="icon" name={child.icon}></m3e-icon>
-            <span slot="label">{child.label}</span>
-          </m3e-nav-menu-item>
-        {/each}
-      </m3e-nav-menu-item>
-    {:else}
-      <m3e-nav-menu-item
-        data-href={item.href}
-        onclick={navigate(item.href)}
-      >
-        <m3e-icon slot="icon" name={item.icon}></m3e-icon>
-        <span slot="label">{item.label}</span>
-      </m3e-nav-menu-item>
-    {/if}
+  {#each navItems as item (item.href)}
+    <m3e-nav-menu-item
+      data-href={item.href}
+      onclick={navigate(item.href)}
+    >
+      <m3e-icon slot="icon" name={item.icon}></m3e-icon>
+      <span slot="label">{item.label}</span>
+    </m3e-nav-menu-item>
   {/each}
 </m3e-nav-menu>
