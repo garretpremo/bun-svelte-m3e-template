@@ -387,22 +387,30 @@ git add packages/m3e-svelte/src/runtime/upgrade.ts packages/m3e-svelte/tests/run
 git commit -m "feat(m3e-svelte): property sync helpers for upgrade race"
 ```
 
-### Task 4: `runtime/Slot.svelte` (snippet → named slot)
+### Task 4: Inline slot projection (generator pattern guard)
+
+**IMPORTANT (design correction):** Svelte 5 forbids a `slot=` attribute on a
+standalone component's root element (`slot_attribute_invalid_placement` — it must
+be a child of a component or a *descendant of a custom element*). So there is **no
+`Slot.svelte` component**. Instead, the generator inlines slot projection directly
+inside each custom element as `<div slot="x" style="display:contents">…</div>`,
+which is valid because it is a descendant of the `<m3e-*>` custom element. This task
+pins that pattern with a test so the template tasks (9–11) can rely on it.
 
 **Files:**
-- Create: `packages/m3e-svelte/src/runtime/Slot.svelte`
 - Create: `packages/m3e-svelte/tests/runtime/slot.test.ts`
+- Create: `packages/m3e-svelte/tests/runtime/fixtures/InlineSlotProbe.svelte`
 
-- [ ] **Step 1: Write the failing test**
+- [ ] **Step 1: Write the test**
 
 ```ts
 // packages/m3e-svelte/tests/runtime/slot.test.ts
 import { render } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import Probe from "./fixtures/SlotProbe.svelte";
+import Probe from "./fixtures/InlineSlotProbe.svelte";
 
-describe("runtime/Slot", () => {
-  test("renders the wrapper div with the named slot when snippet present", () => {
+describe("inline slot projection (generator pattern)", () => {
+  test("renders a slot div with display:contents when the snippet is provided", () => {
     const { container } = render(Probe, { props: { provide: true } });
     const wrapper = container.querySelector('[slot="icon"]');
     expect(wrapper).toBeTruthy();
@@ -410,57 +418,39 @@ describe("runtime/Slot", () => {
     expect((wrapper as HTMLElement).style.display).toBe("contents");
   });
 
-  test("renders nothing when snippet is absent", () => {
+  test("renders nothing in the slot when the snippet is absent", () => {
     const { container } = render(Probe, { props: { provide: false } });
     expect(container.querySelector('[slot="icon"]')).toBeNull();
   });
 });
 ```
 
-- [ ] **Step 2: Create the test fixture**
+- [ ] **Step 2: Create the fixture (mirrors the generator's emitted markup)**
 
 ```svelte
-<!-- packages/m3e-svelte/tests/runtime/fixtures/SlotProbe.svelte -->
+<!-- packages/m3e-svelte/tests/runtime/fixtures/InlineSlotProbe.svelte -->
 <script lang="ts">
-  import type { Snippet } from "svelte";
-  import Slot from "../../../src/runtime/Slot.svelte";
   let { provide }: { provide: boolean } = $props();
-  const icon: Snippet = $derived(provide ? probe : (undefined as unknown as Snippet));
 </script>
 
-{#snippet probe()}X{/snippet}
-<Slot snippet={icon} name="icon" />
+{#snippet icon()}X{/snippet}
+
+<m3e-fake>
+  {#if provide}<div slot="icon" style="display:contents">{@render icon()}</div>{/if}
+</m3e-fake>
 ```
 
-- [ ] **Step 3: Run test to verify it fails**
+- [ ] **Step 3: Run test to verify it passes**
 
 Run: `cd packages/m3e-svelte && bun run test tests/runtime/slot.test.ts`
-Expected: FAIL — `Slot.svelte` not found.
+Expected: PASS (both cases). A `<div slot="icon">` inside `<m3e-fake>` compiles
+because it descends from a custom element.
 
-- [ ] **Step 4: Implement `runtime/Slot.svelte`**
-
-```svelte
-<!-- packages/m3e-svelte/src/runtime/Slot.svelte -->
-<script lang="ts">
-  import type { Snippet } from "svelte";
-  let { snippet, name }: { snippet?: Snippet; name: string } = $props();
-</script>
-
-{#if snippet}
-  <div slot={name} style="display:contents">{@render snippet()}</div>
-{/if}
-```
-
-- [ ] **Step 5: Run test to verify it passes**
-
-Run: `cd packages/m3e-svelte && bun run test tests/runtime/slot.test.ts`
-Expected: PASS.
-
-- [ ] **Step 6: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
-git add packages/m3e-svelte/src/runtime/Slot.svelte packages/m3e-svelte/tests/runtime/
-git commit -m "feat(m3e-svelte): Slot.svelte snippet-to-named-slot helper"
+git add packages/m3e-svelte/tests/runtime/slot.test.ts packages/m3e-svelte/tests/runtime/fixtures/InlineSlotProbe.svelte
+git commit -m "feat(m3e-svelte): pin inline slot projection pattern"
 ```
 
 ---
@@ -987,11 +977,12 @@ export function renderPassive(el: LoadedElement): RenderedFile {
   for (const e of events) elementAttrs.push(`on${e.name}={on${e.name}}`);
 
   const slotBody = slots
-    .map(
-      (s, i) =>
-        `  <Slot snippet={${slotNames[i]}} name="${s.name === "" ? "" : s.name}" />`,
+    .map((s, i) =>
+      s.name === ""
+        ? ""
+        : `  {#if ${slotNames[i]}}<div slot="${s.name}" style="display:contents">{@render ${slotNames[i]}()}</div>{/if}`,
     )
-    .filter((_, i) => slots[i]!.name !== "")
+    .filter(Boolean)
     .join("\n");
   const defaultSlot = slots.some((s) => s.name === "")
     ? "  {@render children?.()}"
@@ -1000,7 +991,6 @@ export function renderPassive(el: LoadedElement): RenderedFile {
   const importLines: string[] = [
     `  import type { Snippet } from "svelte";`,
     `  import { browser } from "../runtime/env";`,
-    `  import Slot from "../runtime/Slot.svelte";`,
     `  if (browser) void import("${pkg}");`,
     `  import type { ${className} } from "${pkg}";`,
   ];
@@ -1225,11 +1215,10 @@ export function renderPropertyDriven(el: LoadedElement): RenderedFile {
     .join("\n");
 
   const slotBody = slots
-    .map(
-      (s, i) =>
-        s.name === ""
-          ? ""
-          : `  <Slot snippet={${slotNames[i]}} name="${s.name}" />`,
+    .map((s, i) =>
+      s.name === ""
+        ? ""
+        : `  {#if ${slotNames[i]}}<div slot="${s.name}" style="display:contents">{@render ${slotNames[i]}()}</div>{/if}`,
     )
     .filter(Boolean)
     .join("\n");
@@ -1241,7 +1230,6 @@ export function renderPropertyDriven(el: LoadedElement): RenderedFile {
     `  import type { Snippet } from "svelte";`,
     `  import { browser } from "../runtime/env";`,
     `  import { syncProperty } from "../runtime/upgrade";`,
-    `  import Slot from "../runtime/Slot.svelte";`,
     `  if (browser) void import("${pkg}");`,
     `  import type { ${className} } from "${pkg}";`,
   ];
@@ -1469,11 +1457,10 @@ export function renderSelectionManaged(el: LoadedElement): RenderedFile {
     .join("\n");
 
   const slotBody = slots
-    .map(
-      (s, i) =>
-        s.name === ""
-          ? ""
-          : `  <Slot snippet={${slotNames[i]}} name="${s.name}" />`,
+    .map((s, i) =>
+      s.name === ""
+        ? ""
+        : `  {#if ${slotNames[i]}}<div slot="${s.name}" style="display:contents">{@render ${slotNames[i]}()}</div>{/if}`,
     )
     .filter(Boolean)
     .join("\n");
@@ -1485,7 +1472,6 @@ export function renderSelectionManaged(el: LoadedElement): RenderedFile {
     `  import type { Snippet } from "svelte";`,
     `  import { browser } from "../runtime/env";`,
     `  import { syncManagedProperty } from "../runtime/upgrade";`,
-    `  import Slot from "../runtime/Slot.svelte";`,
     `  if (browser) void import("${pkg}");`,
     `  import type { ${className} } from "${pkg}";`,
   ];
