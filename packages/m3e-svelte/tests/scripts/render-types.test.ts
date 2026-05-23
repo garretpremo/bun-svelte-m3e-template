@@ -1,5 +1,15 @@
 import { describe, expect, test } from "vitest";
-import { renderAttrType } from "../../scripts/render-types";
+import { cleanDescription, renderAttrType } from "../../scripts/render-types";
+
+describe("cleanDescription", () => {
+  test("collapses newlines into single spaces", () => {
+    expect(cleanDescription("line one\n  line two")).toBe("line one line two");
+    expect(cleanDescription("a\r\nb")).toBe("a b");
+  });
+  test("escapes a comment terminator so it can't end the JSDoc early", () => {
+    expect(cleanDescription("ends with */ here")).toBe("ends with *\\/ here");
+  });
+});
 
 describe("renderAttrType", () => {
   test("boolean → boolean", () => {
@@ -12,9 +22,9 @@ describe("renderAttrType", () => {
     expect(renderAttrType("string | null")).toBe("string | null");
   });
   test("enum string union preserved", () => {
-    expect(
-      renderAttrType('"filled" | "tonal" | "elevated" | "outlined" | "text"'),
-    ).toBe('"filled" | "tonal" | "elevated" | "outlined" | "text"');
+    expect(renderAttrType('"filled" | "tonal" | "elevated" | "outlined" | "text"')).toBe(
+      '"filled" | "tonal" | "elevated" | "outlined" | "text"',
+    );
   });
   test("known enum identifier passed through", () => {
     expect(renderAttrType("ButtonVariant")).toBe("ButtonVariant");

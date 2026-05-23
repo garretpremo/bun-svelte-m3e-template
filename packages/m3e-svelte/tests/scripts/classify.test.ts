@@ -1,8 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { classify } from "../../scripts/classify";
 
-const mkAttrs = (names: string[]) =>
-  names.map((n) => ({ name: n, type: { text: "boolean" } }));
+const mkAttrs = (names: string[]) => names.map((n) => ({ name: n, type: { text: "boolean" } }));
 
 describe("classify", () => {
   test("passive default", () => {
@@ -18,12 +17,8 @@ describe("classify", () => {
   });
   test("property-driven via state attribute", () => {
     expect(classify("m3e-dialog", mkAttrs(["open"]))).toBe("property-driven");
-    expect(classify("m3e-snackbar", mkAttrs(["open"]))).toBe(
-      "property-driven",
-    );
-    expect(classify("m3e-collapsible", mkAttrs(["expanded"]))).toBe(
-      "property-driven",
-    );
+    expect(classify("m3e-snackbar", mkAttrs(["open"]))).toBe("property-driven");
+    expect(classify("m3e-collapsible", mkAttrs(["expanded"]))).toBe("property-driven");
   });
   test("selection-managed wins over property-driven when both apply", () => {
     expect(classify("m3e-select", mkAttrs(["open"]))).toBe("selection-managed");

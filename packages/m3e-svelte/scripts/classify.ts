@@ -1,9 +1,6 @@
 import type { CemAttribute } from "./cem-types";
 
-export type Classification =
-  | "passive"
-  | "property-driven"
-  | "selection-managed";
+export type Classification = "passive" | "property-driven" | "selection-managed";
 
 const SELECTION_MANAGED_PATTERNS = [
   /nav-menu(?:$|-)/,
@@ -16,10 +13,7 @@ const SELECTION_MANAGED_PATTERNS = [
 
 const PROPERTY_STATE_ATTRS = new Set(["open", "expanded", "checked"]);
 
-export function classify(
-  tag: string,
-  attributes: CemAttribute[],
-): Classification {
+export function classify(tag: string, attributes: CemAttribute[]): Classification {
   for (const re of SELECTION_MANAGED_PATTERNS) {
     if (re.test(tag)) return "selection-managed";
   }

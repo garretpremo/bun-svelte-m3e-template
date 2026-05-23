@@ -1,2 +1,1 @@
-export const browser =
-  typeof window !== "undefined" && typeof document !== "undefined";
+export const browser = typeof window !== "undefined" && typeof document !== "undefined";

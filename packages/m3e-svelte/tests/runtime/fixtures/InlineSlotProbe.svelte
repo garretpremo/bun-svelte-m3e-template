@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { provide }: { provide: boolean } = $props();
+let { provide }: { provide: boolean } = $props();
 </script>
 
 {#snippet icon()}X{/snippet}

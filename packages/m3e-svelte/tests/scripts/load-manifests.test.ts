@@ -1,10 +1,7 @@
 // packages/m3e-svelte/tests/scripts/load-manifests.test.ts
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
-import {
-  listPeerPackages,
-  loadManifests,
-} from "../../scripts/load-manifests";
+import { listPeerPackages, loadManifests } from "../../scripts/load-manifests";
 
 const pkgJson = resolve(__dirname, "../../package.json");
 

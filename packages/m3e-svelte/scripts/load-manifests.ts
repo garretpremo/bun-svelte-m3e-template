@@ -12,12 +12,7 @@ const pkgRoot = resolve(here, "..");
 export function loadManifests(packages: string[]): LoadedElement[] {
   const out: LoadedElement[] = [];
   for (const pkg of packages) {
-    const cemPath = resolve(
-      pkgRoot,
-      "node_modules",
-      pkg,
-      "dist/custom-elements.json",
-    );
+    const cemPath = resolve(pkgRoot, "node_modules", pkg, "dist/custom-elements.json");
     if (!existsSync(cemPath)) {
       console.warn(`[m3e-svelte] skipping ${pkg}: no custom-elements.json`);
       continue;
@@ -44,7 +39,5 @@ export function listPeerPackages(pkgJsonPath: string): string[] {
   const json = JSON.parse(readFileSync(pkgJsonPath, "utf8")) as {
     peerDependencies?: Record<string, string>;
   };
-  return Object.keys(json.peerDependencies ?? {}).filter((k) =>
-    k.startsWith("@m3e/"),
-  );
+  return Object.keys(json.peerDependencies ?? {}).filter((k) => k.startsWith("@m3e/"));
 }
