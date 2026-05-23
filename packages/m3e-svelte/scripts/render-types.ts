@@ -4,6 +4,20 @@ export function renderAttrType(text: string | null | undefined): string {
 }
 
 /**
+ * Best-effort TS type for a CEM attribute. Some attributes omit `type` but carry
+ * a boolean `default` ("true"/"false") — infer boolean rather than fall back to
+ * string, so e.g. `m3e-dialog`'s `open` is typed correctly.
+ */
+export function inferType(a: {
+  type?: { text?: string | null };
+  default?: string | null;
+}): string {
+  if (a.type?.text) return renderAttrType(a.type.text);
+  if (a.default === "true" || a.default === "false") return "boolean";
+  return "string";
+}
+
+/**
  * Normalize a CEM description for safe single-line JSDoc: collapse newlines and
  * escape any `*​/` so a description can't terminate the comment early.
  */

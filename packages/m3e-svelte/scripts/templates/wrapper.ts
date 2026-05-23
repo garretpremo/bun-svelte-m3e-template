@@ -1,6 +1,6 @@
-import type { CemAttribute, LoadedElement } from "../cem-types";
+import type { LoadedElement } from "../cem-types";
 import { attrPropName, componentName, slotPropName } from "../naming";
-import { cleanDescription, extractIdentifiers, renderAttrType } from "../render-types";
+import { cleanDescription, extractIdentifiers, inferType } from "../render-types";
 
 export interface RenderedFile {
   componentName: string;
@@ -9,11 +9,20 @@ export interface RenderedFile {
   contents: string;
 }
 
+/** A writable property (from an attribute or a public field) bound + property-synced. */
+export interface ManagedProp {
+  /** Original CEM name, used as the DOM property key. */
+  name: string;
+  /** Rendered TS type for the prop. */
+  type: string;
+  description?: string;
+}
+
 export interface WrapperOptions {
   classification?: RenderedFile["classification"];
-  /** Original CEM attribute names driven as bindable DOM properties. */
-  managedAttrs?: string[];
-  /** Runtime sync helper used in the `$effect` for each managed attr. */
+  /** Writable props driven as DOM properties (not attributes) after upgrade. */
+  managed?: ManagedProp[];
+  /** Runtime sync helper used in the `$effect` for each managed prop. */
   syncFn?: "syncProperty" | "syncManagedProperty";
   /** Wrap change/input handlers to drop spurious null reads (selection managers). */
   dropNullChange?: boolean;
@@ -21,37 +30,46 @@ export interface WrapperOptions {
 
 /**
  * Render a Svelte 5 wrapper for one custom element. The passive archetype passes
- * no options; property-driven and selection-managed supply `managedAttrs` + a
+ * no managed props; property-driven and selection-managed supply `managed` + a
  * `syncFn` (and `dropNullChange` for selection managers).
  */
 export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): RenderedFile {
   const { pkg, tag, className, declaration: d } = el;
   const classification = opts.classification ?? "passive";
-  const managed = new Set(opts.managedAttrs ?? []);
+  const managed = opts.managed ?? [];
+  const managedSet = new Set(managed.map((m) => m.name));
   const attrs = d.attributes ?? [];
   const slots = d.slots ?? [];
   const events = (d.events ?? []).filter((e) => !!e.name);
 
-  const plainAttrs = attrs.filter((a) => !managed.has(a.name));
-  const managedAttrList = attrs.filter((a) => managed.has(a.name));
+  // Managed names never render as attributes (they're driven as properties).
+  const plainAttrs = attrs.filter((a) => !managedSet.has(a.name));
 
-  const propNameOf = (a: CemAttribute) => attrPropName(a.name);
-  const attrPropNames = new Set(attrs.map(propNameOf));
-  const slotNames = slots.map((s) => slotPropName(s.name, attrPropNames));
+  const propNameOf = (name: string) => attrPropName(name);
+  const reservedNames = new Set([
+    ...plainAttrs.map((a) => propNameOf(a.name)),
+    ...managed.map((m) => propNameOf(m.name)),
+  ]);
+  const slotNames = slots.map((s) => slotPropName(s.name, reservedNames));
 
   const extraIdents = new Set<string>();
-  for (const a of attrs) {
-    for (const id of extractIdentifiers(a.type?.text)) extraIdents.add(id);
+  for (const a of plainAttrs) {
+    for (const id of extractIdentifiers(inferType(a))) extraIdents.add(id);
   }
 
   // --- Props interface ---
   const propLines: string[] = [];
-  for (const a of attrs) {
-    const ty = renderAttrType(a.type?.text);
+  for (const a of plainAttrs) {
     if (a.description) {
       propLines.push(`    /** ${cleanDescription(a.description)} */`);
     }
-    propLines.push(`    ${propNameOf(a)}?: ${ty};`);
+    propLines.push(`    ${propNameOf(a.name)}?: ${inferType(a)};`);
+  }
+  for (const m of managed) {
+    if (m.description) {
+      propLines.push(`    /** ${cleanDescription(m.description)} */`);
+    }
+    propLines.push(`    ${propNameOf(m.name)}?: ${m.type};`);
   }
   for (let i = 0; i < slots.length; i++) {
     const s = slots[i]!;
@@ -71,21 +89,20 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
 
   // --- destructure ---
   const destructParts: string[] = [];
-  for (const a of plainAttrs) destructParts.push(propNameOf(a));
-  for (const a of managedAttrList) {
-    const ty = renderAttrType(a.type?.text);
-    const fallback = ty === "boolean" ? "false" : "undefined";
-    destructParts.push(`${propNameOf(a)} = $bindable(${fallback})`);
+  for (const a of plainAttrs) destructParts.push(propNameOf(a.name));
+  for (const m of managed) {
+    const fallback = m.type === "boolean" ? "false" : "undefined";
+    destructParts.push(`${propNameOf(m.name)} = $bindable(${fallback})`);
   }
   destructParts.push(...slotNames);
   destructParts.push(...events.map((e) => `on${e.name}`));
   destructParts.push("element = $bindable()");
 
-  // --- element attributes ---
+  // --- element attributes (managed props are NOT rendered as attributes) ---
   const elementAttrs: string[] = [];
   for (const a of plainAttrs) {
-    const name = propNameOf(a);
-    const ty = renderAttrType(a.type?.text);
+    const name = propNameOf(a.name);
+    const ty = inferType(a);
     if (ty === "boolean") {
       elementAttrs.push(`${a.name}={${name} || undefined}`);
     } else if (a.name === name) {
@@ -127,8 +144,10 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
   }
 
   // --- script body ---
-  const dropNullHelper = opts.dropNullChange
-    ? `
+  const hasNullableEvent = events.some((e) => e.name === "change" || e.name === "input");
+  const dropNullHelper =
+    opts.dropNullChange && hasNullableEvent
+      ? `
   function dropNullChange<E extends Event>(
     handler?: (e: E) => void,
   ): ((e: E) => void) | undefined {
@@ -139,10 +158,15 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
       handler(e);
     };
   }`
-    : "";
+      : "";
 
-  const effects = managedAttrList
-    .map((a) => `  $effect(() => ${opts.syncFn}(element, "${a.name}", ${propNameOf(a)}));`)
+  // Only push the property when defined, so an unset bindable never clobbers the
+  // element's own default (e.g. a select's computed value).
+  const effects = managed
+    .map(
+      (m) =>
+        `  $effect(() => {\n    if (${propNameOf(m.name)} !== undefined) ${opts.syncFn}(element, "${m.name}", ${propNameOf(m.name)});\n  });`,
+    )
     .join("\n");
 
   const scriptBodyParts = [`  let { ${destructParts.join(", ")} }: Props = $props();`];

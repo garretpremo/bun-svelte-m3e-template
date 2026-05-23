@@ -22,6 +22,18 @@ export interface CemCssProperty {
   description?: string;
 }
 
+export interface CemMember {
+  kind: string;
+  name: string;
+  privacy?: "public" | "private" | "protected";
+  static?: boolean;
+  readonly?: boolean;
+  type?: { text?: string | null };
+  default?: string | null;
+  description?: string;
+  attribute?: string;
+}
+
 export interface CemClassDeclaration {
   kind: "class";
   name: string;
@@ -31,6 +43,7 @@ export interface CemClassDeclaration {
   slots?: CemSlot[];
   events?: CemEvent[];
   cssProperties?: CemCssProperty[];
+  members?: CemMember[];
 }
 
 export interface CemModule {
