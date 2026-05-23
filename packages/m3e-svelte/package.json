@@ -1,0 +1,95 @@
+{
+  "name": "@app/m3e-svelte",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "svelte": "./src/index.ts",
+      "types": "./src/index.ts"
+    },
+    "./presets/chrome": {
+      "svelte": "./src/presets/chrome.ts",
+      "types": "./src/presets/chrome.ts"
+    },
+    "./presets/all": {
+      "svelte": "./src/presets/all.ts",
+      "types": "./src/presets/all.ts"
+    },
+    "./generated/styles.css": "./src/generated/styles.css",
+    "./generated/manifest.json": "./src/generated/manifest.json",
+    "./generated/*.svelte": "./src/generated/*.svelte"
+  },
+  "scripts": {
+    "generate": "bun run scripts/generate.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0",
+    "@m3e/app-bar": "^1.3.0",
+    "@m3e/button": "^1.3.0",
+    "@m3e/card": "^1.3.0",
+    "@m3e/checkbox": "^1.3.0",
+    "@m3e/chips": "^1.3.0",
+    "@m3e/core": "^1.3.0",
+    "@m3e/dialog": "^1.3.0",
+    "@m3e/divider": "^1.3.0",
+    "@m3e/drawer-container": "^1.3.0",
+    "@m3e/fab": "^1.3.0",
+    "@m3e/form-field": "^1.3.0",
+    "@m3e/icon": "^1.3.0",
+    "@m3e/icon-button": "^1.3.0",
+    "@m3e/list": "^1.3.0",
+    "@m3e/nav-menu": "^1.3.0",
+    "@m3e/option": "^1.3.0",
+    "@m3e/radio-group": "^1.3.0",
+    "@m3e/select": "^1.3.0",
+    "@m3e/shape": "^1.3.0",
+    "@m3e/snackbar": "^1.3.0",
+    "@m3e/stepper": "^1.3.0",
+    "@m3e/switch": "^1.3.0",
+    "@m3e/textarea-autosize": "^1.3.0",
+    "@m3e/theme": "^1.3.0",
+    "@m3e/tooltip": "^1.3.0"
+  },
+  "peerDependenciesMeta": {
+    "@m3e/app-bar": { "optional": true },
+    "@m3e/button": { "optional": true },
+    "@m3e/card": { "optional": true },
+    "@m3e/checkbox": { "optional": true },
+    "@m3e/chips": { "optional": true },
+    "@m3e/core": { "optional": true },
+    "@m3e/dialog": { "optional": true },
+    "@m3e/divider": { "optional": true },
+    "@m3e/drawer-container": { "optional": true },
+    "@m3e/fab": { "optional": true },
+    "@m3e/form-field": { "optional": true },
+    "@m3e/icon": { "optional": true },
+    "@m3e/icon-button": { "optional": true },
+    "@m3e/list": { "optional": true },
+    "@m3e/nav-menu": { "optional": true },
+    "@m3e/option": { "optional": true },
+    "@m3e/radio-group": { "optional": true },
+    "@m3e/select": { "optional": true },
+    "@m3e/shape": { "optional": true },
+    "@m3e/snackbar": { "optional": true },
+    "@m3e/stepper": { "optional": true },
+    "@m3e/switch": { "optional": true },
+    "@m3e/textarea-autosize": { "optional": true },
+    "@m3e/theme": { "optional": true },
+    "@m3e/tooltip": { "optional": true }
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^4.0.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/svelte": "^5.2.0",
+    "@types/bun": "^1.2.0",
+    "jsdom": "^25.0.0",
+    "svelte": "^5.0.0",
+    "svelte-check": "^4.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
