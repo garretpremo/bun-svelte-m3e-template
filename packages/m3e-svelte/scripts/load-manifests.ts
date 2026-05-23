@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Cem, CemClassDeclaration, LoadedElement } from "./cem-types";
+import { collectPackageExports } from "./package-exports";
 
 const here = dirname(fileURLToPath(import.meta.url));
 // packages/m3e-svelte/scripts/../ = packages/m3e-svelte/
@@ -11,6 +12,7 @@ const pkgRoot = resolve(here, "..");
 
 export function loadManifests(packages: string[]): LoadedElement[] {
   const out: LoadedElement[] = [];
+  const seen = new Set<string>();
   for (const pkg of packages) {
     const cemPath = resolve(pkgRoot, "node_modules", pkg, "dist/custom-elements.json");
     if (!existsSync(cemPath)) {
@@ -18,16 +20,19 @@ export function loadManifests(packages: string[]): LoadedElement[] {
       continue;
     }
     const cem = JSON.parse(readFileSync(cemPath, "utf8")) as Cem;
+    const exportedNames = collectPackageExports(pkg);
     for (const mod of cem.modules ?? []) {
       for (const decl of mod.declarations ?? []) {
         if (decl.kind !== "class") continue;
         const klass = decl as CemClassDeclaration;
-        if (!klass.tagName) continue;
+        if (!klass.tagName || seen.has(klass.tagName)) continue;
+        seen.add(klass.tagName);
         out.push({
           pkg,
           tag: klass.tagName,
           className: klass.name,
           declaration: klass,
+          exportedNames,
         });
       }
     }

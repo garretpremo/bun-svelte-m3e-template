@@ -1,0 +1,327 @@
+{
+  "m3e-app-bar": {
+    "package": "@m3e/app-bar",
+    "className": "M3eAppBarElement",
+    "classification": "passive"
+  },
+  "m3e-button": {
+    "package": "@m3e/button",
+    "className": "M3eButtonElement",
+    "classification": "passive"
+  },
+  "m3e-card": {
+    "package": "@m3e/card",
+    "className": "M3eCardElement",
+    "classification": "passive"
+  },
+  "m3e-checkbox": {
+    "package": "@m3e/checkbox",
+    "className": "M3eCheckboxElement",
+    "classification": "property-driven"
+  },
+  "m3e-assist-chip": {
+    "package": "@m3e/chips",
+    "className": "M3eAssistChipElement",
+    "classification": "passive"
+  },
+  "m3e-chip": {
+    "package": "@m3e/chips",
+    "className": "M3eChipElement",
+    "classification": "passive"
+  },
+  "m3e-chip-set": {
+    "package": "@m3e/chips",
+    "className": "M3eChipSetElement",
+    "classification": "selection-managed"
+  },
+  "m3e-filter-chip": {
+    "package": "@m3e/chips",
+    "className": "M3eFilterChipElement",
+    "classification": "passive"
+  },
+  "m3e-filter-chip-set": {
+    "package": "@m3e/chips",
+    "className": "M3eFilterChipSetElement",
+    "classification": "selection-managed"
+  },
+  "m3e-input-chip": {
+    "package": "@m3e/chips",
+    "className": "M3eInputChipElement",
+    "classification": "passive"
+  },
+  "m3e-input-chip-set": {
+    "package": "@m3e/chips",
+    "className": "M3eInputChipSetElement",
+    "classification": "selection-managed"
+  },
+  "m3e-suggestion-chip": {
+    "package": "@m3e/chips",
+    "className": "M3eSuggestionChipElement",
+    "classification": "passive"
+  },
+  "m3e-focus-trap": {
+    "package": "@m3e/core",
+    "className": "M3eFocusTrapElement",
+    "classification": "passive"
+  },
+  "m3e-collapsible": {
+    "package": "@m3e/core",
+    "className": "M3eCollapsibleElement",
+    "classification": "property-driven"
+  },
+  "m3e-elevation": {
+    "package": "@m3e/core",
+    "className": "M3eElevationElement",
+    "classification": "passive"
+  },
+  "m3e-focus-ring": {
+    "package": "@m3e/core",
+    "className": "M3eFocusRingElement",
+    "classification": "passive"
+  },
+  "m3e-pseudo-checkbox": {
+    "package": "@m3e/core",
+    "className": "M3ePseudoCheckboxElement",
+    "classification": "property-driven"
+  },
+  "m3e-pseudo-radio": {
+    "package": "@m3e/core",
+    "className": "M3ePseudoRadioElement",
+    "classification": "property-driven"
+  },
+  "m3e-ripple": {
+    "package": "@m3e/core",
+    "className": "M3eRippleElement",
+    "classification": "passive"
+  },
+  "m3e-scroll-container": {
+    "package": "@m3e/core",
+    "className": "M3eScrollContainerElement",
+    "classification": "passive"
+  },
+  "m3e-slide": {
+    "package": "@m3e/core",
+    "className": "M3eSlideElement",
+    "classification": "passive"
+  },
+  "m3e-state-layer": {
+    "package": "@m3e/core",
+    "className": "M3eStateLayerElement",
+    "classification": "passive"
+  },
+  "m3e-text-highlight": {
+    "package": "@m3e/core",
+    "className": "M3eTextHighlightElement",
+    "classification": "passive"
+  },
+  "m3e-text-overflow": {
+    "package": "@m3e/core",
+    "className": "M3eTextOverflowElement",
+    "classification": "passive"
+  },
+  "m3e-dialog-action": {
+    "package": "@m3e/dialog",
+    "className": "M3eDialogActionElement",
+    "classification": "passive"
+  },
+  "m3e-dialog": {
+    "package": "@m3e/dialog",
+    "className": "M3eDialogElement",
+    "classification": "property-driven"
+  },
+  "m3e-dialog-trigger": {
+    "package": "@m3e/dialog",
+    "className": "M3eDialogTriggerElement",
+    "classification": "passive"
+  },
+  "m3e-divider": {
+    "package": "@m3e/divider",
+    "className": "M3eDividerElement",
+    "classification": "passive"
+  },
+  "m3e-drawer-container": {
+    "package": "@m3e/drawer-container",
+    "className": "M3eDrawerContainerElement",
+    "classification": "passive"
+  },
+  "m3e-drawer-toggle": {
+    "package": "@m3e/drawer-container",
+    "className": "M3eDrawerToggleElement",
+    "classification": "passive"
+  },
+  "m3e-fab": {
+    "package": "@m3e/fab",
+    "className": "M3eFabElement",
+    "classification": "passive"
+  },
+  "m3e-form-field": {
+    "package": "@m3e/form-field",
+    "className": "M3eFormFieldElement",
+    "classification": "passive"
+  },
+  "m3e-icon": {
+    "package": "@m3e/icon",
+    "className": "M3eIconElement",
+    "classification": "passive"
+  },
+  "m3e-icon-button": {
+    "package": "@m3e/icon-button",
+    "className": "M3eIconButtonElement",
+    "classification": "passive"
+  },
+  "m3e-action-list": {
+    "package": "@m3e/list",
+    "className": "M3eActionListElement",
+    "classification": "selection-managed"
+  },
+  "m3e-expandable-list-item": {
+    "package": "@m3e/list",
+    "className": "M3eExpandableListItem",
+    "classification": "property-driven"
+  },
+  "m3e-list-action": {
+    "package": "@m3e/list",
+    "className": "M3eListActionElement",
+    "classification": "passive"
+  },
+  "m3e-list": {
+    "package": "@m3e/list",
+    "className": "M3eListElement",
+    "classification": "selection-managed"
+  },
+  "m3e-list-item-button": {
+    "package": "@m3e/list",
+    "className": "M3eListItemButtonElement",
+    "classification": "passive"
+  },
+  "m3e-list-item": {
+    "package": "@m3e/list",
+    "className": "M3eListItemElement",
+    "classification": "passive"
+  },
+  "m3e-list-option": {
+    "package": "@m3e/list",
+    "className": "M3eListOptionElement",
+    "classification": "passive"
+  },
+  "m3e-selection-list": {
+    "package": "@m3e/list",
+    "className": "M3eSelectionListElement",
+    "classification": "selection-managed"
+  },
+  "m3e-nav-menu": {
+    "package": "@m3e/nav-menu",
+    "className": "M3eNavMenuElement",
+    "classification": "selection-managed"
+  },
+  "m3e-nav-menu-item": {
+    "package": "@m3e/nav-menu",
+    "className": "M3eNavMenuItemElement",
+    "classification": "selection-managed"
+  },
+  "m3e-nav-menu-item-group": {
+    "package": "@m3e/nav-menu",
+    "className": "M3eNavMenuItemGroupElement",
+    "classification": "selection-managed"
+  },
+  "m3e-optgroup": {
+    "package": "@m3e/option",
+    "className": "M3eOptGroupElement",
+    "classification": "passive"
+  },
+  "m3e-option": {
+    "package": "@m3e/option",
+    "className": "M3eOptionElement",
+    "classification": "passive"
+  },
+  "m3e-option-panel": {
+    "package": "@m3e/option",
+    "className": "M3eOptionPanelElement",
+    "classification": "passive"
+  },
+  "m3e-nav-bar": {
+    "package": "@m3e/option",
+    "className": "M3eNavBarElement",
+    "classification": "passive"
+  },
+  "m3e-radio": {
+    "package": "@m3e/radio-group",
+    "className": "M3eRadioElement",
+    "classification": "property-driven"
+  },
+  "m3e-radio-group": {
+    "package": "@m3e/radio-group",
+    "className": "M3eRadioGroupElement",
+    "classification": "selection-managed"
+  },
+  "m3e-select": {
+    "package": "@m3e/select",
+    "className": "M3eSelectElement",
+    "classification": "selection-managed"
+  },
+  "m3e-shape": {
+    "package": "@m3e/shape",
+    "className": "M3eShapeElement",
+    "classification": "passive"
+  },
+  "m3e-snackbar": {
+    "package": "@m3e/snackbar",
+    "className": "M3eSnackbarElement",
+    "classification": "passive"
+  },
+  "m3e-step": {
+    "package": "@m3e/stepper",
+    "className": "M3eStepElement",
+    "classification": "passive"
+  },
+  "m3e-step-panel": {
+    "package": "@m3e/stepper",
+    "className": "M3eStepPanelElement",
+    "classification": "passive"
+  },
+  "m3e-stepper": {
+    "package": "@m3e/stepper",
+    "className": "M3eStepperElement",
+    "classification": "passive"
+  },
+  "m3e-stepper-previous": {
+    "package": "@m3e/stepper",
+    "className": "M3eStepperNextElement",
+    "classification": "passive"
+  },
+  "m3e-stepper-reset": {
+    "package": "@m3e/stepper",
+    "className": "M3eStepperResetElement",
+    "classification": "passive"
+  },
+  "m3e-switch": {
+    "package": "@m3e/switch",
+    "className": "M3eSwitchElement",
+    "classification": "property-driven"
+  },
+  "m3e-textarea-autosize": {
+    "package": "@m3e/textarea-autosize",
+    "className": "M3eTextareaAutosizeElement",
+    "classification": "passive"
+  },
+  "m3e-theme": {
+    "package": "@m3e/theme",
+    "className": "M3eThemeElement",
+    "classification": "passive"
+  },
+  "m3e-rich-tooltip-action": {
+    "package": "@m3e/tooltip",
+    "className": "M3eRichTooltipActionElement",
+    "classification": "passive"
+  },
+  "m3e-rich-tooltip": {
+    "package": "@m3e/tooltip",
+    "className": "M3eRichTooltipElement",
+    "classification": "passive"
+  },
+  "m3e-tooltip": {
+    "package": "@m3e/tooltip",
+    "className": "M3eTooltipElement",
+    "classification": "passive"
+  }
+}

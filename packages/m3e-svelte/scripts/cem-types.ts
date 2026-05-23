@@ -4,6 +4,8 @@ export interface CemAttribute {
   type?: { text?: string | null };
   default?: string | null;
   description?: string;
+  /** The class field this attribute reflects to (used for indexed-access types). */
+  fieldName?: string;
 }
 
 export interface CemSlot {
@@ -65,4 +67,6 @@ export interface LoadedElement {
   /** e.g. "M3eButtonElement" */
   className: string;
   declaration: CemClassDeclaration;
+  /** Type/value names the package re-exports from its entry. */
+  exportedNames: Set<string>;
 }

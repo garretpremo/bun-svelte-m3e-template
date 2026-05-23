@@ -12,7 +12,7 @@ describe("generate-one (passive)", () => {
     expect(out.classification).toBe("passive");
     expect(out.contents).toContain("@generated");
     expect(out.contents).toContain('if (browser) void import("@m3e/card");');
-    expect(out.contents).toContain("import type { M3eCardElement }");
+    expect(out.contents).toContain("import type { M3eCardElement");
     expect(out.contents).toContain("<m3e-card");
     expect(out.contents).toContain("bind:this={element}");
     expect(out.contents).toContain("interface Props");

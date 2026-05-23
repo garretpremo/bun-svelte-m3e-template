@@ -10,7 +10,9 @@
       "**/openapi.json",
       "packages/web/tests/e2e/generated/**",
       "packages/web/tests/e2e/config.json",
-      "packages/web/tests/e2e/session.json"
+      "packages/web/tests/e2e/session.json",
+      "packages/m3e-svelte/src/generated/**",
+      "packages/m3e-svelte/src/index.ts"
     ]
   },
   "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 100 },
