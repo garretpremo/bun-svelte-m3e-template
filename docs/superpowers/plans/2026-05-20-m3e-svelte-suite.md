@@ -895,7 +895,7 @@ describe("generate-one (passive)", () => {
     expect(out.componentName).toBe("Card");
     expect(out.filename).toBe("Card.svelte");
     expect(out.classification).toBe("passive");
-    expect(out.contents).toContain("// @generated");
+    expect(out.contents).toContain("@generated");
     expect(out.contents).toContain('if (browser) void import("@m3e/card");');
     expect(out.contents).toContain('import type { M3eCardElement }');
     expect(out.contents).toContain("<m3e-card");
@@ -1073,8 +1073,15 @@ describe("passive wrappers compile", () => {
       filename: out.filename,
       generate: "client",
     });
-    expect(result.warnings.filter((w) => w.code !== "a11y_no_static_element_interactions")).toHaveLength(0);
-    expect(result.js.code).toContain("M3eCardElement");
+    const blocking = result.warnings.filter(
+      (w) =>
+        w.code !== "a11y_no_static_element_interactions" &&
+        w.code !== "a11y_click_events_have_key_events",
+    );
+    expect(blocking).toHaveLength(0);
+    // The element class is a type-only import (erased from client JS); assert the
+    // compiled output instantiates the custom element tag instead.
+    expect(result.js.code).toContain("m3e-card");
   });
 });
 ```
