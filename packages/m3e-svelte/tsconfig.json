@@ -1,8 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "types": ["bun-types", "@testing-library/jest-dom"]
+    "types": ["bun", "@testing-library/jest-dom"]
   },
   "include": ["src/**/*.ts", "src/**/*.svelte", "scripts/**/*.ts", "tests/**/*.ts"]
 }
