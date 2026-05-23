@@ -1100,11 +1100,15 @@ git commit -m "feat(m3e-svelte): passive wrapper template + Card smoke"
 
 ## Phase 5 — Property-driven archetype
 
-### Task 10: Property-driven template (Dialog)
+> The `renderWrapper` engine (Task 9, `scripts/templates/wrapper.ts`) already
+> implements property-driven behavior via `WrapperOptions` (`managedAttrs` +
+> `syncFn: "syncProperty"`). This task only wires `generate-one.ts` to pass those
+> options for property-driven elements and adds a Dialog characterization test.
+
+### Task 10: Wire property-driven (Dialog)
 
 **Files:**
-- Create: `packages/m3e-svelte/scripts/templates/property-driven.ts`
-- Modify: `packages/m3e-svelte/scripts/generate-one.ts:1-20`
+- Modify: `packages/m3e-svelte/scripts/generate-one.ts`
 - Create: `packages/m3e-svelte/tests/generator/property-dialog.test.ts`
 
 - [ ] **Step 1: Write the test**
@@ -1117,211 +1121,80 @@ import { generateOne } from "../../scripts/generate-one";
 import { loadManifests } from "../../scripts/load-manifests";
 
 describe("property-driven Dialog", () => {
-  test("emits bindable open + syncProperty effect", () => {
-    const [dlg] = loadManifests(["@m3e/dialog"]).filter(
-      (e) => e.tag === "m3e-dialog",
-    );
+  test("emits bindable open + syncProperty effect, not an open attribute", () => {
+    const [dlg] = loadManifests(["@m3e/dialog"]).filter((e) => e.tag === "m3e-dialog");
     const out = generateOne(dlg!);
     expect(out.classification).toBe("property-driven");
     expect(out.contents).toContain("open = $bindable(false)");
-    expect(out.contents).toContain("syncProperty(element, \"open\", open)");
-    // `open` must NOT be rendered as an attribute on the tag.
+    expect(out.contents).toContain('syncProperty(element, "open", open)');
     expect(out.contents).not.toMatch(/<m3e-dialog[^>]*\sopen=/);
   });
   test("compiles", () => {
-    const [dlg] = loadManifests(["@m3e/dialog"]).filter(
-      (e) => e.tag === "m3e-dialog",
-    );
+    const [dlg] = loadManifests(["@m3e/dialog"]).filter((e) => e.tag === "m3e-dialog");
     const out = generateOne(dlg!);
-    const result = compile(out.contents, {
-      filename: out.filename,
-      generate: "client",
-    });
+    const result = compile(out.contents, { filename: out.filename, generate: "client" });
     expect(result.js.code).toContain("syncProperty");
   });
 });
 ```
 
-- [ ] **Step 2: Implement `templates/property-driven.ts`**
+- [ ] **Step 2: Wire `generate-one.ts`**
+
+Property-driven elements pass the present state attributes (`open`/`expanded`/
+`checked`) as `managedAttrs` with `syncFn: "syncProperty"`:
 
 ```ts
-// packages/m3e-svelte/scripts/templates/property-driven.ts
-import type { LoadedElement } from "../cem-types";
-import { componentName, kebabToCamel, slotPropName } from "../naming";
-import { extractIdentifiers, renderAttrType } from "../render-types";
-import type { RenderedFile } from "./passive";
+import type { CemAttribute, LoadedElement } from "./cem-types";
+import { classify } from "./classify";
+import { type RenderedFile, renderWrapper } from "./templates/wrapper";
+
+export type { RenderedFile };
 
 const STATE_ATTRS = new Set(["open", "expanded", "checked"]);
 
-export function renderPropertyDriven(el: LoadedElement): RenderedFile {
-  const { pkg, tag, className, declaration: d } = el;
-  const attrs = d.attributes ?? [];
-  const slots = d.slots ?? [];
-  const events = d.events ?? [];
-
-  const stateAttrs = attrs.filter((a) => STATE_ATTRS.has(a.name));
-  const passiveAttrs = attrs.filter((a) => !STATE_ATTRS.has(a.name));
-
-  const attrCamelNames = new Set(attrs.map((a) => kebabToCamel(a.name)));
-  const slotNames = slots.map((s) => slotPropName(s.name, attrCamelNames));
-
-  const extraIdents = new Set<string>();
-  for (const a of attrs) {
-    for (const id of extractIdentifiers(a.type?.text)) extraIdents.add(id);
-  }
-
-  const propLines: string[] = [];
-  for (const a of attrs) {
-    const camel = kebabToCamel(a.name);
-    const ty = renderAttrType(a.type?.text);
-    if (a.description) propLines.push(`  /** ${a.description} */`);
-    propLines.push(`  ${camel}?: ${ty};`);
-  }
-  for (let i = 0; i < slots.length; i++) {
-    const s = slots[i]!;
-    const name = slotNames[i]!;
-    if (s.description) propLines.push(`  /** ${s.description} */`);
-    propLines.push(`  ${name}?: Snippet;`);
-  }
-  for (const e of events) {
-    const handler = `on${e.name}`;
-    const ty = e.type?.text ?? "Event";
-    propLines.push(`  ${handler}?: (e: ${ty}) => void;`);
-  }
-  propLines.push(`  element?: ${className};`);
-
-  const destructParts: string[] = [];
-  for (const a of passiveAttrs) destructParts.push(kebabToCamel(a.name));
-  for (const a of stateAttrs) {
-    const camel = kebabToCamel(a.name);
-    destructParts.push(`${camel} = $bindable(false)`);
-  }
-  destructParts.push(...slotNames);
-  destructParts.push(...events.map((e) => `on${e.name}`));
-  destructParts.push("element = $bindable()");
-
-  const elementAttrs: string[] = [];
-  for (const a of passiveAttrs) {
-    const camel = kebabToCamel(a.name);
-    const ty = renderAttrType(a.type?.text);
-    if (ty === "boolean") {
-      elementAttrs.push(`${a.name}={${camel} || undefined}`);
-    } else if (a.name === camel) {
-      elementAttrs.push(`{${camel}}`);
-    } else {
-      elementAttrs.push(`${a.name}={${camel}}`);
-    }
-  }
-  for (const e of events) elementAttrs.push(`on${e.name}={on${e.name}}`);
-
-  const effects = stateAttrs
-    .map((a) => {
-      const camel = kebabToCamel(a.name);
-      return `  $effect(() => syncProperty(element, "${a.name}", ${camel}));`;
-    })
-    .join("\n");
-
-  const slotBody = slots
-    .map((s, i) =>
-      s.name === ""
-        ? ""
-        : `  {#if ${slotNames[i]}}<div slot="${s.name}" style="display:contents">{@render ${slotNames[i]}()}</div>{/if}`,
-    )
-    .filter(Boolean)
-    .join("\n");
-  const defaultSlot = slots.some((s) => s.name === "")
-    ? "  {@render children?.()}"
-    : "";
-
-  const importLines: string[] = [
-    `  import type { Snippet } from "svelte";`,
-    `  import { browser } from "../runtime/env";`,
-    `  import { syncProperty } from "../runtime/upgrade";`,
-    `  if (browser) void import("${pkg}");`,
-    `  import type { ${className} } from "${pkg}";`,
-  ];
-  if (extraIdents.size > 0) {
-    importLines.push(
-      `  import type { ${[...extraIdents].join(", ")} } from "${pkg}";`,
-    );
-  }
-
-  const contents = `<!-- @generated by scripts/generate.ts — do not edit -->
-<script lang="ts">
-${importLines.join("\n")}
-
-  interface Props {
-${propLines.join("\n")}
-  }
-
-  let { ${destructParts.join(", ")} }: Props = $props();
-
-${effects}
-</script>
-
-<${tag}
-  bind:this={element}
-  ${elementAttrs.join("\n  ")}
->
-${[slotBody, defaultSlot].filter(Boolean).join("\n")}
-</${tag}>
-`;
-
-  return {
-    componentName: componentName(tag),
-    filename: `${componentName(tag)}.svelte`,
-    classification: "property-driven",
-    contents,
-  };
+function managedNames(attrs: CemAttribute[], allowed: Set<string>): string[] {
+  return attrs.filter((a) => allowed.has(a.name)).map((a) => a.name);
 }
-```
-
-- [ ] **Step 3: Wire into `generate-one.ts`**
-
-Replace the entire file:
-
-```ts
-// packages/m3e-svelte/scripts/generate-one.ts
-import type { LoadedElement } from "./cem-types";
-import { classify } from "./classify";
-import { renderPassive, type RenderedFile } from "./templates/passive";
-import { renderPropertyDriven } from "./templates/property-driven";
 
 export function generateOne(el: LoadedElement): RenderedFile {
-  const c = classify(el.tag, el.declaration.attributes ?? []);
+  const attrs = el.declaration.attributes ?? [];
+  const c = classify(el.tag, attrs);
   switch (c) {
     case "passive":
-      return renderPassive(el);
+      return renderWrapper(el);
     case "property-driven":
-      return renderPropertyDriven(el);
+      return renderWrapper(el, {
+        classification: c,
+        managedAttrs: managedNames(attrs, STATE_ATTRS),
+        syncFn: "syncProperty",
+      });
     case "selection-managed":
-      // Implemented in next phase; fall back to property-driven.
-      return { ...renderPropertyDriven(el), classification: c };
+      // Wired in Task 11; render passively for now.
+      return renderWrapper(el, { classification: c });
   }
 }
 ```
 
-- [ ] **Step 4: Run the test**
+- [ ] **Step 3: Run the full suite and commit**
 
-Run: `cd packages/m3e-svelte && bun run test tests/generator/property-dialog.test.ts`
-Expected: PASS.
-
-- [ ] **Step 5: Commit**
+Run: `cd packages/m3e-svelte && bun run test`
+Expected: PASS (Dialog test included).
 
 ```bash
-git add packages/m3e-svelte/scripts/templates/property-driven.ts packages/m3e-svelte/scripts/generate-one.ts packages/m3e-svelte/tests/generator/property-dialog.test.ts
-git commit -m "feat(m3e-svelte): property-driven template"
+git add packages/m3e-svelte/scripts/generate-one.ts packages/m3e-svelte/tests/generator/property-dialog.test.ts
+git commit -m "feat(m3e-svelte): wire property-driven archetype"
 ```
-
----
 
 ## Phase 6 — Selection-managed archetype
 
-### Task 11: Selection-managed template (Select)
+> The engine already implements selection-managed behavior (`syncManagedProperty`
+> + the `dropNullChange` wrapper). This task wires `generate-one.ts` for
+> selection-managed elements and adds a Select characterization test.
+
+### Task 11: Wire selection-managed (Select)
 
 **Files:**
-- Create: `packages/m3e-svelte/scripts/templates/selection-managed.ts`
-- Modify: `packages/m3e-svelte/scripts/generate-one.ts:1-20`
+- Modify: `packages/m3e-svelte/scripts/generate-one.ts`
 - Create: `packages/m3e-svelte/tests/generator/selection-select.test.ts`
 
 - [ ] **Step 1: Write the test**
@@ -1334,237 +1207,56 @@ import { generateOne } from "../../scripts/generate-one";
 import { loadManifests } from "../../scripts/load-manifests";
 
 describe("selection-managed Select", () => {
-  test("uses syncManagedProperty for value", () => {
-    const [sel] = loadManifests(["@m3e/select"]).filter(
-      (e) => e.tag === "m3e-select",
-    );
+  test("uses syncManagedProperty for value + dropNullChange", () => {
+    const [sel] = loadManifests(["@m3e/select"]).filter((e) => e.tag === "m3e-select");
     const out = generateOne(sel!);
     expect(out.classification).toBe("selection-managed");
     expect(out.contents).toContain("value = $bindable");
-    expect(out.contents).toContain(
-      'syncManagedProperty(element, "value", value)',
-    );
+    expect(out.contents).toContain('syncManagedProperty(element, "value", value)');
     expect(out.contents).toContain("dropNullChange");
   });
   test("compiles", () => {
-    const [sel] = loadManifests(["@m3e/select"]).filter(
-      (e) => e.tag === "m3e-select",
-    );
+    const [sel] = loadManifests(["@m3e/select"]).filter((e) => e.tag === "m3e-select");
     const out = generateOne(sel!);
-    const result = compile(out.contents, {
-      filename: out.filename,
-      generate: "client",
-    });
+    const result = compile(out.contents, { filename: out.filename, generate: "client" });
     expect(result.js.code).toContain("syncManagedProperty");
   });
   test("RadioGroup also classified selection-managed", () => {
-    const [rg] = loadManifests(["@m3e/radio-group"]).filter(
-      (e) => e.tag === "m3e-radio-group",
-    );
-    const out = generateOne(rg!);
-    expect(out.classification).toBe("selection-managed");
+    const [rg] = loadManifests(["@m3e/radio-group"]).filter((e) => e.tag === "m3e-radio-group");
+    expect(generateOne(rg!).classification).toBe("selection-managed");
   });
 });
 ```
 
-- [ ] **Step 2: Implement `templates/selection-managed.ts`**
+- [ ] **Step 2: Wire `generate-one.ts`**
+
+Add the managed-attribute set and the selection-managed branch (which also
+enables `dropNullChange` so spurious null change/input reads are ignored):
 
 ```ts
-// packages/m3e-svelte/scripts/templates/selection-managed.ts
-import type { LoadedElement } from "../cem-types";
-import { componentName, kebabToCamel, slotPropName } from "../naming";
-import { extractIdentifiers, renderAttrType } from "../render-types";
-import type { RenderedFile } from "./passive";
-
-const MANAGED_ATTRS = new Set([
-  "value",
-  "selected",
-  "open",
-  "expanded",
-  "checked",
-]);
-
-export function renderSelectionManaged(el: LoadedElement): RenderedFile {
-  const { pkg, tag, className, declaration: d } = el;
-  const attrs = d.attributes ?? [];
-  const slots = d.slots ?? [];
-  const events = d.events ?? [];
-
-  const managedAttrs = attrs.filter((a) => MANAGED_ATTRS.has(a.name));
-  const passiveAttrs = attrs.filter((a) => !MANAGED_ATTRS.has(a.name));
-
-  const attrCamelNames = new Set(attrs.map((a) => kebabToCamel(a.name)));
-  const slotNames = slots.map((s) => slotPropName(s.name, attrCamelNames));
-
-  const extraIdents = new Set<string>();
-  for (const a of attrs) {
-    for (const id of extractIdentifiers(a.type?.text)) extraIdents.add(id);
-  }
-
-  const propLines: string[] = [];
-  for (const a of attrs) {
-    const camel = kebabToCamel(a.name);
-    const ty = renderAttrType(a.type?.text);
-    if (a.description) propLines.push(`  /** ${a.description} */`);
-    propLines.push(`  ${camel}?: ${ty};`);
-  }
-  for (let i = 0; i < slots.length; i++) {
-    const s = slots[i]!;
-    const name = slotNames[i]!;
-    if (s.description) propLines.push(`  /** ${s.description} */`);
-    propLines.push(`  ${name}?: Snippet;`);
-  }
-  for (const e of events) {
-    const handler = `on${e.name}`;
-    const ty = e.type?.text ?? "Event";
-    propLines.push(`  ${handler}?: (e: ${ty}) => void;`);
-  }
-  propLines.push(`  element?: ${className};`);
-
-  const destructParts: string[] = [];
-  for (const a of passiveAttrs) destructParts.push(kebabToCamel(a.name));
-  for (const a of managedAttrs) {
-    const camel = kebabToCamel(a.name);
-    const renderedTy = renderAttrType(a.type?.text);
-    const fallback = renderedTy === "boolean" ? "false" : "undefined";
-    destructParts.push(`${camel} = $bindable(${fallback})`);
-  }
-  destructParts.push(...slotNames);
-  destructParts.push(...events.map((e) => `on${e.name}`));
-  destructParts.push("element = $bindable()");
-
-  const elementAttrs: string[] = [];
-  for (const a of passiveAttrs) {
-    const camel = kebabToCamel(a.name);
-    const ty = renderAttrType(a.type?.text);
-    if (ty === "boolean") {
-      elementAttrs.push(`${a.name}={${camel} || undefined}`);
-    } else if (a.name === camel) {
-      elementAttrs.push(`{${camel}}`);
-    } else {
-      elementAttrs.push(`${a.name}={${camel}}`);
-    }
-  }
-
-  // Wrap onchange / oninput to drop null reads emitted between deselect+reselect.
-  for (const e of events) {
-    const handler = `on${e.name}`;
-    if (e.name === "change" || e.name === "input") {
-      elementAttrs.push(`${handler}={dropNullChange(${handler})}`);
-    } else {
-      elementAttrs.push(`${handler}={${handler}}`);
-    }
-  }
-
-  const effects = managedAttrs
-    .map((a) => {
-      const camel = kebabToCamel(a.name);
-      return `  $effect(() => syncManagedProperty(element, "${a.name}", ${camel}));`;
-    })
-    .join("\n");
-
-  const slotBody = slots
-    .map((s, i) =>
-      s.name === ""
-        ? ""
-        : `  {#if ${slotNames[i]}}<div slot="${s.name}" style="display:contents">{@render ${slotNames[i]}()}</div>{/if}`,
-    )
-    .filter(Boolean)
-    .join("\n");
-  const defaultSlot = slots.some((s) => s.name === "")
-    ? "  {@render children?.()}"
-    : "";
-
-  const importLines: string[] = [
-    `  import type { Snippet } from "svelte";`,
-    `  import { browser } from "../runtime/env";`,
-    `  import { syncManagedProperty } from "../runtime/upgrade";`,
-    `  if (browser) void import("${pkg}");`,
-    `  import type { ${className} } from "${pkg}";`,
-  ];
-  if (extraIdents.size > 0) {
-    importLines.push(
-      `  import type { ${[...extraIdents].join(", ")} } from "${pkg}";`,
-    );
-  }
-
-  const contents = `<!-- @generated by scripts/generate.ts — do not edit -->
-<script lang="ts">
-${importLines.join("\n")}
-
-  interface Props {
-${propLines.join("\n")}
-  }
-
-  let { ${destructParts.join(", ")} }: Props = $props();
-
-  function dropNullChange(handler?: (e: Event) => void) {
-    if (!handler) return undefined;
-    return (e: Event) => {
-      const v = (e.target as { value?: unknown } | null)?.value;
-      if (v == null) return;
-      handler(e);
-    };
-  }
-
-${effects}
-</script>
-
-<${tag}
-  bind:this={element}
-  ${elementAttrs.join("\n  ")}
->
-${[slotBody, defaultSlot].filter(Boolean).join("\n")}
-</${tag}>
-`;
-
-  return {
-    componentName: componentName(tag),
-    filename: `${componentName(tag)}.svelte`,
-    classification: "selection-managed",
-    contents,
-  };
-}
+const MANAGED_ATTRS = new Set(["value", "selected", "open", "checked", "expanded"]);
 ```
 
-- [ ] **Step 3: Wire into `generate-one.ts`**
-
-Replace the file:
-
 ```ts
-// packages/m3e-svelte/scripts/generate-one.ts
-import type { LoadedElement } from "./cem-types";
-import { classify } from "./classify";
-import { renderPassive, type RenderedFile } from "./templates/passive";
-import { renderPropertyDriven } from "./templates/property-driven";
-import { renderSelectionManaged } from "./templates/selection-managed";
-
-export function generateOne(el: LoadedElement): RenderedFile {
-  const c = classify(el.tag, el.declaration.attributes ?? []);
-  switch (c) {
-    case "passive":
-      return renderPassive(el);
-    case "property-driven":
-      return renderPropertyDriven(el);
     case "selection-managed":
-      return renderSelectionManaged(el);
-  }
-}
+      return renderWrapper(el, {
+        classification: c,
+        managedAttrs: managedNames(attrs, MANAGED_ATTRS),
+        syncFn: "syncManagedProperty",
+        dropNullChange: true,
+      });
 ```
 
-- [ ] **Step 4: Run the test**
+- [ ] **Step 3: Run the full suite and commit**
 
-Run: `cd packages/m3e-svelte && bun run test tests/generator/selection-select.test.ts`
-Expected: PASS.
-
-- [ ] **Step 5: Commit**
+Run: `cd packages/m3e-svelte && bun run test`
+Expected: PASS (Select + RadioGroup tests included).
 
 ```bash
-git add packages/m3e-svelte/scripts/templates/selection-managed.ts packages/m3e-svelte/scripts/generate-one.ts packages/m3e-svelte/tests/generator/selection-select.test.ts
-git commit -m "feat(m3e-svelte): selection-managed template"
+git add packages/m3e-svelte/scripts/generate-one.ts packages/m3e-svelte/tests/generator/selection-select.test.ts
+git commit -m "feat(m3e-svelte): wire selection-managed archetype"
 ```
 
----
 
 ## Phase 7 — Whole-suite generation
 
