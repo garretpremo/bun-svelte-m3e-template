@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "check:chrome": "bun run scripts/check-chrome-chunk.ts",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "typecheck": "svelte-kit sync && tsc --noEmit -p tsconfig.tsc.json",
