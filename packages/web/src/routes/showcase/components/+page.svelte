@@ -1,13 +1,7 @@
 <script lang="ts">
-import Button from "$lib/m3e/Button.svelte";
-import Card from "$lib/m3e/Card.svelte";
-import Checkbox from "$lib/m3e/Checkbox.svelte";
-import Chip from "$lib/m3e/Chip.svelte";
-import ChipSet from "$lib/m3e/ChipSet.svelte";
 import Dialog from "$lib/m3e/Dialog.svelte";
-import Fab from "$lib/m3e/Fab.svelte";
 import Snackbar from "$lib/m3e/Snackbar.svelte";
-import Switch from "$lib/m3e/Switch.svelte";
+import { Button, Card, Checkbox, Chip, ChipSet, Fab, Switch } from "@app/m3e-svelte";
 
 // `$state` runes need `let` — Svelte rebinds via template event handlers.
 // Biome's useConst auto-fix is wrong for runes; never run --unsafe here.
@@ -33,12 +27,14 @@ let active = $state("alpha");
 
   <h3>Card + Chips</h3>
   <Card variant="outlined">
-    <p>Filter:</p>
-    <ChipSet>
-      {#each filters as f}
-        <Chip selected={active === f} onclick={() => (active = f)}>{f}</Chip>
-      {/each}
-    </ChipSet>
+    {#snippet content()}
+      <p>Filter:</p>
+      <ChipSet>
+        {#each filters as f}
+          <Chip selected={active === f} onclick={() => (active = f)}>{f}</Chip>
+        {/each}
+      </ChipSet>
+    {/snippet}
   </Card>
 
   <h3>Dialog & Snackbar</h3>
@@ -59,7 +55,10 @@ let active = $state("alpha");
   <div style="display:flex; gap: var(--space-lg); align-items:center;">
     <Switch bind:checked={switchOn} />
     <span>Switch is {switchOn ? "on" : "off"}</span>
-    <Checkbox bind:checked={checked} label="I agree" />
+    <label style="display:inline-flex; align-items:center; gap:0.5rem;">
+      <Checkbox bind:checked={checked} />
+      I agree
+    </label>
   </div>
 
   <h3>FAB</h3>

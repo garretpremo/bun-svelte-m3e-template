@@ -1,8 +1,8 @@
 <script lang="ts">
 import { base } from "$app/paths";
-import Button from "$lib/m3e/Button.svelte";
 import Shape from "$lib/m3e/Shape.svelte";
 import { navItems } from "$lib/nav-items";
+import { Button } from "@app/m3e-svelte";
 
 const shapes = ["circle", "soft-burst", "puffy", "8-leaf-clover", "sunny", "heart"];
 let i = $state(0);
@@ -25,7 +25,7 @@ const destinations = navItems.filter((n) => n.href !== "/");
     {#each destinations as d (d.href)}
       <Button variant="tonal" size="large" href={`${base}${d.href}`}>
         {#snippet icon()}
-          <m3e-icon slot="icon" name={d.icon}></m3e-icon>
+          <m3e-icon name={d.icon}></m3e-icon>
         {/snippet}
         {d.label}
       </Button>

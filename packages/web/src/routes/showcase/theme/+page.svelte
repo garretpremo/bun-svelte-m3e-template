@@ -1,7 +1,4 @@
 <script lang="ts">
-import Button from "$lib/m3e/Button.svelte";
-import Card from "$lib/m3e/Card.svelte";
-import Chip from "$lib/m3e/Chip.svelte";
 import Shape from "$lib/m3e/Shape.svelte";
 import {
   PRESETS,
@@ -11,6 +8,7 @@ import {
   setScheme,
   themeState,
 } from "$lib/stores/theme.svelte";
+import { Button, Card, Chip } from "@app/m3e-svelte";
 
 const SCHEMES: { value: ThemeScheme; label: string }[] = [
   { value: "light", label: "Light" },
@@ -113,7 +111,9 @@ const ACCENT_CONTAINERS = [
       {#snippet header()}
         <strong>Elevated card</strong>
       {/snippet}
-      Cards inherit the active palette via M3 surface tokens.
+      {#snippet content()}
+        Cards inherit the active palette via M3 surface tokens.
+      {/snippet}
       {#snippet footer()}
         <Button variant="text">Cancel</Button>
         <Button variant="filled">Confirm</Button>
@@ -124,11 +124,13 @@ const ACCENT_CONTAINERS = [
       {#snippet header()}
         <strong>Filled card</strong>
       {/snippet}
-      <div class="chips">
-        <Chip>Default</Chip>
-        <Chip selected>Selected</Chip>
-        <Chip disabled>Disabled</Chip>
-      </div>
+      {#snippet content()}
+        <div class="chips">
+          <Chip>Default</Chip>
+          <Chip selected>Selected</Chip>
+          <Chip disabled>Disabled</Chip>
+        </div>
+      {/snippet}
       {#snippet footer()}
         <Button variant="tonal">Tonal</Button>
         <Button variant="outlined">Outlined</Button>
@@ -139,11 +141,13 @@ const ACCENT_CONTAINERS = [
       {#snippet header()}
         <strong>Shape on accent</strong>
       {/snippet}
-      <div class="shape-stage">
-        <Shape name="sunny" size="120px" color="var(--md-sys-color-primary)" />
-        <Shape name="heart" size="120px" color="var(--md-sys-color-tertiary)" />
-        <Shape name="gem" size="120px" color="var(--md-sys-color-secondary)" />
-      </div>
+      {#snippet content()}
+        <div class="shape-stage">
+          <Shape name="sunny" size="120px" color="var(--md-sys-color-primary)" />
+          <Shape name="heart" size="120px" color="var(--md-sys-color-tertiary)" />
+          <Shape name="gem" size="120px" color="var(--md-sys-color-secondary)" />
+        </div>
+      {/snippet}
     </Card>
   </div>
 </section>

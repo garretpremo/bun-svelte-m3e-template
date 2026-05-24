@@ -1,6 +1,6 @@
 <script lang="ts">
-import Button from "$lib/m3e/Button.svelte";
 import Shape from "$lib/m3e/Shape.svelte";
+import { Button } from "@app/m3e-svelte";
 
 const NAMES = [
   "circle",

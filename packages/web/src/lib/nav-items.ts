@@ -8,7 +8,5 @@ export const navItems: NavItem[] = [
   { href: "/showcase/shapes", label: "Shapes", icon: "category" },
   { href: "/showcase/morph", label: "Morph", icon: "animation" },
   { href: "/showcase/components", label: "Components", icon: "widgets" },
-  ...(STATIC_BUILD
-    ? []
-    : [{ href: "/showcase/notes", label: "Notes", icon: "edit_note" }]),
+  ...(STATIC_BUILD ? [] : [{ href: "/showcase/notes", label: "Notes", icon: "edit_note" }]),
 ];

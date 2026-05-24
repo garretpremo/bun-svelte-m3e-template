@@ -1,9 +1,8 @@
 <script lang="ts">
 import { api } from "$lib/api.svelte";
-import Button from "$lib/m3e/Button.svelte";
-import Card from "$lib/m3e/Card.svelte";
 import FormField from "$lib/m3e/FormField.svelte";
 import { ws } from "$lib/ws";
+import { Button, Card } from "@app/m3e-svelte";
 import { type Note, NoteCreate } from "@app/server/contract";
 import { onDestroy, onMount } from "svelte";
 
@@ -86,14 +85,16 @@ async function remove(id: string) {
     <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-md);">
       {#each notes as n (n.id)}
         <Card variant="outlined">
-          <h3 style="font-size: var(--font-size-lg);">{n.title}</h3>
-          <p>{n.body || "(no body)"}</p>
-          <small style="color: var(--md-sys-color-on-surface-variant);">
-            {new Date(n.createdAt).toLocaleString()}
-          </small>
-          <div style="margin-top: var(--space-md);">
-            <Button variant="text" onclick={() => remove(n.id)}>Delete</Button>
-          </div>
+          {#snippet content()}
+            <h3 style="font-size: var(--font-size-lg);">{n.title}</h3>
+            <p>{n.body || "(no body)"}</p>
+            <small style="color: var(--md-sys-color-on-surface-variant);">
+              {new Date(n.createdAt).toLocaleString()}
+            </small>
+            <div style="margin-top: var(--space-md);">
+              <Button variant="text" onclick={() => remove(n.id)}>Delete</Button>
+            </div>
+          {/snippet}
         </Card>
       {/each}
     </div>
