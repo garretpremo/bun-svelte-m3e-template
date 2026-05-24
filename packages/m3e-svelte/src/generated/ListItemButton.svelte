@@ -28,15 +28,18 @@
     trailing?: Snippet;
     onclick?: (e: MouseEvent) => void;
     element?: M3eListItemButtonElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { href, target, rel, download, disabled, children, leading, overline, supportingText, trailing, onclick, element = $bindable() }: Props = $props();
+  let { href, target, rel, download, disabled, children, leading, overline, supportingText, trailing, onclick, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <m3e-list-item-button
   bind:this={element}
+  {...rest}
   {href}
   {target}
   {rel}

@@ -12,13 +12,16 @@
     /** The level at which to visually depict elevation. */
     level?: ElevationLevel | null;
     element?: M3eElevationElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, for_, level, element = $bindable() }: Props = $props();
+  let { disabled, for_, level, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-elevation
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   for={for_}
   {level}

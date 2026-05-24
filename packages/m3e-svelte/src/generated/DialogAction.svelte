@@ -11,13 +11,16 @@
     /** Renders the content of the action. */
     children?: Snippet;
     element?: M3eDialogActionElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { returnValue, children, element = $bindable() }: Props = $props();
+  let { returnValue, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-dialog-action
   bind:this={element}
+  {...rest}
   return-value={returnValue}
 >
   {@render children?.()}

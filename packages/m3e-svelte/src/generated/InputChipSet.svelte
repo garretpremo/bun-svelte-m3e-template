@@ -22,29 +22,21 @@
     /** Emitted when a chip is added to, or removed from, the set. */
     onchange?: (e: Event) => void;
     element?: M3eInputChipSetElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, name, required, vertical, children, input, onchange, element = $bindable() }: Props = $props();
-
-  function dropNullChange<E extends Event>(
-    handler?: (e: E) => void,
-  ): ((e: E) => void) | undefined {
-    if (!handler) return undefined;
-    return (e: E) => {
-      const v = (e.target as { value?: unknown } | null)?.value;
-      if (v == null) return;
-      handler(e);
-    };
-  }
+  let { disabled, name, required, vertical, children, input, onchange, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-input-chip-set
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   {name}
   required={required || undefined}
   vertical={vertical || undefined}
-  onchange={dropNullChange(onchange)}
+  onchange={onchange}
 >
   {#if input}<div slot="input" style="display:contents">{@render input()}</div>{/if}
   {@render children?.()}

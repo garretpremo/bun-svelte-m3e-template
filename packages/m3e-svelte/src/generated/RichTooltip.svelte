@@ -29,13 +29,16 @@
     /** Dispatched after the toggle state has changed. */
     ontoggle?: (e: Event) => void;
     element?: M3eRichTooltipElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, for_, hideDelay, position, showDelay, touchGestures, children, subhead, actions, onbeforetoggle, ontoggle, element = $bindable() }: Props = $props();
+  let { disabled, for_, hideDelay, position, showDelay, touchGestures, children, subhead, actions, onbeforetoggle, ontoggle, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-rich-tooltip
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   for={for_}
   hide-delay={hideDelay}

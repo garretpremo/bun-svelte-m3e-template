@@ -17,13 +17,16 @@
     /** Emitted when content is highlighted. */
     onhighlight?: (e: CustomEvent) => void;
     element?: M3eTextHighlightElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { caseSensitive, disabled, term, children, onhighlight, element = $bindable() }: Props = $props();
+  let { caseSensitive, disabled, term, children, onhighlight, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-text-highlight
   bind:this={element}
+  {...rest}
   case-sensitive={caseSensitive || undefined}
   disabled={disabled || undefined}
   {term}

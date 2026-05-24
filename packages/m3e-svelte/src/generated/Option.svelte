@@ -15,13 +15,16 @@
     /** Renders the label of the option. */
     children?: Snippet;
     element?: M3eOptionElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, selected, value, children, element = $bindable() }: Props = $props();
+  let { disabled, selected, value, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-option
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   selected={selected || undefined}
   {value}

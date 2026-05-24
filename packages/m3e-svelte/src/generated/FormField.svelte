@@ -29,13 +29,16 @@
     /** Renders error text in the fields's subscript, when the control is invalid. */
     error?: Snippet;
     element?: M3eFormFieldElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { floatLabel, hideRequiredMarker, hideSubscript, variant, children, prefix, prefixText, suffix, suffixText, hint, error, element = $bindable() }: Props = $props();
+  let { floatLabel, hideRequiredMarker, hideSubscript, variant, children, prefix, prefixText, suffix, suffixText, hint, error, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-form-field
   bind:this={element}
+  {...rest}
   float-label={floatLabel}
   hide-required-marker={hideRequiredMarker || undefined}
   hide-subscript={hideSubscript}

@@ -13,13 +13,16 @@
     /** Dispatched after the toggle state has changed. */
     ontoggle?: (e: Event) => void;
     element?: M3eOptionPanelElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { children, onbeforetoggle, ontoggle, element = $bindable() }: Props = $props();
+  let { children, onbeforetoggle, ontoggle, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-option-panel
   bind:this={element}
+  {...rest}
   onbeforetoggle={onbeforetoggle}
   ontoggle={ontoggle}
 >

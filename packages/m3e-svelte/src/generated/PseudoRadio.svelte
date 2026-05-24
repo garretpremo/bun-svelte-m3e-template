@@ -11,9 +11,11 @@
     /** A value indicating whether the element is checked. */
     checked?: boolean;
     element?: M3ePseudoRadioElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, checked = $bindable(false), element = $bindable() }: Props = $props();
+  let { disabled, checked = $bindable(false), element = $bindable(), ...rest }: Props = $props();
 
   $effect(() => {
     if (checked !== undefined) syncProperty(element, "checked", checked);
@@ -22,6 +24,7 @@
 
 <m3e-pseudo-radio
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
 >
 

@@ -8,13 +8,16 @@
     /** The zero-based index of the visible item. */
     selectedIndex?: number | null;
     element?: M3eSlideElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { selectedIndex, element = $bindable() }: Props = $props();
+  let { selectedIndex, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-slide
   bind:this={element}
+  {...rest}
   selected-index={selectedIndex}
 >
 

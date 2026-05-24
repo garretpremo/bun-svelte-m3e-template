@@ -11,13 +11,16 @@
     /** Renders the actions bar of the panel. */
     actions?: Snippet;
     element?: M3eStepPanelElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { children, actions, element = $bindable() }: Props = $props();
+  let { children, actions, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-step-panel
   bind:this={element}
+  {...rest}
 >
   {#if actions}<div slot="actions-" style="display:contents">{@render actions()}</div>{/if}
   {@render children?.()}

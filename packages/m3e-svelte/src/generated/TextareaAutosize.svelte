@@ -14,13 +14,16 @@
     /** The minimum amount of rows in the `textarea`. */
     minRows?: number;
     element?: M3eTextareaAutosizeElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, for_, maxRows, minRows, element = $bindable() }: Props = $props();
+  let { disabled, for_, maxRows, minRows, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-textarea-autosize
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   for={for_}
   max-rows={maxRows}

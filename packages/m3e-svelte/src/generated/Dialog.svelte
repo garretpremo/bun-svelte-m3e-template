@@ -38,9 +38,11 @@
     /** Emitted when the dialog is cancelled. */
     oncancel?: (e: Event) => void;
     element?: M3eDialogElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { alert, closeLabel, disableClose, dismissible, noFocusTrap, open = $bindable(false), children, header, actions, closeIcon, onopening, onopened, onclosing, onclosed, oncancel, element = $bindable() }: Props = $props();
+  let { alert, closeLabel, disableClose, dismissible, noFocusTrap, open = $bindable(false), children, header, actions, closeIcon, onopening, onopened, onclosing, onclosed, oncancel, element = $bindable(), ...rest }: Props = $props();
 
   $effect(() => {
     if (open !== undefined) syncProperty(element, "open", open);
@@ -49,6 +51,7 @@
 
 <m3e-dialog
   bind:this={element}
+  {...rest}
   alert={alert || undefined}
   close-label={closeLabel}
   disable-close={disableClose || undefined}

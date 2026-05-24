@@ -29,32 +29,24 @@
     /** Emitted when the selected state changes. */
     oninput?: (e: Event) => void;
     element?: M3eSelectElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, hideSelectionIndicator, multi, name, required, children, arrow, value, onchange, ontoggle, oninput, element = $bindable() }: Props = $props();
-
-  function dropNullChange<E extends Event>(
-    handler?: (e: E) => void,
-  ): ((e: E) => void) | undefined {
-    if (!handler) return undefined;
-    return (e: E) => {
-      const v = (e.target as { value?: unknown } | null)?.value;
-      if (v == null) return;
-      handler(e);
-    };
-  }
+  let { disabled, hideSelectionIndicator, multi, name, required, children, arrow, value, onchange, ontoggle, oninput, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-select
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   hide-selection-indicator={hideSelectionIndicator || undefined}
   multi={multi || undefined}
   {name}
   required={required || undefined}
-  onchange={dropNullChange(onchange)}
+  onchange={onchange}
   ontoggle={ontoggle}
-  oninput={dropNullChange(oninput)}
+  oninput={oninput}
 >
   {#if arrow}<div slot="arrow" style="display:contents">{@render arrow()}</div>{/if}
   {#if value}<div slot="value" style="display:contents">{@render value()}</div>{/if}

@@ -24,27 +24,35 @@ export interface WrapperOptions {
   managed?: ManagedProp[];
   /** Runtime sync helper used in the `$effect` for each managed prop. */
   syncFn?: "syncProperty" | "syncManagedProperty";
-  /** Wrap change/input handlers to drop spurious null reads (selection managers). */
+  /** Skip null reads when syncing managed props back from the element. */
   dropNullChange?: boolean;
 }
 
 /**
- * Render a Svelte 5 wrapper for one custom element. The passive archetype passes
- * no managed props; property-driven and selection-managed supply `managed` + a
- * `syncFn` (and `dropNullChange` for selection managers).
+ * Render a Svelte 5 wrapper for one custom element.
+ *
+ * - Passive: plain pass-through.
+ * - Property-driven / selection-managed: `managed` props are bound, pushed to the
+ *   element via `syncFn` after upgrade, and read back from change/input events so
+ *   `bind:` is two-way. `dropNullChange` skips the null flicker a SelectionManager
+ *   emits between deselect and reselect.
+ *
+ * Every wrapper spreads `...rest` onto the element so class, style, id, and
+ * aria/data attributes pass straight through.
  */
 export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): RenderedFile {
   const { pkg, tag, className, declaration: d, exportedNames } = el;
   const classification = opts.classification ?? "passive";
-  // Some element classes aren't re-exported under their CEM name; fall back to
-  // HTMLElement for the `element` bindable type rather than import a missing name.
-  const classExported = exportedNames.has(className);
-  const elementType = classExported ? className : "HTMLElement";
   const managed = opts.managed ?? [];
   const managedSet = new Set(managed.map((m) => m.name));
   const attrs = d.attributes ?? [];
   const slots = d.slots ?? [];
   const events = (d.events ?? []).filter((e) => !!e.name);
+
+  // Some element classes aren't re-exported under their CEM name; fall back to
+  // HTMLElement for the `element` bindable type rather than import a missing name.
+  const classExported = exportedNames.has(className);
+  const elementType = classExported ? className : "HTMLElement";
 
   // Managed names never render as attributes (they're driven as properties).
   const plainAttrs = attrs.filter((a) => !managedSet.has(a.name));
@@ -74,32 +82,27 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
   // --- Props interface ---
   const propLines: string[] = [];
   for (const a of plainAttrs) {
-    if (a.description) {
-      propLines.push(`    /** ${cleanDescription(a.description)} */`);
-    }
+    if (a.description) propLines.push(`    /** ${cleanDescription(a.description)} */`);
     propLines.push(`    ${propNameOf(a.name)}?: ${attrType(a)};`);
   }
   for (const m of managed) {
-    if (m.description) {
-      propLines.push(`    /** ${cleanDescription(m.description)} */`);
-    }
+    if (m.description) propLines.push(`    /** ${cleanDescription(m.description)} */`);
     propLines.push(`    ${propNameOf(m.name)}?: ${m.type};`);
   }
   for (let i = 0; i < slots.length; i++) {
     const s = slots[i]!;
-    if (s.description) {
-      propLines.push(`    /** ${cleanDescription(s.description)} */`);
-    }
+    if (s.description) propLines.push(`    /** ${cleanDescription(s.description)} */`);
     propLines.push(`    ${slotNames[i]!}?: Snippet;`);
   }
   for (const e of events) {
     const ty = e.type?.text ?? "Event";
-    if (e.description) {
-      propLines.push(`    /** ${cleanDescription(e.description)} */`);
-    }
+    if (e.description) propLines.push(`    /** ${cleanDescription(e.description)} */`);
     propLines.push(`    on${e.name}?: (e: ${ty}) => void;`);
   }
   propLines.push(`    element?: ${elementType};`);
+  // Forward class/style/id/aria-*/data-* and any other native attribute.
+  propLines.push("    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs");
+  propLines.push("    [key: string]: any;");
 
   // --- destructure ---
   const destructParts: string[] = [];
@@ -111,6 +114,19 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
   destructParts.push(...slotNames);
   destructParts.push(...events.map((e) => `on${e.name}`));
   destructParts.push("element = $bindable()");
+  destructParts.push("...rest");
+
+  // --- readback (element -> bindable) so `bind:` is two-way for form controls ---
+  const hasReadback =
+    managed.length > 0 && events.some((e) => e.name === "change" || e.name === "input");
+  const readbackLines = managed.map((m) => {
+    const p = propNameOf(m.name);
+    const read = `node["${m.name}"]`;
+    if (opts.dropNullChange) {
+      return `    { const next = ${read}; if (next != null) ${p} = next as ${m.type}; }`;
+    }
+    return `    ${p} = ${read} as ${m.type};`;
+  });
 
   // --- element attributes (managed props are NOT rendered as attributes) ---
   const elementAttrs: string[] = [];
@@ -126,8 +142,9 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
     }
   }
   for (const e of events) {
-    if (opts.dropNullChange && (e.name === "change" || e.name === "input")) {
-      elementAttrs.push(`on${e.name}={dropNullChange(on${e.name})}`);
+    const ty = e.type?.text ?? "Event";
+    if (hasReadback && (e.name === "change" || e.name === "input")) {
+      elementAttrs.push(`on${e.name}={(e: ${ty}) => { syncFromDom(); on${e.name}?.(e); }}`);
     } else {
       elementAttrs.push(`on${e.name}={on${e.name}}`);
     }
@@ -148,9 +165,7 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
   const importLines: string[] = [];
   if (slots.length > 0) importLines.push(`  import type { Snippet } from "svelte";`);
   importLines.push(`  import { browser } from "../runtime/env";`);
-  if (opts.syncFn) {
-    importLines.push(`  import { ${opts.syncFn} } from "../runtime/upgrade";`);
-  }
+  if (opts.syncFn) importLines.push(`  import { ${opts.syncFn} } from "../runtime/upgrade";`);
   importLines.push(`  if (browser) void import("${pkg}");`);
   const typeNames = [
     ...(classExported ? [className] : []),
@@ -161,24 +176,6 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
   }
 
   // --- script body ---
-  const hasNullableEvent = events.some((e) => e.name === "change" || e.name === "input");
-  const dropNullHelper =
-    opts.dropNullChange && hasNullableEvent
-      ? `
-  function dropNullChange<E extends Event>(
-    handler?: (e: E) => void,
-  ): ((e: E) => void) | undefined {
-    if (!handler) return undefined;
-    return (e: E) => {
-      const v = (e.target as { value?: unknown } | null)?.value;
-      if (v == null) return;
-      handler(e);
-    };
-  }`
-      : "";
-
-  // Only push the property when defined, so an unset bindable never clobbers the
-  // element's own default (e.g. a select's computed value).
   const effects = managed
     .map(
       (m) =>
@@ -186,11 +183,22 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
     )
     .join("\n");
 
+  const readbackFn = hasReadback
+    ? `
+  function syncFromDom() {
+    if (!element) return;
+    const node = element as unknown as Record<string, unknown>;
+${readbackLines.join("\n")}
+  }`
+    : "";
+
   const scriptBodyParts = [`  let { ${destructParts.join(", ")} }: Props = $props();`];
-  if (dropNullHelper) scriptBodyParts.push(dropNullHelper);
+  if (readbackFn) scriptBodyParts.push(readbackFn);
   if (effects) scriptBodyParts.push(`\n${effects}`);
 
-  const openTagLines = ["bind:this={element}", ...elementAttrs].map((s) => `  ${s}`).join("\n");
+  const openTagLines = ["bind:this={element}", "{...rest}", ...elementAttrs]
+    .map((s) => `  ${s}`)
+    .join("\n");
   const body = [slotBody, defaultSlot].filter(Boolean).join("\n");
 
   // Forwarding a click handler to a custom element trips two a11y rules that

@@ -12,13 +12,16 @@
     /** Renders the label of the group. */
     label?: Snippet;
     element?: M3eNavMenuItemGroupElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { children, label, element = $bindable() }: Props = $props();
+  let { children, label, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-nav-menu-item-group
   bind:this={element}
+  {...rest}
 >
   {#if label}<div slot="label" style="display:contents">{@render label()}</div>{/if}
   {@render children?.()}

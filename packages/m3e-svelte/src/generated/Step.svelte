@@ -41,15 +41,18 @@
     /** Emitted when the element is clicked. */
     onclick?: (e: MouseEvent) => void;
     element?: M3eStepElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { completed, disabled, editable, for_, optional, selected, invalid, children, icon, doneIcon, editIcon, errorIcon, hint, error, oninput, onchange, onclick, element = $bindable() }: Props = $props();
+  let { completed, disabled, editable, for_, optional, selected, invalid, children, icon, doneIcon, editIcon, errorIcon, hint, error, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <m3e-step
   bind:this={element}
+  {...rest}
   completed={completed || undefined}
   disabled={disabled || undefined}
   editable={editable || undefined}

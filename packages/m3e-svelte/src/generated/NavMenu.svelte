@@ -10,13 +10,16 @@
     /** Renders the items of the menu. */
     children?: Snippet;
     element?: M3eNavMenuElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { children, element = $bindable() }: Props = $props();
+  let { children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-nav-menu
   bind:this={element}
+  {...rest}
 >
   {@render children?.()}
 </m3e-nav-menu>

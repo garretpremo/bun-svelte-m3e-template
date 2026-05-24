@@ -10,13 +10,16 @@
     /** Renders content for which to trap focus. */
     children?: Snippet;
     element?: HTMLElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, children, element = $bindable() }: Props = $props();
+  let { disabled, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-focus-trap
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
 >
   {@render children?.()}

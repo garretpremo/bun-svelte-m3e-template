@@ -33,15 +33,18 @@
     /** Emitted when the element is clicked. */
     onclick?: (e: Event) => void;
     element?: M3eInputChipElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, disabledInteractive, removable, removeLabel, value, variant, children, avatar, icon, removeIcon, trailingIcon, onremove, onclick, element = $bindable() }: Props = $props();
+  let { disabled, disabledInteractive, removable, removeLabel, value, variant, children, avatar, icon, removeIcon, trailingIcon, onremove, onclick, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <m3e-input-chip
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   disabled-interactive={disabledInteractive || undefined}
   removable={removable || undefined}

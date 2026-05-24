@@ -17,18 +17,17 @@ describe("selection-managed archetype", () => {
     expect(out.contents).toContain('syncManagedProperty(element, "selected", selected)');
   });
 
-  test("radio-group: readonly `value` field stays read-only; change is null-guarded", () => {
+  test("radio-group: readonly `value` field stays read-only (no bindable)", () => {
     const out = one("@m3e/radio-group", "m3e-radio-group");
     expect(out.classification).toBe("selection-managed");
     expect(out.contents).not.toContain("value = $bindable");
-    expect(out.contents).toContain("dropNullChange");
   });
 
-  test("select: readonly `value` is not a bindable, but change is null-guarded", () => {
+  test("select: readonly `value` is not a bindable; change is forwarded", () => {
     const out = one("@m3e/select", "m3e-select");
     expect(out.classification).toBe("selection-managed");
-    expect(out.contents).toContain("dropNullChange");
     expect(out.contents).not.toContain("value = $bindable");
+    expect(out.contents).toContain("onchange={onchange}");
   });
 
   test("Select compiles", () => {

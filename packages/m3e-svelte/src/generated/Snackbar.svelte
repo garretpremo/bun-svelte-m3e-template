@@ -23,13 +23,16 @@
     /** Dispatched after the toggle state has changed. */
     ontoggle?: (e: Event) => void;
     element?: M3eSnackbarElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { action, closeLabel, dismissible, duration, children, closeIcon, onbeforetoggle, ontoggle, element = $bindable() }: Props = $props();
+  let { action, closeLabel, dismissible, duration, children, closeIcon, onbeforetoggle, ontoggle, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-snackbar
   bind:this={element}
+  {...rest}
   {action}
   close-label={closeLabel}
   dismissible={dismissible || undefined}

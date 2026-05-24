@@ -20,9 +20,11 @@
     /** Emitted when the collapsible has closed. */
     onclosed?: (e: Event) => void;
     element?: M3eCollapsibleElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { open = $bindable(false), children, onopening, onopened, onclosing, onclosed, element = $bindable() }: Props = $props();
+  let { open = $bindable(false), children, onopening, onopened, onclosing, onclosed, element = $bindable(), ...rest }: Props = $props();
 
   $effect(() => {
     if (open !== undefined) syncProperty(element, "open", open);
@@ -31,6 +33,7 @@
 
 <m3e-collapsible
   bind:this={element}
+  {...rest}
   onopening={onopening}
   onopened={onopened}
   onclosing={onclosing}

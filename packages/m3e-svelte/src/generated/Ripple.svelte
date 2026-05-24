@@ -16,13 +16,16 @@
     /** Whether the ripple is visible outside the element's bounds. */
     unbounded?: boolean;
     element?: M3eRippleElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { centered, disabled, for_, radius, unbounded, element = $bindable() }: Props = $props();
+  let { centered, disabled, for_, radius, unbounded, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-ripple
   bind:this={element}
+  {...rest}
   centered={centered || undefined}
   disabled={disabled || undefined}
   for={for_}

@@ -23,9 +23,17 @@
     /** Emitted when the element is clicked. */
     onclick?: (e: MouseEvent) => void;
     element?: M3eSwitchElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, icons, name, value, checked = $bindable(false), oninput, onchange, onclick, element = $bindable() }: Props = $props();
+  let { disabled, icons, name, value, checked = $bindable(false), oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+
+  function syncFromDom() {
+    if (!element) return;
+    const node = element as unknown as Record<string, unknown>;
+    checked = node["checked"] as boolean;
+  }
 
   $effect(() => {
     if (checked !== undefined) syncProperty(element, "checked", checked);
@@ -36,12 +44,13 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <m3e-switch
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   {icons}
   {name}
   {value}
-  oninput={oninput}
-  onchange={onchange}
+  oninput={(e: Event) => { syncFromDom(); oninput?.(e); }}
+  onchange={(e: Event) => { syncFromDom(); onchange?.(e); }}
   onclick={onclick}
 >
 

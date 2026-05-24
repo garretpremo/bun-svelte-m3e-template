@@ -17,13 +17,16 @@
     /** Renders the trailing content of the list item. */
     trailing?: Snippet;
     element?: M3eListItemElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { children, leading, overline, supportingText, trailing, element = $bindable() }: Props = $props();
+  let { children, leading, overline, supportingText, trailing, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-list-item
   bind:this={element}
+  {...rest}
 >
   {#if leading}<div slot="leading" style="display:contents">{@render leading()}</div>{/if}
   {#if overline}<div slot="overline" style="display:contents">{@render overline()}</div>{/if}

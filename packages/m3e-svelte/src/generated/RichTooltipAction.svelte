@@ -11,13 +11,16 @@
     /** Renders the content of the action. */
     children?: Snippet;
     element?: M3eRichTooltipActionElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disableRestoreFocus, children, element = $bindable() }: Props = $props();
+  let { disableRestoreFocus, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-rich-tooltip-action
   bind:this={element}
+  {...rest}
   disable-restore-focus={disableRestoreFocus || undefined}
 >
   {@render children?.()}

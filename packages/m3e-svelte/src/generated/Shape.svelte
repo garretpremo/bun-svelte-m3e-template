@@ -11,13 +11,16 @@
     /** Renders the clipped content of the shape. */
     children?: Snippet;
     element?: M3eShapeElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { name, children, element = $bindable() }: Props = $props();
+  let { name, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-shape
   bind:this={element}
+  {...rest}
   {name}
 >
   {@render children?.()}

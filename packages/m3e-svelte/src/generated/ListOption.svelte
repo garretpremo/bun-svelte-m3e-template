@@ -29,15 +29,18 @@
     /** Emitted when the element is clicked. */
     onclick?: (e: MouseEvent) => void;
     element?: M3eListOptionElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, selected, value, children, leading, overline, supportingText, trailing, oninput, onchange, onclick, element = $bindable() }: Props = $props();
+  let { disabled, selected, value, children, leading, overline, supportingText, trailing, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <m3e-list-option
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   selected={selected || undefined}
   {value}

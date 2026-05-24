@@ -12,13 +12,16 @@
     /** The identifier of the interactive control to which this element is attached. */
     for_?: string | null;
     element?: M3eFocusRingElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, inward, for_, element = $bindable() }: Props = $props();
+  let { disabled, inward, for_, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-focus-ring
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   inward={inward || undefined}
   for={for_}

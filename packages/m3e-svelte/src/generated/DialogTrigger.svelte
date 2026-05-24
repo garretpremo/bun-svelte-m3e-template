@@ -8,13 +8,16 @@
     /** The identifier of the interactive control to which this element is attached. */
     for_?: string | null;
     element?: M3eDialogTriggerElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { for_, element = $bindable() }: Props = $props();
+  let { for_, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-dialog-trigger
   bind:this={element}
+  {...rest}
   for={for_}
 >
 

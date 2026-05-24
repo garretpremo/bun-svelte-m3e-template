@@ -18,13 +18,16 @@
     /** A value from 100 to 700 indicating the weight of the icon. */
     weight?: number;
     element?: M3eIconElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { filled, grade, opticalSize, name, variant, weight, element = $bindable() }: Props = $props();
+  let { filled, grade, opticalSize, name, variant, weight, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-icon
   bind:this={element}
+  {...rest}
   filled={filled || undefined}
   {grade}
   optical-size={opticalSize}

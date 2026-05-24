@@ -20,13 +20,16 @@
     /** Dispatched when the theme changes. */
     onchange?: (e: Event) => void;
     element?: M3eThemeElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { color, contrast, density, scheme, strongFocus, motion, onchange, element = $bindable() }: Props = $props();
+  let { color, contrast, density, scheme, strongFocus, motion, onchange, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-theme
   bind:this={element}
+  {...rest}
   {color}
   {contrast}
   {density}

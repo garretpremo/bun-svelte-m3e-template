@@ -18,4 +18,15 @@ describe("property-driven Dialog", () => {
     const result = compile(out.contents, { filename: out.filename, generate: "client" });
     expect(result.js.code).toContain("syncProperty");
   });
+
+  test("Checkbox: bindable checked pushed + read back on change for two-way bind", () => {
+    const [cb] = loadManifests(["@m3e/checkbox"]).filter((e) => e.tag === "m3e-checkbox");
+    const out = generateOne(cb!);
+    expect(out.classification).toBe("property-driven");
+    expect(out.contents).toContain("checked = $bindable(false)");
+    expect(out.contents).toContain('syncProperty(element, "checked", checked)');
+    expect(out.contents).toContain("function syncFromDom()");
+    expect(out.contents).toContain('checked = node["checked"]');
+    expect(out.contents).toContain("syncFromDom(); onchange?.(e)");
+  });
 });

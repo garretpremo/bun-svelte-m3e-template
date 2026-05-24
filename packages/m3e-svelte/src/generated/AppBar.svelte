@@ -21,13 +21,16 @@
     /** Renders a trailing icon. */
     trailingIcon?: Snippet;
     element?: M3eAppBarElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { centered, for_, size, leadingIcon, subtitle, title, trailingIcon, element = $bindable() }: Props = $props();
+  let { centered, for_, size, leadingIcon, subtitle, title, trailingIcon, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-app-bar
   bind:this={element}
+  {...rest}
   centered={centered || undefined}
   for={for_}
   {size}

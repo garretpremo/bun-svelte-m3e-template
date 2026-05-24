@@ -9,13 +9,16 @@
     /** Renders the content of the action. */
     children?: Snippet;
     element?: M3eStepperResetElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { children, element = $bindable() }: Props = $props();
+  let { children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-stepper-reset
   bind:this={element}
+  {...rest}
 >
   {@render children?.()}
 </m3e-stepper-reset>

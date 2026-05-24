@@ -16,5 +16,6 @@ describe("generate-one (passive)", () => {
     expect(out.contents).toContain("<m3e-card");
     expect(out.contents).toContain("bind:this={element}");
     expect(out.contents).toContain("interface Props");
+    expect(out.contents).toContain("{...rest}");
   });
 });

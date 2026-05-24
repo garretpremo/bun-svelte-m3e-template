@@ -13,9 +13,11 @@
     /** A value indicating whether the element's checked state is indeterminate. */
     indeterminate?: boolean;
     element?: M3ePseudoCheckboxElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, checked = $bindable(false), indeterminate = $bindable(false), element = $bindable() }: Props = $props();
+  let { disabled, checked = $bindable(false), indeterminate = $bindable(false), element = $bindable(), ...rest }: Props = $props();
 
   $effect(() => {
     if (checked !== undefined) syncProperty(element, "checked", checked);
@@ -27,6 +29,7 @@
 
 <m3e-pseudo-checkbox
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
 >
 

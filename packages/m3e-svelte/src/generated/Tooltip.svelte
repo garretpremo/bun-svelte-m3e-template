@@ -21,13 +21,16 @@
     /** Renders the content of the tooltip. */
     children?: Snippet;
     element?: M3eTooltipElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, for_, hideDelay, position, showDelay, touchGestures, children, element = $bindable() }: Props = $props();
+  let { disabled, for_, hideDelay, position, showDelay, touchGestures, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-tooltip
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   for={for_}
   hide-delay={hideDelay}

@@ -27,13 +27,16 @@
     /** Emitted when the state of the start or end drawers change. */
     onchange?: (e: Event) => void;
     element?: M3eDrawerContainerElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { end, endMode, endDivider, start, startMode, startDivider, children, startSnippet, endSnippet, onchange, element = $bindable() }: Props = $props();
+  let { end, endMode, endDivider, start, startMode, startDivider, children, startSnippet, endSnippet, onchange, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-drawer-container
   bind:this={element}
+  {...rest}
   end={end || undefined}
   end-mode={endMode}
   end-divider={endDivider || undefined}

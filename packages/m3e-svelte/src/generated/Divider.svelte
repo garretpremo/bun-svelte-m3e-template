@@ -14,13 +14,16 @@
     /** Whether the divider is vertically aligned with adjacent content. */
     vertical?: boolean;
     element?: M3eDividerElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { inset, insetStart, insetEnd, vertical, element = $bindable() }: Props = $props();
+  let { inset, insetStart, insetEnd, vertical, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-divider
   bind:this={element}
+  {...rest}
   inset={inset || undefined}
   inset-start={insetStart || undefined}
   inset-end={insetEnd || undefined}

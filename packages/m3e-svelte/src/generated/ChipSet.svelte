@@ -12,13 +12,16 @@
     /** Renders the chips of the set. */
     children?: Snippet;
     element?: M3eChipSetElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { vertical, children, element = $bindable() }: Props = $props();
+  let { vertical, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-chip-set
   bind:this={element}
+  {...rest}
   vertical={vertical || undefined}
 >
   {@render children?.()}

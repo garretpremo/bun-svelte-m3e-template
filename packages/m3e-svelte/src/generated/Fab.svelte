@@ -41,15 +41,18 @@
     /** Emitted when the element is clicked. */
     onclick?: (e: MouseEvent) => void;
     element?: M3eFabElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, disabledInteractive, download, extended, href, lowered, name, rel, size, target, type, value, variant, children, label, closeIcon, onclick, element = $bindable() }: Props = $props();
+  let { disabled, disabledInteractive, download, extended, href, lowered, name, rel, size, target, type, value, variant, children, label, closeIcon, onclick, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <m3e-fab
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   disabled-interactive={disabledInteractive || undefined}
   {download}

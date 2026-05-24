@@ -9,13 +9,16 @@
     /** Renders the content to truncate with an ellipsis. */
     children?: Snippet;
     element?: M3eTextOverflowElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { children, element = $bindable() }: Props = $props();
+  let { children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-text-overflow
   bind:this={element}
+  {...rest}
 >
   {@render children?.()}
 </m3e-text-overflow>

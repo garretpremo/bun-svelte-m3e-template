@@ -13,13 +13,16 @@
     /** Renders the scrollable content. */
     children?: Snippet;
     element?: M3eScrollContainerElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { dividers, thin, children, element = $bindable() }: Props = $props();
+  let { dividers, thin, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-scroll-container
   bind:this={element}
+  {...rest}
   {dividers}
   thin={thin || undefined}
 >

@@ -12,13 +12,16 @@
     /** The identifier of the interactive control to which this element is attached. */
     for_?: string | null;
     element?: M3eStateLayerElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, disableHover, for_, element = $bindable() }: Props = $props();
+  let { disabled, disableHover, for_, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-state-layer
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   disable-hover={disableHover || undefined}
   for={for_}

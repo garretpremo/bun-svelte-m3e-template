@@ -38,9 +38,11 @@
     /** Emitted when the element is clicked. */
     onclick?: (e: Event) => void;
     element?: M3eNavMenuItemElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, indeterminate = $bindable(undefined), open = $bindable(false), selected = $bindable(false), children, label, icon, badge, selectedIcon, toggleIcon, onopening, onopened, onclosing, onclosed, onclick, element = $bindable() }: Props = $props();
+  let { disabled, indeterminate = $bindable(undefined), open = $bindable(false), selected = $bindable(false), children, label, icon, badge, selectedIcon, toggleIcon, onopening, onopened, onclosing, onclosed, onclick, element = $bindable(), ...rest }: Props = $props();
 
   $effect(() => {
     if (indeterminate !== undefined) syncManagedProperty(element, "indeterminate", indeterminate);
@@ -57,6 +59,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <m3e-nav-menu-item
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   onopening={onopening}
   onopened={onopened}

@@ -47,15 +47,18 @@
     /** Emitted when the element is clicked. */
     onclick?: (e: MouseEvent) => void;
     element?: M3eIconButtonElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, disabledInteractive, download, href, name, rel, selected, shape, size, target, toggle, type, value, variant, width, children, selectedSnippet, oninput, onchange, onclick, element = $bindable() }: Props = $props();
+  let { disabled, disabledInteractive, download, href, name, rel, selected, shape, size, target, toggle, type, value, variant, width, children, selectedSnippet, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <m3e-icon-button
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   disabled-interactive={disabledInteractive || undefined}
   {download}

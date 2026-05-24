@@ -19,29 +19,21 @@
     /** Emitted when the checked state of a radio button changes. */
     onchange?: (e: Event) => void;
     element?: M3eRadioGroupElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { ariaInvalid, disabled, name, required, children, onchange, element = $bindable() }: Props = $props();
-
-  function dropNullChange<E extends Event>(
-    handler?: (e: E) => void,
-  ): ((e: E) => void) | undefined {
-    if (!handler) return undefined;
-    return (e: E) => {
-      const v = (e.target as { value?: unknown } | null)?.value;
-      if (v == null) return;
-      handler(e);
-    };
-  }
+  let { ariaInvalid, disabled, name, required, children, onchange, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-radio-group
   bind:this={element}
+  {...rest}
   aria-invalid={ariaInvalid}
   disabled={disabled || undefined}
   {name}
   required={required || undefined}
-  onchange={dropNullChange(onchange)}
+  onchange={onchange}
 >
   {@render children?.()}
 </m3e-radio-group>

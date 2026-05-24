@@ -24,31 +24,23 @@
     /** Emitted when the selected state of a chip changes. */
     oninput?: (e: Event) => void;
     element?: M3eFilterChipSetElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, hideSelectionIndicator, multi, name, vertical, children, onchange, oninput, element = $bindable() }: Props = $props();
-
-  function dropNullChange<E extends Event>(
-    handler?: (e: E) => void,
-  ): ((e: E) => void) | undefined {
-    if (!handler) return undefined;
-    return (e: E) => {
-      const v = (e.target as { value?: unknown } | null)?.value;
-      if (v == null) return;
-      handler(e);
-    };
-  }
+  let { disabled, hideSelectionIndicator, multi, name, vertical, children, onchange, oninput, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-filter-chip-set
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   hide-selection-indicator={hideSelectionIndicator || undefined}
   multi={multi || undefined}
   {name}
   vertical={vertical || undefined}
-  onchange={dropNullChange(onchange)}
-  oninput={dropNullChange(oninput)}
+  onchange={onchange}
+  oninput={oninput}
 >
   {@render children?.()}
 </m3e-filter-chip-set>

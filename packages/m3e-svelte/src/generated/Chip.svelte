@@ -17,13 +17,16 @@
     /** Renders an icon after the chip's label. */
     trailingIcon?: Snippet;
     element?: M3eChipElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { value, variant, children, icon, trailingIcon, element = $bindable() }: Props = $props();
+  let { value, variant, children, icon, trailingIcon, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-chip
   bind:this={element}
+  {...rest}
   {value}
   {variant}
 >

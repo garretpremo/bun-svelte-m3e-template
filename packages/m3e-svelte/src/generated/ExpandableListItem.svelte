@@ -34,9 +34,11 @@
     /** Emitted when the item has closed. */
     onclosed?: (e: Event) => void;
     element?: M3eExpandableListItem;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { disabled, open = $bindable(false), children, leading, overline, supportingText, toggleIcon, items, trailing, onopening, onopened, onclosing, onclosed, element = $bindable() }: Props = $props();
+  let { disabled, open = $bindable(false), children, leading, overline, supportingText, toggleIcon, items, trailing, onopening, onopened, onclosing, onclosed, element = $bindable(), ...rest }: Props = $props();
 
   $effect(() => {
     if (open !== undefined) syncProperty(element, "open", open);
@@ -45,6 +47,7 @@
 
 <m3e-expandable-list-item
   bind:this={element}
+  {...rest}
   disabled={disabled || undefined}
   onopening={onopening}
   onopened={onopened}

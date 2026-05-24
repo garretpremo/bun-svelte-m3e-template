@@ -12,13 +12,16 @@
     /** Emitted when the selected state of an item changes. */
     onchange?: (e: Event) => void;
     element?: HTMLElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { mode, children, onchange, element = $bindable() }: Props = $props();
+  let { mode, children, onchange, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-nav-bar
   bind:this={element}
+  {...rest}
   {mode}
   onchange={onchange}
 >

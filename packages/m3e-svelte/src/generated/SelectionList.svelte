@@ -24,31 +24,23 @@
     /** Emitted when the selected state of an option changes. */
     oninput?: (e: Event) => void;
     element?: M3eSelectionListElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { hideSelectionIndicator, multi, variant, name, disabled, children, onchange, oninput, element = $bindable() }: Props = $props();
-
-  function dropNullChange<E extends Event>(
-    handler?: (e: E) => void,
-  ): ((e: E) => void) | undefined {
-    if (!handler) return undefined;
-    return (e: E) => {
-      const v = (e.target as { value?: unknown } | null)?.value;
-      if (v == null) return;
-      handler(e);
-    };
-  }
+  let { hideSelectionIndicator, multi, variant, name, disabled, children, onchange, oninput, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-selection-list
   bind:this={element}
+  {...rest}
   hide-selection-indicator={hideSelectionIndicator || undefined}
   multi={multi || undefined}
   {variant}
   {name}
   disabled={disabled || undefined}
-  onchange={dropNullChange(onchange)}
-  oninput={dropNullChange(oninput)}
+  onchange={onchange}
+  oninput={oninput}
 >
   {@render children?.()}
 </m3e-selection-list>

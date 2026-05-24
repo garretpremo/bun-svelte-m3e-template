@@ -21,13 +21,16 @@
     /** Emitted when the selected step changes. */
     onchange?: (e: Event) => void;
     element?: M3eStepperElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { headerPosition, labelPosition, linear, orientation, step, panel, onchange, element = $bindable() }: Props = $props();
+  let { headerPosition, labelPosition, linear, orientation, step, panel, onchange, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-stepper
   bind:this={element}
+  {...rest}
   header-position={headerPosition}
   label-position={labelPosition}
   linear={linear || undefined}

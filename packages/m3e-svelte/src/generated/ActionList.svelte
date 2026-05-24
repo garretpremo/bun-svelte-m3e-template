@@ -12,13 +12,16 @@
     /** Renders the items of the list. */
     children?: Snippet;
     element?: M3eActionListElement;
+    // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
+    [key: string]: any;
   }
 
-  let { variant, children, element = $bindable() }: Props = $props();
+  let { variant, children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
 <m3e-action-list
   bind:this={element}
+  {...rest}
   {variant}
 >
   {@render children?.()}
