@@ -80,23 +80,46 @@ client-to-server messages) `ws.send("type", payload)`.
 
 ## Adding an M3E component
 
-1. Pick the package from the `@m3e/*` family.
-2. Wrap in `packages/web/src/lib/m3e/<Name>.svelte`. **At the top of the
-   `<script>` block, dynamic-import the package**:
-   ```svelte
-   <script lang="ts">
-     import { browser } from "$app/environment";
-     if (browser) void import("@m3e/<package>");
-     // ...
-   </script>
-   ```
-3. **Do NOT add to `lib/m3e/setup.ts`** unless the component appears on every
-   page's chrome. The setup file is reserved for the global chrome —
-   Theme + AppBar + Icon + IconButton + Divider + DrawerContainer + NavMenu —
-   because the root layout's drawer-container + nav-menu render on every page.
-   Adding more there inflates first-paint payload.
-4. **Never add `@m3e/all` as a dependency.** It eagerly imports every component
-   and defeats the chunking strategy.
+**Prefer importing from `@app/m3e-svelte`.** The generated wrapper suite covers
+every element across every installed `@m3e/*` package, with the SSR + upgrade-race
++ FOUC patterns baked in, two-way `bind:` for stateful elements, and `class` /
+`style` / `id` / `aria-*` / `data-*` passed through:
+
+```svelte
+<script lang="ts">
+  import { Button, Dialog, Select } from "@app/m3e-svelte";
+  let open = $state(false);
+  let value = $state("a");
+</script>
+<Button onclick={() => (open = true)}>Open</Button>
+<Dialog bind:open>…</Dialog>
+<Select bind:value>…</Select>
+```
+
+To add a *new* `@m3e/<package>`:
+
+1. `bun add @m3e/<package>` in `packages/web`, and mirror it in
+   `packages/m3e-svelte/package.json` `peerDependencies` + `peerDependenciesMeta`.
+2. `bun run --filter @app/m3e-svelte generate` — emits a wrapper per element.
+3. Commit the generator output under `packages/m3e-svelte/src/generated/` plus the
+   regenerated `src/index.ts`, `README.md`, and `generated/manifest.json`.
+
+**Only hand-write into `packages/web/src/lib/m3e/`** when a component renders on
+every page's chrome *or* needs genuine app-specific logic. Today that set is:
+Theme (wired to `themeState`), AppBar (slots), AppNav (sidebar wired to `goto`),
+DrawerContainer (layout slots), Icon / IconButton / Divider (chrome), and the
+opinionated convenience wrappers Shape (unclip + sizing), Dialog (headline),
+Snackbar (message/timeout), and FormField (label/error). Each still dynamic-imports
+its `@m3e/*` package at the top of `<script>` behind `if (browser)`.
+
+If a plain pass-through belongs on **every** page, add its package to the eager
+chrome bundle in `packages/m3e-svelte/src/presets/chrome.ts`. Everything else stays
+lazy — referencing a wrapper is enough; it imports its own package on the client.
+
+**Never add `@m3e/all`,** and never `import "@m3e/<pkg>"` statically in app code —
+`bun run --filter @app/web check:chrome` fails the build if any package lands in the
+static graph. `@app/m3e-svelte/presets/all` exists only for the showcase/tests and
+is biome-forbidden in `packages/web`.
 
 ## Color and theming
 
