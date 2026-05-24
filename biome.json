@@ -60,6 +60,23 @@
           }
         }
       }
+    },
+    {
+      "include": ["packages/web/src/**"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@app/m3e-svelte/presets/all": "Eager-loads every @m3e/* package; use named imports from @app/m3e-svelte or presets/chrome."
+                }
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }
