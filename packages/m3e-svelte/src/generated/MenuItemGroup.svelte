@@ -2,12 +2,13 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
-  if (browser) void import("@m3e/stepper");
+  if (browser) void import("@m3e/menu");
+  import type { M3eMenuItemGroupElement } from "@m3e/menu";
 
   interface Props {
-    /** Renders the content of the action. */
+    /** Renders the contents of the group. */
     children?: Snippet;
-    element?: unknown;
+    element?: M3eMenuItemGroupElement;
     // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
     [key: string]: any;
   }
@@ -15,9 +16,9 @@
   let { children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
-<m3e-stepper-previous
+<m3e-menu-item-group
   bind:this={element}
   {...rest}
 >
   {@render children?.()}
-</m3e-stepper-previous>
+</m3e-menu-item-group>

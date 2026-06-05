@@ -69,4 +69,6 @@ export interface LoadedElement {
   declaration: CemClassDeclaration;
   /** Type/value names the package re-exports from its entry. */
   exportedNames: Set<string>;
+  /** True when another @m3e/* package also declares this tag. */
+  tagConflict: boolean;
 }

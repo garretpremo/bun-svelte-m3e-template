@@ -2,12 +2,13 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
-  if (browser) void import("@m3e/stepper");
+  if (browser) void import("@m3e/tabs");
+  import type { M3eTabPanelElement } from "@m3e/tabs";
 
   interface Props {
-    /** Renders the content of the action. */
+    /** Renders the content of the panel. */
     children?: Snippet;
-    element?: unknown;
+    element?: M3eTabPanelElement;
     // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
     [key: string]: any;
   }
@@ -15,9 +16,9 @@
   let { children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
-<m3e-stepper-previous
+<m3e-tab-panel
   bind:this={element}
   {...rest}
 >
   {@render children?.()}
-</m3e-stepper-previous>
+</m3e-tab-panel>

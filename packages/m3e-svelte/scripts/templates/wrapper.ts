@@ -47,12 +47,19 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
   const managedSet = new Set(managed.map((m) => m.name));
   const attrs = d.attributes ?? [];
   const slots = d.slots ?? [];
-  const events = (d.events ?? []).filter((e) => !!e.name);
+  // Skip events whose names aren't valid JS identifiers (e.g. `value-change`).
+  // Svelte's `on<name>` prop pattern can't represent them; consumers can still
+  // subscribe via the `element` bindable + addEventListener.
+  const events = (d.events ?? []).filter((e) => !!e.name && /^[A-Za-z_$][\w$]*$/.test(e.name));
 
   // Some element classes aren't re-exported under their CEM name; fall back to
   // HTMLElement for the `element` bindable type rather than import a missing name.
+  // For tag conflicts (multiple @m3e/* packages declare the same tag), use `unknown`
+  // — Svelte's bind:this resolves through HTMLElementTagNameMap to one of the
+  // competing mixin types, which is neither structurally HTMLElement nor importable
+  // unambiguously. Anything is assignable to `unknown`, so bind: still type-checks.
   const classExported = exportedNames.has(className);
-  const elementType = classExported ? className : "HTMLElement";
+  const elementType = el.tagConflict ? "unknown" : classExported ? className : "HTMLElement";
 
   // Managed names never render as attributes (they're driven as properties).
   const plainAttrs = attrs.filter((a) => !managedSet.has(a.name));
@@ -168,7 +175,7 @@ export function renderWrapper(el: LoadedElement, opts: WrapperOptions = {}): Ren
   if (opts.syncFn) importLines.push(`  import { ${opts.syncFn} } from "../runtime/upgrade";`);
   importLines.push(`  if (browser) void import("${pkg}");`);
   const typeNames = [
-    ...(classExported ? [className] : []),
+    ...(classExported && !el.tagConflict ? [className] : []),
     ...[...typeImports].filter((id) => id !== className),
   ];
   if (typeNames.length > 0) {

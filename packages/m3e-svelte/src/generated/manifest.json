@@ -4,9 +4,44 @@
     "className": "M3eAppBarElement",
     "classification": "passive"
   },
+  "m3e-autocomplete": {
+    "package": "@m3e/autocomplete",
+    "className": "M3eAutocompleteElement",
+    "classification": "passive"
+  },
+  "m3e-avatar": {
+    "package": "@m3e/avatar",
+    "className": "M3eAvatarElement",
+    "classification": "passive"
+  },
+  "m3e-badge": {
+    "package": "@m3e/badge",
+    "className": "M3eBadgeElement",
+    "classification": "passive"
+  },
+  "m3e-bottom-sheet-action": {
+    "package": "@m3e/bottom-sheet",
+    "className": "M3eDialogActionElement",
+    "classification": "passive"
+  },
+  "m3e-bottom-sheet": {
+    "package": "@m3e/bottom-sheet",
+    "className": "M3eBottomSheetElement",
+    "classification": "property-driven"
+  },
+  "m3e-bottom-sheet-trigger": {
+    "package": "@m3e/bottom-sheet",
+    "className": "M3eBottomSheetTriggerElement",
+    "classification": "passive"
+  },
   "m3e-button": {
     "package": "@m3e/button",
     "className": "M3eButtonElement",
+    "classification": "passive"
+  },
+  "m3e-button-group": {
+    "package": "@m3e/button-group",
+    "className": "M3eButtonGroupElement",
     "classification": "passive"
   },
   "m3e-card": {
@@ -149,14 +184,49 @@
     "className": "M3eDrawerToggleElement",
     "classification": "passive"
   },
+  "m3e-accordion": {
+    "package": "@m3e/expansion-panel",
+    "className": "M3eAccordionElement",
+    "classification": "passive"
+  },
+  "m3e-expansion-header": {
+    "package": "@m3e/expansion-panel",
+    "className": "M3eExpansionHeaderElement",
+    "classification": "passive"
+  },
+  "m3e-expansion-panel": {
+    "package": "@m3e/expansion-panel",
+    "className": "M3eExpansionPanelElement",
+    "classification": "property-driven"
+  },
   "m3e-fab": {
     "package": "@m3e/fab",
     "className": "M3eFabElement",
     "classification": "passive"
   },
+  "m3e-fab-menu": {
+    "package": "@m3e/fab-menu",
+    "className": "M3eFabMenuElement",
+    "classification": "passive"
+  },
+  "m3e-menu-item": {
+    "package": "@m3e/fab-menu",
+    "className": "M3eFabMenuItemElement",
+    "classification": "passive"
+  },
+  "m3e-fab-menu-trigger": {
+    "package": "@m3e/fab-menu",
+    "className": "M3eFabMenuTriggerElement",
+    "classification": "passive"
+  },
   "m3e-form-field": {
     "package": "@m3e/form-field",
     "className": "M3eFormFieldElement",
+    "classification": "passive"
+  },
+  "m3e-heading": {
+    "package": "@m3e/heading",
+    "className": "M3eHeadingElement",
     "classification": "passive"
   },
   "m3e-icon": {
@@ -209,6 +279,46 @@
     "className": "M3eSelectionListElement",
     "classification": "selection-managed"
   },
+  "m3e-loading-indicator": {
+    "package": "@m3e/loading-indicator",
+    "className": "M3eLoadingIndicatorElement",
+    "classification": "passive"
+  },
+  "m3e-menu": {
+    "package": "@m3e/menu",
+    "className": "M3eMenuElement",
+    "classification": "passive"
+  },
+  "m3e-menu-item-checkbox": {
+    "package": "@m3e/menu",
+    "className": "M3eMenuItemCheckboxElement",
+    "classification": "property-driven"
+  },
+  "m3e-menu-item-group": {
+    "package": "@m3e/menu",
+    "className": "M3eMenuItemGroupElement",
+    "classification": "passive"
+  },
+  "m3e-menu-item-radio": {
+    "package": "@m3e/menu",
+    "className": "M3eMenuItemRadioElement",
+    "classification": "property-driven"
+  },
+  "m3e-menu-trigger": {
+    "package": "@m3e/menu",
+    "className": "M3eMenuTriggerElement",
+    "classification": "passive"
+  },
+  "m3e-nav-bar": {
+    "package": "@m3e/nav-bar",
+    "className": "M3eNavBarElement",
+    "classification": "passive"
+  },
+  "m3e-nav-item": {
+    "package": "@m3e/nav-bar",
+    "className": "M3eNavItemElement",
+    "classification": "passive"
+  },
   "m3e-nav-menu": {
     "package": "@m3e/nav-menu",
     "className": "M3eNavMenuElement",
@@ -223,6 +333,16 @@
     "package": "@m3e/nav-menu",
     "className": "M3eNavMenuItemGroupElement",
     "classification": "selection-managed"
+  },
+  "m3e-nav-rail": {
+    "package": "@m3e/nav-rail",
+    "className": "M3eNavRailElement",
+    "classification": "passive"
+  },
+  "m3e-nav-rail-toggle": {
+    "package": "@m3e/nav-rail",
+    "className": "M3eNavRailToggleElement",
+    "classification": "passive"
   },
   "m3e-optgroup": {
     "package": "@m3e/option",
@@ -239,9 +359,19 @@
     "className": "M3eOptionPanelElement",
     "classification": "passive"
   },
-  "m3e-nav-bar": {
-    "package": "@m3e/option",
-    "className": "M3eNavBarElement",
+  "m3e-paginator": {
+    "package": "@m3e/paginator",
+    "className": "M3ePaginatorElement",
+    "classification": "passive"
+  },
+  "m3e-circular-progress-indicator": {
+    "package": "@m3e/progress-indicator",
+    "className": "M3eCircularProgressIndicatorElement",
+    "classification": "passive"
+  },
+  "m3e-linear-progress-indicator": {
+    "package": "@m3e/progress-indicator",
+    "className": "M3eLinearProgressIndicatorElement",
     "classification": "passive"
   },
   "m3e-radio": {
@@ -254,6 +384,16 @@
     "className": "M3eRadioGroupElement",
     "classification": "selection-managed"
   },
+  "m3e-button-segment": {
+    "package": "@m3e/segmented-button",
+    "className": "M3eButtonSegmentElement",
+    "classification": "property-driven"
+  },
+  "m3e-segmented-button": {
+    "package": "@m3e/segmented-button",
+    "className": "M3eSegmentedButtonElement",
+    "classification": "passive"
+  },
   "m3e-select": {
     "package": "@m3e/select",
     "className": "M3eSelectElement",
@@ -264,9 +404,29 @@
     "className": "M3eShapeElement",
     "classification": "passive"
   },
+  "m3e-slide-group": {
+    "package": "@m3e/slide-group",
+    "className": "M3eSlideGroupElement",
+    "classification": "passive"
+  },
+  "m3e-slider": {
+    "package": "@m3e/slider",
+    "className": "M3eSliderElement",
+    "classification": "passive"
+  },
+  "m3e-slider-thumb": {
+    "package": "@m3e/slider",
+    "className": "M3eSliderThumbElement",
+    "classification": "passive"
+  },
   "m3e-snackbar": {
     "package": "@m3e/snackbar",
     "className": "M3eSnackbarElement",
+    "classification": "passive"
+  },
+  "m3e-split-button": {
+    "package": "@m3e/split-button",
+    "className": "M3eSplitButtonElement",
     "classification": "passive"
   },
   "m3e-step": {
@@ -299,6 +459,21 @@
     "className": "M3eSwitchElement",
     "classification": "property-driven"
   },
+  "m3e-tab": {
+    "package": "@m3e/tabs",
+    "className": "M3eTabElement",
+    "classification": "passive"
+  },
+  "m3e-tab-panel": {
+    "package": "@m3e/tabs",
+    "className": "M3eTabPanelElement",
+    "classification": "passive"
+  },
+  "m3e-tabs": {
+    "package": "@m3e/tabs",
+    "className": "M3eTabsElement",
+    "classification": "passive"
+  },
   "m3e-textarea-autosize": {
     "package": "@m3e/textarea-autosize",
     "className": "M3eTextareaAutosizeElement",
@@ -307,6 +482,21 @@
   "m3e-theme": {
     "package": "@m3e/theme",
     "className": "M3eThemeElement",
+    "classification": "passive"
+  },
+  "m3e-toc": {
+    "package": "@m3e/toc",
+    "className": "M3eTocElement",
+    "classification": "passive"
+  },
+  "m3e-toc-item": {
+    "package": "@m3e/toc",
+    "className": "M3eTocItemElement",
+    "classification": "passive"
+  },
+  "m3e-toolbar": {
+    "package": "@m3e/toolbar",
+    "className": "M3eToolbarElement",
     "classification": "passive"
   },
   "m3e-rich-tooltip-action": {

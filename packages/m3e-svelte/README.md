@@ -10,6 +10,16 @@ import { Button, Dialog } from "@app/m3e-svelte";
 
 ## Components
 
+### `Accordion` — `<m3e-accordion>` (`@m3e/expansion-panel`)
+
+Combines multiple expansion panels in to an accordion.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `multi` | `boolean` | `false` | Whether multiple expansion panels can be open at the same time. |
+
+**Slots:** `(default)`
+
 ### `ActionList` — `<m3e-action-list>` (`@m3e/list`)
 
 A list of actions.
@@ -156,6 +166,145 @@ A chip users interact with to perform a smart or automated action that can span 
 - `--m3e-outlined-chip-disabled-outline-opacity` — Opacity applied to disabled outline.
 
 </details>
+
+### `Autocomplete` — `<m3e-autocomplete>` (`@m3e/autocomplete`)
+
+Enhances a text input with suggested options.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `auto-activate` | `boolean` | `false` | Whether the first option should be automatically activated. |
+| `hide-selection-indicator` | `boolean` | `false` | Whether to hide the selection indicator. |
+| `required` | `boolean` | `false` | Whether the user is required to make a selection when interacting with the autocomplete. |
+| `for` | `string | null` | `null` | The identifier of the interactive control to which this element is attached. |
+
+**Slots:** `(default)`
+
+**Events:** `toggle`
+
+### `Avatar` — `<m3e-avatar>` (`@m3e/avatar`)
+
+An image, icon or textual initials representing a user or other identity.
+
+**Slots:** `(default)`
+
+<details><summary>CSS custom properties (8)</summary>
+
+- `--m3e-avatar-size` — Size of the avatar.
+- `--m3e-avatar-shape` — Border radius of the avatar.
+- `--m3e-avatar-font-size` — Font size for the avatar.
+- `--m3e-avatar-font-weight` — Font weight for the avatar.
+- `--m3e-avatar-line-height` — Line height for the avatar.
+- `--m3e-avatar-tracking` — Letter spacing for the avatar.
+- `--m3e-avatar-color` — Background color of the avatar.
+- `--m3e-avatar-label-color` — Text color of the avatar.
+
+</details>
+
+### `Badge` — `<m3e-badge>` (`@m3e/badge`)
+
+A visual indicator used to label content.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `size` | `BadgeSize` | `"medium"` | The size of the badge. |
+| `position` | `BadgePosition` | `"above-after"` | The position of the badge, when attached to another element. |
+| `for` | `string | null` | `null` | The identifier of the interactive control to which this element is attached. |
+
+**Slots:** `(default)`
+
+<details><summary>CSS custom properties (14)</summary>
+
+- `--m3e-badge-shape` — Corner radius of the badge.
+- `--m3e-badge-color` — Foreground color of badge content.
+- `--m3e-badge-container-color` — Background color of the badge.
+- `--m3e-badge-small-size` — Fixed dimensions for small badge. Used for minimal indicators (e.g. dot).
+- `--m3e-badge-medium-size` — Height and min-width for medium badge.
+- `--m3e-badge-medium-font-size` — Font size for medium badge label.
+- `--m3e-badge-medium-font-weight` — Font weight for medium badge label.
+- `--m3e-badge-medium-line-height` — Line height for medium badge label.
+- `--m3e-badge-medium-tracking` — Letter spacing for medium badge label.
+- `--m3e-badge-large-size` — Height and min-width for large badge.
+- `--m3e-badge-large-font-size` — Font size for large badge label.
+- `--m3e-badge-large-font-weight` — Font weight for large badge label.
+- `--m3e-badge-large-line-height` — Line height for large badge label.
+- `--m3e-badge-large-tracking` — Letter spacing for large badge label.
+
+</details>
+
+### `BottomSheet` — `<m3e-bottom-sheet>` (`@m3e/bottom-sheet`)
+
+A sheet used to show secondary content anchored to the bottom of the screen.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `detent` | `number` | `0` | The zero‑based index of the detent the sheet should open to. |
+| `detents` | `string[]` | `[]` | Detents (discrete height states) the sheet can snap to. |
+| `handle` | `boolean` | `false` | Whether to display a drag handle and enable the top region of the sheet as a gesture surface for dragging between detents. |
+| `handle-label` | `string` | `"Drag handle"` | The accessible label given to the drag handle. |
+| `hideable` | `boolean` | `false` | Whether the bottom sheet can hide when its swiped down. |
+| `hide-friction` | `number` | `0.5` | The friction coefficient to hide the sheet, or set it to the next closest expanded detent. |
+| `modal` | `boolean` | `false` | Whether the bottom sheet behaves as modal. |
+| `open` | `boolean` | `false` | Whether the bottom sheet is open. |
+
+**Slots:** `(default)`, `header`
+
+**Events:** `opening`, `closing`, `cancel`, `opened`, `closed`
+
+<details><summary>CSS custom properties (32)</summary>
+
+- `--m3e-bottom-sheet-width` — The width of the sheet.
+- `--m3e-bottom-sheet-max-width` — The maximum width of the sheet.
+- `--m3e-bottom-sheet-container-color` — The background color of the sheet container.
+- `--m3e-bottom-sheet-elevation` — The elevation level when not modal.
+- `--m3e-bottom-sheet-modal-elevation` — The elevation level when modal.
+- `--m3e-bottom-sheet-full-elevation` — The elevation level when full height.
+- `--m3e-bottom-sheet-z-index` — The z-index of the non-modal sheet.
+- `--m3e-bottom-sheet-minimized-container-shape` — The border radius when minimized.
+- `--m3e-bottom-sheet-container-shape` — The border radius of the sheet container.
+- `--m3e-bottom-sheet-full-container-shape` — The border radius when full height.
+- `--m3e-bottom-sheet-scrim-color` — The color of the scrim overlay.
+- `--m3e-bottom-sheet-scrim-opacity` — The opacity of the scrim overlay.
+- `--m3e-bottom-sheet-peek-height` — The visible height when minimized.
+- `--m3e-bottom-sheet-compact-top-space` — The top space in compact mode.
+- `--m3e-bottom-sheet-top-space` — The top space in standard mode.
+- `--m3e-bottom-sheet-padding-block` — The vertical padding.
+- `--m3e-bottom-sheet-padding-inline` — The horizontal padding.
+- `--m3e-bottom-sheet-handle-container-height` — The height of the drag handle container.
+- `--m3e-bottom-sheet-handle-width` — The width of the drag handle.
+- `--m3e-bottom-sheet-handle-height` — The height of the drag handle.
+- `--m3e-bottom-sheet-handle-shape` — The border radius of the handle.
+- `--m3e-bottom-sheet-handle-color` — The color of the drag handle.
+- `--m3e-bottom-sheet-handle-focus-ring-offset` — The offset of the focus ring around the handle.
+- `--m3e-bottom-sheet-color` — The foreground (text) color of the sheet.
+- `--m3e-bottom-sheet-content-font-size` — Font size for the sheet content.
+- `--m3e-bottom-sheet-content-font-weight` — Font weight for the sheet content.
+- `--m3e-bottom-sheet-content-line-height` — Line height for the sheet content.
+- `--m3e-bottom-sheet-content-tracking` — Letter spacing (tracking) for the sheet content.
+- `--m3e-bottom-sheet-header-font-size` — Font size for the sheet header.
+- `--m3e-bottom-sheet-header-font-weight` — Font weight for the sheet header.
+- `--m3e-bottom-sheet-header-line-height` — Line height for the sheet header.
+- `--m3e-bottom-sheet-header-tracking` — Letter spacing (tracking) for the sheet header.
+
+</details>
+
+### `BottomSheetAction` — `<m3e-bottom-sheet-action>` (`@m3e/bottom-sheet`)
+
+An element, nested within a clickable element, used to close a parenting bottom sheet.
+
+**Slots:** `(default)`
+
+### `BottomSheetTrigger` — `<m3e-bottom-sheet-trigger>` (`@m3e/bottom-sheet`)
+
+An element, nested within a clickable element, used to trigger a bottom sheet.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `detent` | `number | undefined` | `undefined` | The zero‑based index of the detent the sheet should open to. |
+| `secondary` | `boolean` | `false` | Marks this trigger as a secondary trigger for accessibility. Secondary triggers do not receive ARIA ownership. |
+| `for` | `string | null` | `null` | The identifier of the interactive control to which this element is attached. |
+
+**Slots:** `(default)`
 
 ### `Button` — `<m3e-button>` (`@m3e/button`)
 
@@ -502,6 +651,87 @@ A button users interact with to perform an action.
 
 </details>
 
+### `ButtonGroup` — `<m3e-button-group>` (`@m3e/button-group`)
+
+Organizes buttons and adds interactions between them.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `multi` | `boolean` | `false` | Whether multiple toggle buttons can be selected. |
+| `size` | `ButtonGroupSize` | `"small"` | The size of the group. |
+| `variant` | `ButtonGroupVariant` | `"standard"` | The appearance variant of the group. |
+
+**Slots:** `(default)`
+
+<details><summary>CSS custom properties (16)</summary>
+
+- `--m3e-standard-button-group-extra-small-spacing` — Spacing between buttons in standard variant, extra-small size.
+- `--m3e-standard-button-group-small-spacing` — Spacing between buttons in standard variant, small size.
+- `--m3e-standard-button-group-medium-spacing` — Spacing between buttons in standard variant, medium size.
+- `--m3e-standard-button-group-large-spacing` — Spacing between buttons in standard variant, large size.
+- `--m3e-standard-button-group-extra-large-spacing` — Spacing between buttons in standard variant, extra-large size.
+- `--m3e-connected-button-group-spacing` — Spacing between buttons in connected variant.
+- `--m3e-connected-button-group-extra-small-inner-shape` — Corner shape for connected variant, extra-small size.
+- `--m3e-connected-button-group-extra-small-inner-pressed-shape` — Pressed corner shape for connected variant, extra-small size.
+- `--m3e-connected-button-group-small-inner-shape` — Corner shape for connected variant, small size.
+- `--m3e-connected-button-group-small-inner-pressed-shape` — Pressed corner shape for connected variant, small size.
+- `--m3e-connected-button-group-medium-inner-shape` — Corner shape for connected variant, medium size.
+- `--m3e-connected-button-group-medium-inner-pressed-shape` — Pressed corner shape for connected variant, medium size.
+- `--m3e-connected-button-group-large-inner-shape` — Corner shape for connected variant, large size.
+- `--m3e-connected-button-group-large-inner-pressed-shape` — Pressed corner shape for connected variant, large size.
+- `--m3e-connected-button-group-extra-large-inner-shape` — Corner shape for connected variant, extra-large size.
+- `--m3e-connected-button-group-extra-large-inner-pressed-shape` — Pressed corner shape for connected variant, extra-large size.
+
+</details>
+
+### `ButtonSegment` — `<m3e-button-segment>` (`@m3e/segmented-button`)
+
+A option that can be selected within a segmented button.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `checked` | `boolean` | `false` | Whether the element is checked. |
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `value` | `string` | `"on"` | A string representing the value of the segment. |
+
+**Slots:** `(default)`, `icon`
+
+**Events:** `input`, `change`, `click`
+
+<details><summary>CSS custom properties (29)</summary>
+
+- `--m3e-segmented-button-height` — Total height of the segmented button.
+- `--m3e-segmented-button-outline-thickness` — Thickness of the button’s border.
+- `--m3e-segmented-button-outline-color` — Color of the button’s border.
+- `--m3e-segmented-button-padding-start` — Padding on the leading edge of the button content.
+- `--m3e-segmented-button-padding-end` — Padding on the trailing edge of the button content.
+- `--m3e-segmented-button-spacing` — Horizontal gap between icon and label.
+- `--m3e-segmented-button-font-size` — Font size of the label text.
+- `--m3e-segmented-button-font-weight` — Font weight of the label text.
+- `--m3e-segmented-button-line-height` — Line height of the label text.
+- `--m3e-segmented-button-tracking` — Letter spacing of the label text.
+- `--m3e-segmented-button-with-icon-padding-start` — Leading padding when an icon is present.
+- `--m3e-segmented-button-selected-container-color` — Background color of a selected segment.
+- `--m3e-segmented-button-selected-container-hover-color` — Hover state-layer color for selected segments.
+- `--m3e-segmented-button-selected-container-focus-color` — Focus state-layer color for selected segments.
+- `--m3e-segmented-button-selected-ripple-color` — Ripple color for selected segments.
+- `--m3e-segmented-button-selected-label-text-color` — Label text color for selected segments.
+- `--m3e-segmented-button-selected-icon-color` — Icon color for selected segments.
+- `--m3e-segmented-button-unselected-container-hover-color` — Hover state-layer color for unselected segments.
+- `--m3e-segmented-button-unselected-container-focus-color` — Focus state-layer color for unselected segments.
+- `--m3e-segmented-button-unselected-ripple-color` — Ripple color for unselected segments.
+- `--m3e-segmented-button-unselected-label-text-color` — Label text color for unselected segments.
+- `--m3e-segmented-button-unselected-icon-color` — Icon color for unselected segments.
+- `--m3e-segmented-button-icon-size` — Font size of the icon.
+- `--m3e-segmented-button-disabled-outline-color` — Base color for disabled segment borders.
+- `--m3e-segmented-button-disabled-outline-opacity` — Opacity applied to disabled segment borders.
+- `--m3e-segmented-button-disabled-label-text-color` — Base color for disabled label text.
+- `--m3e-segmented-button-disabled-label-text-opacity` — Opacity applied to disabled label text.
+- `--m3e-segmented-button-disabled-icon-color` — Base color for disabled icons.
+- `--m3e-segmented-button-disabled-icon-opacity` — Opacity applied to disabled icons.
+
+</details>
+
 ### `Card` — `<m3e-card>` (`@m3e/card`)
 
 A content container for text, images (or other media), and actions in the context of a single subject.
@@ -698,6 +928,31 @@ A container used to organize chips into a cohesive unit.
 <details><summary>CSS custom properties (1)</summary>
 
 - `--m3e-chip-set-spacing` — The spacing (gap) between chips in the set.
+
+</details>
+
+### `CircularProgressIndicator` — `<m3e-circular-progress-indicator>` (`@m3e/progress-indicator`)
+
+A circular indicator of progress and activity.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `indeterminate` | `boolean` | `false` | Whether to show something is happening without conveying progress. |
+| `max` | `number` | `100` | The maximum progress value. |
+| `value` | `number` | `0` | A fractional value, between 0 and `max`, indicating progress. |
+| `variant` | `ProgressIndicatorVariant` | `"flat"` | The appearance of the indicator. |
+
+**Slots:** `(default)`
+
+<details><summary>CSS custom properties (7)</summary>
+
+- `--m3e-circular-flat-progress-indicator-diameter` — Diameter of the `flat` variant.
+- `--m3e-circular-wavy-progress-indicator-diameter` — Diameter of the `wavy` variant.
+- `--m3e-circular-wavy-progress-indicator-amplitude` — Amplitude of the `wavy` variant.
+- `--m3e-circular-wavy-progress-indicator-wavelength` — Wavelength of the `wavy` variant.
+- `--m3e-circular-progress-indicator-thickness` — Thickness of the progress indicator.
+- `--m3e-progress-indicator-track-color` — Track color of the progress indicator (background).
+- `--m3e-progress-indicator-color` — Color of the progress indicator (foreground).
 
 </details>
 
@@ -951,6 +1206,80 @@ An item in a list that can be expanded to show more items.
 - `--m3e-list-item-one-line-height` — Minimum height of a one line list item.
 - `--m3e-list-item-two-line-height` — Minimum height of a two line list item.
 - `--m3e-list-item-three-line-height` — Minimum height of a three line list item.
+
+</details>
+
+### `ExpansionHeader` — `<m3e-expansion-header>` (`@m3e/expansion-panel`)
+
+A button used to toggle the expanded state of an expansion panel.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `hide-toggle` | `boolean` | `false` | Whether to hide the expansion toggle. |
+| `toggle-direction` | `ExpansionToggleDirection` | `"vertical"` | The direction of the expansion toggle. |
+| `toggle-position` | `ExpansionTogglePosition` | `"after"` | The position of the expansion toggle. |
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+
+**Slots:** `(default)`, `toggle-icon`
+
+**Events:** `click`
+
+<details><summary>CSS custom properties (10)</summary>
+
+- `--m3e-expansion-header-collapsed-height` — Height of the header when the panel is collapsed.
+- `--m3e-expansion-header-expanded-height` — Height of the header when the panel is expanded.
+- `--m3e-expansion-header-padding-left` — Left padding inside the header.
+- `--m3e-expansion-header-padding-right` — Right padding inside the header.
+- `--m3e-expansion-header-spacing` — Spacing between header elements.
+- `--m3e-expansion-header-toggle-icon-size` — Size of the toggle icon (e.g. chevron).
+- `--m3e-expansion-header-font-size` — The font size of the header text.
+- `--m3e-expansion-header-font-weight` — The font weight of the header text.
+- `--m3e-expansion-header-line-height` — The line height of the header text.
+- `--m3e-expansion-header-tracking` — Letter spacing (tracking) of the header text.
+
+</details>
+
+### `ExpansionPanel` — `<m3e-expansion-panel>` (`@m3e/expansion-panel`)
+
+An expandable details-summary view.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `hide-toggle` | `boolean` | `false` | Whether to hide the expansion toggle. |
+| `open` | `boolean` | `false` | Whether the panel is expanded. |
+| `toggle-direction` | `ExpansionToggleDirection` | `"vertical"` | The direction of the expansion toggle. |
+| `toggle-position` | `ExpansionTogglePosition` | `"after"` | The position of the expansion toggle. |
+
+**Slots:** `(default)`, `actions`, `header`, `toggle-icon`
+
+**Events:** `opening`, `opened`, `closing`, `closed`
+
+<details><summary>CSS custom properties (23)</summary>
+
+- `--m3e-expansion-header-collapsed-height` — Height of the header when the panel is collapsed.
+- `--m3e-expansion-header-expanded-height` — Height of the header when the panel is expanded.
+- `--m3e-expansion-header-padding-left` — Left padding inside the header.
+- `--m3e-expansion-header-padding-right` — Right padding inside the header.
+- `--m3e-expansion-header-spacing` — Spacing between header elements.
+- `--m3e-expansion-header-toggle-icon-size` — Size of the toggle icon (e.g. chevron).
+- `--m3e-expansion-header-font-size` — The font size of the header text.
+- `--m3e-expansion-header-font-weight` — The font weight of the header text.
+- `--m3e-expansion-header-line-height` — The line height of the header text.
+- `--m3e-expansion-header-tracking` — Letter spacing (tracking) of the header text.
+- `--m3e-expansion-panel-text-color` — Color of the panel's text content.
+- `--m3e-expansion-panel-disabled-text-color` — Color of the panel's text content, when disabled.
+- `--m3e-expansion-panel-disabled-text-opacity` — Opacity of the panel's text content, when disabled.
+- `--m3e-expansion-panel-container-color` — Background color of the panel container.
+- `--m3e-expansion-panel-elevation` — Elevation level when the panel is collapsed.
+- `--m3e-expansion-panel-shape` — Shape (e.g. border radius) of the panel when collapsed.
+- `--m3e-expansion-panel-open-elevation` — Elevation level when the panel is expanded.
+- `--m3e-expansion-panel-open-shape` — Shape (e.g. border radius) of the panel when expanded.
+- `--m3e-expansion-panel-content-padding` — Padding around the panel's content area.
+- `--m3e-expansion-panel-actions-spacing` — Spacing between action buttons or elements.
+- `--m3e-expansion-panel-actions-padding` — Padding around the actions section.
+- `--m3e-expansion-panel-actions-divider-thickness` — Thickness of the divider above actions.
+- `--m3e-expansion-panel-actions-divider-color` — Color of the divider above actions.
 
 </details>
 
@@ -1231,6 +1560,48 @@ A floating action button (FAB) used to present important actions.
 
 </details>
 
+### `FabMenu` — `<m3e-fab-menu>` (`@m3e/fab-menu`)
+
+A menu, opened from a floating action button (FAB), used to display multiple related actions.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `FabMenuVariant` | `"primary"` | The appearance variant of the menu. |
+
+**Slots:** `(default)`
+
+**Events:** `beforetoggle`, `toggle`
+
+<details><summary>CSS custom properties (17)</summary>
+
+- `--m3e-fab-menu-spacing` — Vertical gap between menu items.
+- `--m3e-fab-menu-max-width` — Maximum width of the menu.
+- `--m3e-primary-fab-color` — Foreground color for primary variant items.
+- `--m3e-primary-fab-container-color` — Container color for primary variant items.
+- `--m3e-primary-fab-hover-color` — Hover background color for primary variant items.
+- `--m3e-primary-fab-focus-color` — Focus background color for primary variant items.
+- `--m3e-primary-fab-ripple-color` — Ripple color for primary variant items.
+- `--m3e-secondary-fab-color` — Foreground color for secondary variant items.
+- `--m3e-secondary-fab-container-color` — Container color for secondary variant items.
+- `--m3e-secondary-fab-hover-color` — Hover background color for secondary variant items.
+- `--m3e-secondary-fab-focus-color` — Focus background color for secondary variant items.
+- `--m3e-secondary-fab-ripple-color` — Ripple color for secondary variant items.
+- `--m3e-tertiary-fab-color` — Foreground color for tertiary variant items.
+- `--m3e-tertiary-fab-container-color` — Container color for tertiary variant items.
+- `--m3e-tertiary-fab-hover-color` — Hover background color for tertiary variant items.
+- `--m3e-tertiary-fab-focus-color` — Focus background color for tertiary variant items.
+- `--m3e-tertiary-fab-ripple-color` — Ripple color for tertiary variant items.
+
+</details>
+
+### `FabMenuTrigger` — `<m3e-fab-menu-trigger>` (`@m3e/fab-menu`)
+
+An element, nested within a clickable element, used to open a floating action button (FAB) menu.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `for` | `string | null` | `null` | The identifier of the interactive control to which this element is attached. |
+
 ### `FilterChip` — `<m3e-filter-chip>` (`@m3e/chips`)
 
 A chip users interact with to select/deselect options.
@@ -1391,6 +1762,120 @@ A container for form controls that applies Material Design styling and behavior.
 - `--m3e-form-field-hover-container-opacity` — Opacity for hover background in filled variant.
 - `--m3e-form-field-disabled-opacity` — Opacity for disabled text.
 - `--m3e-form-field-disabled-container-opacity` — Opacity for disabled container background.
+
+</details>
+
+### `Heading` — `<m3e-heading>` (`@m3e/heading`)
+
+A heading to a page or section.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `emphasized` | `boolean` | `false` | Whether the heading uses an emphasized typescale. |
+| `level` | `HeadingLevel | undefined` | `undefined` | The accessibility level of the heading. |
+| `size` | `HeadingSize` | `"medium"` | The size of the heading. |
+| `variant` | `HeadingVariant` | `"display"` | The appearance variant of the heading. |
+
+**Slots:** `(default)`
+
+<details><summary>CSS custom properties (96)</summary>
+
+- `--md-sys-typescale-display-large-font-size` — Font size for Display Large text, ideal for hero headlines
+- `--md-sys-typescale-display-large-font-weight` — Font weight for Display Large text
+- `--md-sys-typescale-display-large-tracking` — Letter spacing for Display Large text
+- `--md-sys-typescale-display-large-line-height` — Line height for Display Large text
+- `--md-sys-typescale-display-medium-font-size` — Font size for Display Medium text
+- `--md-sys-typescale-display-medium-font-weight` — Font weight for Display Medium text
+- `--md-sys-typescale-display-medium-tracking` — Letter spacing for Display Medium text
+- `--md-sys-typescale-display-medium-line-height` — Line height for Display Medium text
+- `--md-sys-typescale-display-small-font-size` — Font size for Display Small text
+- `--md-sys-typescale-display-small-font-weight` — Font weight for Display Small text
+- `--md-sys-typescale-display-small-tracking` — Letter spacing for Display Small text
+- `--md-sys-typescale-display-small-line-height` — Line height for Display Small text
+- `--md-sys-typescale-headline-large-font-size` — Font size for Headline Large text
+- `--md-sys-typescale-headline-large-font-weight` — Font weight for Headline Large text
+- `--md-sys-typescale-headline-large-tracking` — Letter spacing for Headline Large text
+- `--md-sys-typescale-headline-large-line-height` — Line height for Headline Large text
+- `--md-sys-typescale-headline-medium-font-size` — Font size for Headline Medium text
+- `--md-sys-typescale-headline-medium-font-weight` — Font weight for Headline Medium text
+- `--md-sys-typescale-headline-medium-tracking` — Letter spacing for Headline Medium text
+- `--md-sys-typescale-headline-medium-line-height` — Line height for Headline Medium text
+- `--md-sys-typescale-headline-small-font-size` — Font size for Headline Small text
+- `--md-sys-typescale-headline-small-font-weight` — Font weight for Headline Small text
+- `--md-sys-typescale-headline-small-tracking` — Letter spacing for Headline Small text
+- `--md-sys-typescale-headline-small-line-height` — Line height for Headline Small text
+- `--md-sys-typescale-title-large-font-size` — Font size for Title Large text
+- `--md-sys-typescale-title-large-font-weight` — Font weight for Title Large text
+- `--md-sys-typescale-title-large-tracking` — Letter spacing for Title Large text
+- `--md-sys-typescale-title-large-line-height` — Line height for Title Large text
+- `--md-sys-typescale-title-medium-font-size` — Font size for Title Medium text
+- `--md-sys-typescale-title-medium-font-weight` — Font weight for Title Medium text
+- `--md-sys-typescale-title-medium-tracking` — Letter spacing for Title Medium text
+- `--md-sys-typescale-title-medium-line-height` — Line height for Title Medium text
+- `--md-sys-typescale-title-small-font-size` — Font size for Title Small text
+- `--md-sys-typescale-title-small-font-weight` — Font weight for Title Small text
+- `--md-sys-typescale-title-small-tracking` — Letter spacing for Title Small text
+- `--md-sys-typescale-title-small-line-height` — Line height for Title Small text
+- `--md-sys-typescale-label-large-font-size` — Font size for Label Large text
+- `--md-sys-typescale-label-large-font-weight` — Font weight for Label Large text
+- `--md-sys-typescale-label-large-tracking` — Letter spacing for Label Large text
+- `--md-sys-typescale-label-large-line-height` — Line height for Label Large text
+- `--md-sys-typescale-label-medium-font-size` — Font size for Label Medium text
+- `--md-sys-typescale-label-medium-font-weight` — Font weight for Label Medium text
+- `--md-sys-typescale-label-medium-tracking` — Letter spacing for Label Medium text
+- `--md-sys-typescale-label-medium-line-height` — Line height for Label Medium text
+- `--md-sys-typescale-label-small-font-size` — Font size for Label Small text
+- `--md-sys-typescale-label-small-font-weight` — Font weight for Label Small text
+- `--md-sys-typescale-label-small-tracking` — Letter spacing for Label Small text
+- `--md-sys-typescale-label-small-line-height` — Line height for Label Small text
+- `--md-sys-typescale-emphasized-display-large-font-size` — Font size for emphasized Display Large text
+- `--md-sys-typescale-emphasized-display-large-font-weight` — Font weight for emphasized Display Large text
+- `--md-sys-typescale-emphasized-display-large-tracking` — Letter spacing for emphasized Display Large text
+- `--md-sys-typescale-emphasized-display-large-line-height` — Line height for emphasized Display Large text
+- `--md-sys-typescale-emphasized-display-medium-font-size` — Font size for emphasized Display Medium text
+- `--md-sys-typescale-emphasized-display-medium-font-weight` — Font weight for emphasized Display Medium text
+- `--md-sys-typescale-emphasized-display-medium-tracking` — Letter spacing for emphasized Display Medium text
+- `--md-sys-typescale-emphasized-display-medium-line-height` — Line height for emphasized Display Medium text
+- `--md-sys-typescale-emphasized-display-small-font-size` — Font size for emphasized Display Small text
+- `--md-sys-typescale-emphasized-display-small-font-weight` — Font weight for emphasized Display Small text
+- `--md-sys-typescale-emphasized-display-small-tracking` — Letter spacing for emphasized Display Small text
+- `--md-sys-typescale-emphasized-display-small-line-height` — Line height for emphasized Display Small text
+- `--md-sys-typescale-emphasized-headline-large-font-size` — Font size for emphasized Headline Large text
+- `--md-sys-typescale-emphasized-headline-large-font-weight` — Font weight for emphasized Headline Large text
+- `--md-sys-typescale-emphasized-headline-large-tracking` — Letter spacing for emphasized Headline Large text
+- `--md-sys-typescale-emphasized-headline-large-line-height` — Line height for emphasized Headline Large text
+- `--md-sys-typescale-emphasized-headline-medium-font-size` — Font size for emphasized Headline Medium text
+- `--md-sys-typescale-emphasized-headline-medium-font-weight` — Font weight for emphasized Headline Medium text
+- `--md-sys-typescale-emphasized-headline-medium-tracking` — Letter spacing for emphasized Headline Medium text
+- `--md-sys-typescale-emphasized-headline-medium-line-height` — Line height for emphasized Headline Medium text
+- `--md-sys-typescale-emphasized-headline-small-font-size` — Font size for emphasized Headline Small text
+- `--md-sys-typescale-emphasized-headline-small-font-weight` — Font weight for emphasized Headline Small text
+- `--md-sys-typescale-emphasized-headline-small-tracking` — Letter spacing for emphasized Headline Small text
+- `--md-sys-typescale-emphasized-headline-small-line-height` — Line height for emphasized Headline Small text
+- `--md-sys-typescale-emphasized-title-large-font-size` — Font size for emphasized Title Large text
+- `--md-sys-typescale-emphasized-title-large-font-weight` — Font weight for emphasized Title Large text
+- `--md-sys-typescale-emphasized-title-large-tracking` — Letter spacing for emphasized Title Large text
+- `--md-sys-typescale-emphasized-title-large-line-height` — Line height for emphasized Title Large text
+- `--md-sys-typescale-emphasized-title-medium-font-size` — Font size for emphasized Title Medium text
+- `--md-sys-typescale-emphasized-title-medium-font-weight` — Font weight for emphasized Title Medium text
+- `--md-sys-typescale-emphasized-title-medium-tracking` — Letter spacing for emphasized Title Medium text
+- `--md-sys-typescale-emphasized-title-medium-line-height` — Line height for emphasized Title Medium text
+- `--md-sys-typescale-emphasized-title-small-font-size` — Font size for emphasized Title Small text
+- `--md-sys-typescale-emphasized-title-small-font-weight` — Font weight for emphasized Title Small text
+- `--md-sys-typescale-emphasized-title-small-tracking` — Letter spacing for emphasized Title Small text
+- `--md-sys-typescale-emphasized-title-small-line-height` — Line height for emphasized Title Small text
+- `--md-sys-typescale-emphasized-label-large-font-size` — Font size for emphasized Label Large text
+- `--md-sys-typescale-emphasized-label-large-font-weight` — Font weight for emphasized Label Large text
+- `--md-sys-typescale-emphasized-label-large-tracking` — Letter spacing for emphasized Label Large text
+- `--md-sys-typescale-emphasized-label-large-line-height` — Line height for emphasized Label Large text
+- `--md-sys-typescale-emphasized-label-medium-font-size` — Font size for emphasized Label Medium text
+- `--md-sys-typescale-emphasized-label-medium-font-weight` — Font weight for emphasized Label Medium text
+- `--md-sys-typescale-emphasized-label-medium-tracking` — Letter spacing for emphasized Label Medium text
+- `--md-sys-typescale-emphasized-label-medium-line-height` — Line height for emphasized Label Medium text
+- `--md-sys-typescale-emphasized-label-small-font-size` — Font size for emphasized Label Small text
+- `--md-sys-typescale-emphasized-label-small-font-weight` — Font weight for emphasized Label Small text
+- `--md-sys-typescale-emphasized-label-small-tracking` — Letter spacing for emphasized Label Small text
+- `--md-sys-typescale-emphasized-label-small-line-height` — Line height for emphasized Label Small text
 
 </details>
 
@@ -1703,6 +2188,30 @@ A container that transforms user input into a cohesive set of interactive chips,
 <details><summary>CSS custom properties (1)</summary>
 
 - `--m3e-chip-set-spacing` — The spacing (gap) between chips in the set.
+
+</details>
+
+### `LinearProgressIndicator` — `<m3e-linear-progress-indicator>` (`@m3e/progress-indicator`)
+
+A horizontal bar for indicating progress and activity.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `buffer-value` | `number` | `0` | A fractional value, between 0 and `max`, indicating buffer progress. |
+| `max` | `number` | `100` | The maximum progress value. |
+| `mode` | `LinearProgressMode` | `"determinate"` | The mode of the progress bar. |
+| `value` | `number` | `0` | A fractional value, between 0 and `max`, indicating progress. |
+| `variant` | `ProgressIndicatorVariant` | `"flat"` | The appearance of the indicator. |
+
+<details><summary>CSS custom properties (7)</summary>
+
+- `--m3e-linear-progress-indicator-thickness` — Thickness (height) of the progress bar.
+- `--m3e-linear-progress-indicator-shape` — Border radius of the progress bar.
+- `--m3e-progress-indicator-track-color` — Track color of the progress bar (background/buffer).
+- `--m3e-progress-indicator-color` — Color of the progress indicator (foreground).
+- `--m3e-linear-wavy-progress-indicator-amplitude` — Amplitude of the `wavy` variant.
+- `--m3e-linear-wavy-progress-indicator-wavelength` — Wavelength of the `wavy` variant.
+- `--m3e-linear-wavy-indeterminate-progress-indicator-wavelength` — Wavelength of the indeterminate/query `wavy` variant.
 
 </details>
 
@@ -2042,7 +2551,217 @@ A selectable option in a list.
 
 </details>
 
-### `NavBar` — `<m3e-nav-bar>` (`@m3e/option`)
+### `LoadingIndicator` — `<m3e-loading-indicator>` (`@m3e/loading-indicator`)
+
+Shows indeterminate progress for a short wait time.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `LoadingIndicatorVariant` | `"uncontained"` | The appearance variant of the indicator. |
+
+<details><summary>CSS custom properties (6)</summary>
+
+- `--m3e-loading-indicator-active-indicator-color` — Uncontained active indicator color.
+- `--m3e-loading-indicator-contained-active-indicator-color` — Contained active indicator color.
+- `--m3e-loading-indicator-contained-container-color` — Contained container (background) color.
+- `--m3e-loading-indicator-active-indicator-size` — Size of the active indicator.
+- `--m3e-loading-indicator-container-shape` — Container shape.
+- `--m3e-loading-indicator-container-size` — Container size.
+
+</details>
+
+### `Menu` — `<m3e-menu>` (`@m3e/menu`)
+
+Presents a list of choices on a temporary surface.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `position-x` | `MenuPositionX` | `"after"` | The position of the menu, on the x-axis. |
+| `position-y` | `MenuPositionY` | `"below"` | The position of the menu, on the y-axis. |
+| `variant` | `MenuVariant` | `"standard"` | The appearance variant of the menu. |
+| `submenu` | `boolean` | `false` | A value indicating whether the menu is a submenu. |
+
+**Slots:** `(default)`
+
+**Events:** `beforetoggle`, `toggle`
+
+<details><summary>CSS custom properties (12)</summary>
+
+- `--m3e-menu-container-shape` — Controls the corner radius of the menu container.
+- `--m3e-menu-active-container-shape` — Controls the corner radius of the menu container when active.
+- `--m3e-menu-container-min-width` — Minimum width of the menu container.
+- `--m3e-menu-container-max-width` — Maximum width of the menu container.
+- `--m3e-menu-container-max-height` — Maximum height of the menu container.
+- `--m3e-menu-container-padding-block` — Vertical padding inside the menu container.
+- `--m3e-menu-container-padding-inline` — Horizontal padding inside the menu container.
+- `--m3e-menu-container-color` — Background color of the menu container.
+- `--m3e-menu-container-elevation` — Box shadow elevation of the menu container.
+- `--m3e-vibrant-menu-container-color` — Background color of the menu container for vibrant variant.
+- `--m3e-menu-divider-spacing` — Vertical spacing around slotted `m3e-divider` elements.
+- `--m3e-menu-gap` — Gap between content in the menu.
+
+</details>
+
+### `MenuItem` — `<m3e-menu-item>` (`@m3e/fab-menu`)
+
+An item of a floating action button (FAB) menu.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `download` | `string | null` | `null` | A value indicating whether the `target` of the link button will be downloaded, optionally specifying the new name of the file. |
+| `href` | `string` | `""` | The URL to which the link button points. |
+| `rel` | `string` | `""` | The relationship between the `target` of the link button and the document. |
+| `target` | `LinkTarget` | `""` | The target of the link button. |
+
+**Slots:** `(default)`, `icon`
+
+**Events:** `click`
+
+<details><summary>CSS custom properties (10)</summary>
+
+- `--m3e-fab-menu-item-height` — Height of the menu item.
+- `--m3e-fab-menu-item-font-size` — Font size of the menu item label.
+- `--m3e-fab-menu-item-font-weight` — Font weight of the menu item label.
+- `--m3e-fab-menu-item-line-height` — Line height of the menu item label.
+- `--m3e-fab-menu-item-tracking` — Letter spacing of the menu item label.
+- `--m3e-fab-menu-item-shape` — Border radius of the menu item.
+- `--m3e-fab-menu-item-leading-space` — Padding at the start of the menu item.
+- `--m3e-fab-menu-item-trailing-space` — Padding at the end of the menu item.
+- `--m3e-fab-menu-item-spacing` — Gap between icon and label.
+- `--m3e-fab-menu-item-icon-size` — Size of the icon in the menu item.
+
+</details>
+
+### `MenuItemCheckbox` — `<m3e-menu-item-checkbox>` (`@m3e/menu`)
+
+An item of a menu which supports a checkable state.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `checked` | `boolean` | `false` | Whether the element is checked. |
+
+**Slots:** `(default)`, `icon`, `trailing-icon`
+
+**Events:** `click`
+
+<details><summary>CSS custom properties (38)</summary>
+
+- `--m3e-menu-item-container-height` — Height of the menu item container.
+- `--m3e-menu-item-color` — Text color for unselected, enabled menu items.
+- `--m3e-menu-item-container-hover-color` — State layer hover color for unselected items.
+- `--m3e-menu-item-container-focus-color` — State layer focus color for unselected items.
+- `--m3e-menu-item-ripple-color` — Ripple color for unselected items.
+- `--m3e-menu-item-selected-color` — Text color for selected items.
+- `--m3e-menu-item-selected-container-color` — Background color for selected items.
+- `--m3e-menu-item-selected-container-hover-color` — State layer hover color for selected items.
+- `--m3e-menu-item-selected-container-focus-color` — State layer focus color for selected items.
+- `--m3e-menu-item-selected-ripple-color` — Ripple color for selected items.
+- `--m3e-menu-item-active-state-layer-color` — State layer color for expanded items.
+- `--m3e-menu-item-active-state-layer-opacity` — State layer opacity for expanded items.
+- `--m3e-menu-item-disabled-color` — Base color for disabled items.
+- `--m3e-menu-item-disabled-opacity` — Opacity percentage for disabled item color mix.
+- `--m3e-vibrant-menu-item-color` — Text color for unselected, enabled menu items for vibrant variant.
+- `--m3e-vibrant-menu-item-container-hover-color` — State layer hover color for unselected items for vibrant variant.
+- `--m3e-vibrant-menu-item-container-focus-color` — State layer focus color for unselected items for vibrant variant.
+- `--m3e-vibrant-menu-item-ripple-color` — Ripple color for unselected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-color` — Text color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-container-color` — Background color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-container-hover-color` — State layer hover color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-container-focus-color` — State layer focus color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-ripple-color` — Ripple color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-active-state-layer-color` — State layer color for expanded items for vibrant variant.
+- `--m3e-vibrant-menu-item-disabled-color` — Base color for disabled items for vibrant variant
+- `--m3e-menu-item-icon-label-space` — Horizontal gap between icon and content.
+- `--m3e-menu-item-padding-start` — Start padding for the item wrapper.
+- `--m3e-menu-item-padding-end` — End padding for the item wrapper.
+- `--m3e-menu-item-label-text-font-size` — Font size for menu item text.
+- `--m3e-menu-item-label-text-font-weight` — Font weight for menu item text.
+- `--m3e-menu-item-label-text-line-height` — Line height for menu item text.
+- `--m3e-menu-item-label-text-tracking` — Letter spacing for menu item text.
+- `--m3e-menu-item-focus-ring-shape` — Border radius for the focus ring.
+- `--m3e-menu-item-icon-size` — Font size for leading and trailing icons.
+- `--m3e-menu-item-shape` — Base shape of the menu item.
+- `--m3e-menu-item-selected-shape` — Shape used for a selected menu item.
+- `--m3e-menu-item-first-child-shape` — Shape for the first menu item in a menu.
+- `--m3e-menu-item-last-child-shape` — Shape for the last menu item in a menu.
+
+</details>
+
+### `MenuItemGroup` — `<m3e-menu-item-group>` (`@m3e/menu`)
+
+Groups related items (such a radios) in a menu.
+
+**Slots:** `(default)`
+
+### `MenuItemRadio` — `<m3e-menu-item-radio>` (`@m3e/menu`)
+
+An item of a menu which supports a mutually exclusive checkable state.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `checked` | `boolean` | `false` | Whether the element is checked. |
+
+**Slots:** `(default)`, `icon`, `trailing-icon`
+
+**Events:** `click`
+
+<details><summary>CSS custom properties (38)</summary>
+
+- `--m3e-menu-item-container-height` — Height of the menu item container.
+- `--m3e-menu-item-color` — Text color for unselected, enabled menu items.
+- `--m3e-menu-item-container-hover-color` — State layer hover color for unselected items.
+- `--m3e-menu-item-container-focus-color` — State layer focus color for unselected items.
+- `--m3e-menu-item-ripple-color` — Ripple color for unselected items.
+- `--m3e-menu-item-selected-color` — Text color for selected items.
+- `--m3e-menu-item-selected-container-color` — Background color for selected items.
+- `--m3e-menu-item-selected-container-hover-color` — State layer hover color for selected items.
+- `--m3e-menu-item-selected-container-focus-color` — State layer focus color for selected items.
+- `--m3e-menu-item-selected-ripple-color` — Ripple color for selected items.
+- `--m3e-menu-item-active-state-layer-color` — State layer color for expanded items.
+- `--m3e-menu-item-active-state-layer-opacity` — State layer opacity for expanded items.
+- `--m3e-menu-item-disabled-color` — Base color for disabled items.
+- `--m3e-menu-item-disabled-opacity` — Opacity percentage for disabled item color mix.
+- `--m3e-vibrant-menu-item-color` — Text color for unselected, enabled menu items for vibrant variant.
+- `--m3e-vibrant-menu-item-container-hover-color` — State layer hover color for unselected items for vibrant variant.
+- `--m3e-vibrant-menu-item-container-focus-color` — State layer focus color for unselected items for vibrant variant.
+- `--m3e-vibrant-menu-item-ripple-color` — Ripple color for unselected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-color` — Text color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-container-color` — Background color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-container-hover-color` — State layer hover color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-container-focus-color` — State layer focus color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-selected-ripple-color` — Ripple color for selected items for vibrant variant.
+- `--m3e-vibrant-menu-item-active-state-layer-color` — State layer color for expanded items for vibrant variant.
+- `--m3e-vibrant-menu-item-disabled-color` — Base color for disabled items for vibrant variant
+- `--m3e-menu-item-icon-label-space` — Horizontal gap between icon and content.
+- `--m3e-menu-item-padding-start` — Start padding for the item wrapper.
+- `--m3e-menu-item-padding-end` — End padding for the item wrapper.
+- `--m3e-menu-item-label-text-font-size` — Font size for menu item text.
+- `--m3e-menu-item-label-text-font-weight` — Font weight for menu item text.
+- `--m3e-menu-item-label-text-line-height` — Line height for menu item text.
+- `--m3e-menu-item-label-text-tracking` — Letter spacing for menu item text.
+- `--m3e-menu-item-focus-ring-shape` — Border radius for the focus ring.
+- `--m3e-menu-item-icon-size` — Font size for leading and trailing icons.
+- `--m3e-menu-item-shape` — Base shape of the menu item.
+- `--m3e-menu-item-selected-shape` — Shape used for a selected menu item.
+- `--m3e-menu-item-first-child-shape` — Shape for the first menu item in a menu.
+- `--m3e-menu-item-last-child-shape` — Shape for the last menu item in a menu.
+
+</details>
+
+### `MenuTrigger` — `<m3e-menu-trigger>` (`@m3e/menu`)
+
+An element, nested within a clickable element, used to open a menu.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `for` | `string | null` | `null` | The identifier of the interactive control to which this element is attached. |
+
+**Slots:** `(default)`
+
+### `NavBar` — `<m3e-nav-bar>` (`@m3e/nav-bar`)
 
 A horizontal bar, typically used on smaller devices, that allows a user to switch between 3-5 views.
 
@@ -2059,6 +2778,58 @@ A horizontal bar, typically used on smaller devices, that allows a user to switc
 - `--m3e-nav-bar-height` — Height of the navigation bar.
 - `--m3e-nav-bar-container-color` — Background color of the navigation bar container.
 - `--m3e-nav-bar-vertical-item-width` — Minimum width of vertical nav items.
+
+</details>
+
+### `NavItem` — `<m3e-nav-item>` (`@m3e/nav-bar`)
+
+An item, placed in a navigation bar or rail, used to navigate to destinations in an application.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | A value indicating whether the element is disabled. |
+| `disabled-interactive` | `boolean` | `false` | A value indicating whether the element is disabled and interactive. |
+| `download` | `string | null` | `null` | A value indicating whether the `target` of the link button will be downloaded, optionally specifying the new name of the file. |
+| `href` | `string` | `""` | The URL to which the link button points. |
+| `orientation` | `NavItemOrientation` | `"vertical"` | The layout orientation of the item. |
+| `rel` | `string` | `""` | The relationship between the `target` of the link button and the document. |
+| `selected` | `boolean` | `false` | A value indicating whether the element is selected. |
+| `target` | `LinkTarget` | `""` | The target of the link button. |
+
+**Slots:** `(default)`, `icon`, `selected-icon`
+
+**Events:** `input`, `change`, `click`
+
+<details><summary>CSS custom properties (28)</summary>
+
+- `--m3e-nav-item-label-text-font-size` — Font size for the label text.
+- `--m3e-nav-item-label-text-font-weight` — Font weight for the label text.
+- `--m3e-nav-item-label-text-line-height` — Line height for the label text.
+- `--m3e-nav-item-label-text-tracking` — Letter spacing for the label text.
+- `--m3e-nav-item-shape` — Border radius of the nav item.
+- `--m3e-nav-item-icon-size` — Size of the icon.
+- `--m3e-nav-item-spacing` — Spacing between icon and label.
+- `--m3e-nav-item-inactive-label-text-color` — Color of the label text when inactive.
+- `--m3e-nav-item-inactive-icon-color` — Color of the icon when inactive.
+- `--m3e-nav-item-inactive-hover-state-layer-color` — State layer color on hover when inactive.
+- `--m3e-nav-item-inactive-focus-state-layer-color` — State layer color on focus when inactive.
+- `--m3e-nav-item-inactive-pressed-state-layer-color` — State layer color on press when inactive.
+- `--m3e-nav-item-active-label-text-color` — Color of the label text when active/selected.
+- `--m3e-nav-item-active-icon-color` — Color of the icon when active/selected.
+- `--m3e-nav-item-active-container-color` — Container color when active/selected.
+- `--m3e-nav-item-active-hover-state-layer-color` — State layer color on hover when active.
+- `--m3e-nav-item-active-focus-state-layer-color` — State layer color on focus when active.
+- `--m3e-nav-item-active-pressed-state-layer-color` — State layer color on press when active.
+- `--m3e-nav-item-focus-ring-shape` — Border radius for the focus ring.
+- `--m3e-nav-item-disabled-label-text-color` — Color of the label text when disabled.
+- `--m3e-nav-item-disabled-label-text-opacity` — Opacity of the label text when disabled.
+- `--m3e-nav-item-disabled-icon-color` — Color of the icon when disabled.
+- `--m3e-nav-item-disabled-icon-opacity` — Opacity of the icon when disabled.
+- `--m3e-horizontal-nav-item-padding` — Padding for horizontal orientation.
+- `--m3e-horizontal-nav-item-active-indicator-height` — Height of the active indicator in horizontal orientation.
+- `--m3e-vertical-nav-item-active-indicator-width` — Width of the active indicator in vertical orientation.
+- `--m3e-vertical-nav-item-active-indicator-height` — Height of the active indicator in vertical orientation.
+- `--m3e-vertical-nav-item-active-indicator-margin` — Margin for the active indicator in vertical orientation.
 
 </details>
 
@@ -2144,6 +2915,43 @@ A top-level semantic grouping of items in a navigation menu.
 
 </details>
 
+### `NavRail` — `<m3e-nav-rail>` (`@m3e/nav-rail`)
+
+A vertical bar, typically used on larger devices, that allows a user to switch between views.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `mode` | `NavBarMode` | `"compact"` | The mode in which items in the rail are presented. |
+
+**Slots:** `(default)`
+
+**Events:** `change`
+
+<details><summary>CSS custom properties (12)</summary>
+
+- `--m3e-nav-rail-top-space` — Top block padding for the nav rail.
+- `--m3e-nav-rail-bottom-space` — Bottom block padding for the nav rail.
+- `--m3e-nav-rail-compact-width` — Width of the nav rail in compact mode.
+- `--m3e-nav-rail-expanded-inline-padding` — Inline padding for expanded nav rail.
+- `--m3e-nav-rail-expanded-min-width` — Minimum width of the nav rail in expanded mode.
+- `--m3e-nav-rail-expanded-max-width` — Maximum width of the nav rail in expanded mode.
+- `--m3e-nav-rail-expanded-item-height` — Height of nav items in expanded mode.
+- `--m3e-nav-rail-button-item-space` — Space below icon buttons and FABs.
+- `--m3e-nav-rail-expanded-icon-button-inset` — Inset for icon buttons in expanded mode.
+- `--m3e-nav-bar-height` — Height of the navigation bar.
+- `--m3e-nav-bar-container-color` — Background color of the navigation bar container.
+- `--m3e-nav-bar-vertical-item-width` — Minimum width of vertical nav items.
+
+</details>
+
+### `NavRailToggle` — `<m3e-nav-rail-toggle>` (`@m3e/nav-rail`)
+
+An element, nested within a clickable element, used to toggle the expanded state of a navigation rail.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `for` | `string | null` | `null` | The identifier of the interactive control to which this element is attached. |
+
 ### `Optgroup` — `<m3e-optgroup>` (`@m3e/option`)
 
 Groups options under a subheading.
@@ -2227,6 +3035,39 @@ Presents a list of options on a temporary surface.
 - `--m3e-option-panel-divider-spacing` — Vertical spacing around slotted `m3e-divider` elements.
 - `--m3e-option-panel-text-highlight-container-color` — Background color used for text highlight matches.
 - `--m3e-option-panel-text-highlight-color` — Text color used for text highlight matches.
+
+</details>
+
+### `Paginator` — `<m3e-paginator>` (`@m3e/paginator`)
+
+Provides navigation for paged information, typically used with a table.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `first-page-label` | `string` | `"First page"` | The accessible label given to the button used to move to the first page. |
+| `hide-page-size` | `boolean` | `false` | Whether to hide page size selection. |
+| `items-per-page-label` | `string` | `"Items per page:"` | The label for the page size selector. |
+| `last-page-label` | `string` | `"Last page"` | The accessible label given to the button used to move to the last page. |
+| `length` | `number` | `0` | The length of the total number of items which are being paginated. |
+| `next-page-label` | `string` | `"Next page"` | The accessible label given to the button used to move to the next page. |
+| `page-index` | `number` | `0` | The zero-based page index of the displayed list of items. |
+| `page-size` | `number | "all"` | `50` | The number of items to display in a page. |
+| `page-sizes` | `string` | `"5,10,25,50,100"` | A comma separated list of available page sizes. |
+| `page-size-variant` | `FormFieldVariant` | `"outlined"` | The appearance variant of the page size field. |
+| `previous-page-label` | `string` | `"Previous page"` | The accessible label given to the button used to move to the previous page. |
+| `show-first-last-buttons` | `boolean` | `false` | Whether to show first/last buttons. |
+
+**Slots:** `first-page-icon`, `previous-page-icon`, `next-page-icon`, `last-page-icon`
+
+**Events:** `page`
+
+<details><summary>CSS custom properties (4)</summary>
+
+- `--m3e-paginator-font-size` — The font size used for paginator text.
+- `--m3e-paginator-font-weight` — The font weight used for paginator text.
+- `--m3e-paginator-line-height` — The line height used for paginator text.
+- `--m3e-paginator-tracking` — The letter-spacing used for paginator text.
 
 </details>
 
@@ -2421,6 +3262,28 @@ A vertically oriented content container which presents dividers above and below 
 
 </details>
 
+### `SegmentedButton` — `<m3e-segmented-button>` (`@m3e/segmented-button`)
+
+A button that allows a user to select from a limited set of options.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `hide-selection-indicator` | `boolean` | `false` | Whether to hide the selection indicator. |
+| `multi` | `boolean` | `false` | Whether multiple options can be selected. |
+| `name` | `string` | `` | The name that identifies the element when submitting the associated form. |
+
+**Slots:** `(default)`
+
+**Events:** `change`, `input`
+
+<details><summary>CSS custom properties (2)</summary>
+
+- `--m3e-segmented-button-start-shape` — Border radius for the first segment in a segmented button.
+- `--m3e-segmented-button-end-shape` — Border radius for the last segment in a segmented button.
+
+</details>
+
 ### `Select` — `<m3e-select>` (`@m3e/select`)
 
 A form control that allows users to select a value from a set of predefined options.
@@ -2513,6 +3376,112 @@ A carousel-like container used to horizontally cycle through slotted items.
 
 </details>
 
+### `SlideGroup` — `<m3e-slide-group>` (`@m3e/slide-group`)
+
+Presents pagination controls used to scroll overflowing content.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether scroll buttons are disabled. |
+| `next-page-label` | `string` | `"Next page"` | The accessible label given to the button used to move to the next page. |
+| `previous-page-label` | `string` | `"Previous page"` | The accessible label given to the button used to move to the previous page. |
+| `threshold` | `number` | `0` | A value, in pixels, indicating the scroll threshold at which to begin showing pagination controls. |
+| `vertical` | `boolean` | `false` | Whether content is oriented vertically. |
+
+**Slots:** `(default)`, `next-icon`, `prev-icon`
+
+<details><summary>CSS custom properties (4)</summary>
+
+- `--m3e-slide-group-button-icon-size` — Sets icon size for scroll buttons; overrides default small icon size.
+- `--m3e-slide-group-button-size` — Defines scroll button size; used for width (horizontal) or height (vertical).
+- `--m3e-slide-group-divider-top` — Adds top border to content container for visual separation.
+- `--m3e-slide-group-divider-bottom` — Adds bottom border to content container for visual separation.
+
+</details>
+
+### `Slider` — `<m3e-slider>` (`@m3e/slider`)
+
+Allows for the selection of numeric values from a range.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `discrete` | `boolean` | `false` | Whether to show tick marks. |
+| `labelled` | `boolean` | `false` | Whether to show value labels when activated. |
+| `max` | `number` | `100` | The maximum allowable value. |
+| `min` | `number` | `0` | The minimum allowable value. |
+| `step` | `number` | `1` | The value at which the thumb will snap. |
+| `size` | `SliderSize` | `"extra-small"` | The size of the slider. |
+
+<details><summary>CSS custom properties (34)</summary>
+
+- `--m3e-slider-min-width` — Minimum inline size of the slider host.
+- `--m3e-slider-small-height` — Height of the slider when size is small or extra-small.
+- `--m3e-slider-medium-height` — Height of the slider when size is medium.
+- `--m3e-slider-large-height` — Height of the slider when size is large.
+- `--m3e-slider-extra-large-height` — Height of the slider when size is extra-large.
+- `--m3e-slider-small-active-track-shape` — Corner shape of the active track for small sliders.
+- `--m3e-slider-small-inactive-active-track-start-shape` — Corner shape of the inactive track start for small sliders.
+- `--m3e-slider-small-inactive-track-end-shape` — Corner shape of the inactive track end for small sliders.
+- `--m3e-slider-medium-active-track-shape` — Corner shape of the active track for medium sliders.
+- `--m3e-slider-medium-inactive-active-track-start-shape` — Corner shape of the inactive track start for medium sliders.
+- `--m3e-slider-medium-inactive-track-end-shape` — Corner shape of the inactive track end for medium sliders.
+- `--m3e-slider-large-active-track-shape` — Corner shape of the active track for large sliders.
+- `--m3e-slider-large-inactive-active-track-start-shape` — Corner shape of the inactive track start for large sliders.
+- `--m3e-slider-large-inactive-track-end-shape` — Corner shape of the inactive track end for large sliders.
+- `--m3e-slider-extra-large-active-track-shape` — Corner shape of the active track for extra-large sliders.
+- `--m3e-slider-extra-large-inactive-active-track-start-shape` — Corner shape of the inactive track start for extra-large sliders.
+- `--m3e-slider-extra-large-inactive-track-end-shape` — Corner shape of the inactive track end for extra-large sliders.
+- `--m3e-slider-extra-small-track-height` — Height of the track for extra-small sliders.
+- `--m3e-slider-small-track-height` — Height of the track for small sliders.
+- `--m3e-slider-medium-track-height` — Height of the track for medium sliders.
+- `--m3e-slider-large-track-height` — Height of the track for large sliders.
+- `--m3e-slider-extra-large-track-height` — Height of the track for extra-large sliders.
+- `--m3e-slider-tick-size` — Size of each tick mark.
+- `--m3e-slider-tick-shape` — Corner shape of each tick mark.
+- `--m3e-slider-inactive-track-color` — Background color of the inactive track when enabled.
+- `--m3e-slider-disabled-inactive-track-color` — Base color of the inactive track when disabled.
+- `--m3e-slider-disabled-inactive-track-opacity` — Opacity of the inactive track when disabled.
+- `--m3e-slider-active-track-color` — Background color of the active track when enabled.
+- `--m3e-slider-disabled-active-track-color` — Base color of the active track when disabled.
+- `--m3e-slider-disabled-active-track-opacity` — Opacity of the active track when disabled.
+- `--m3e-slider-tick-active-color` — Color of active ticks when enabled.
+- `--m3e-slider-disabled-tick-active-color` — Color of active ticks when disabled.
+- `--m3e-slider-tick-inactive-color` — Color of inactive ticks when enabled.
+- `--m3e-slider-disabled-tick-inactive-color` — Color of inactive ticks when disabled.
+
+</details>
+
+### `SliderThumb` — `<m3e-slider-thumb>` (`@m3e/slider`)
+
+A thumb used to select a value in a slider.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `name` | `string` | `` | The name that identifies the element when submitting the associated form. |
+| `value` | `number | null` | `null` | The value of the thumb. |
+
+**Events:** `value-change`, `input`, `change`, `click`
+
+<details><summary>CSS custom properties (13)</summary>
+
+- `--m3e-slider-thumb-width` — Width of the slider thumb.
+- `--m3e-slider-thumb-padding` — Horizontal padding around the thumb.
+- `--m3e-slider-thumb-color` — Active color of the slider thumb when enabled.
+- `--m3e-slider-thumb-pressed-width` — Width of the thumb when pressed.
+- `--m3e-slider-thumb-disabled-color` — Color of the thumb when disabled.
+- `--m3e-slider-thumb-disabled-opacity` — Opacity of the thumb when disabled.
+- `--m3e-slider-label-width` — Width of the floating label above the thumb.
+- `--m3e-slider-label-container-color` — Background color of the label container.
+- `--m3e-slider-label-color` — Text color of the label.
+- `--m3e-slider-label-font-size` — Font size of the label text.
+- `--m3e-slider-label-font-weight` — Font weight of the label text.
+- `--m3e-slider-label-line-height` — Line height of the label text.
+- `--m3e-slider-label-tracking` — Letter spacing of the label text.
+
+</details>
+
 ### `Snackbar` — `<m3e-snackbar>` (`@m3e/snackbar`)
 
 Presents short updates about application processes at the bottom of the screen.
@@ -2536,6 +3505,62 @@ Presents short updates about application processes at the bottom of the screen.
 - `--m3e-snackbar-padding` — Internal spacing of the snackbar container.
 - `--m3e-snackbar-min-width` — Minimum width of the snackbar.
 - `--m3e-snackbar-max-width` — Maximum width of the snackbar.
+
+</details>
+
+### `SplitButton` — `<m3e-split-button>` (`@m3e/split-button`)
+
+A button used to show an action with a menu of related actions.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `SplitButtonVariant` | `"filled"` | The appearance variant of the button. |
+| `size` | `ButtonSize` | `"small"` | The size of the button. |
+
+**Slots:** `leading-button`, `trailing-button`
+
+<details><summary>CSS custom properties (40)</summary>
+
+- `--m3e-split-button-extra-small-trailing-button-unselected-leading-space` — Leading space for the trailing button (extra-small, unselected).
+- `--m3e-split-button-extra-small-trailing-button-unselected-trailing-space` — Trailing space for the trailing button (extra-small, unselected).
+- `--m3e-split-button-small-trailing-button-unselected-leading-space` — Leading space for the trailing button (small, unselected).
+- `--m3e-split-button-small-trailing-button-unselected-trailing-space` — Trailing space for the trailing button (small, unselected).
+- `--m3e-split-button-medium-trailing-button-unselected-leading-space` — Leading space for the trailing button (medium, unselected).
+- `--m3e-split-button-medium-trailing-button-unselected-trailing-space` — Trailing space for the trailing button (medium, unselected).
+- `--m3e-split-button-large-trailing-button-unselected-leading-space` — Leading space for the trailing button (large, unselected).
+- `--m3e-split-button-large-trailing-button-unselected-trailing-space` — Trailing space for the trailing button (large, unselected).
+- `--m3e-split-button-extra-large-trailing-button-unselected-leading-space` — Leading space for the trailing button (extra-large, unselected).
+- `--m3e-split-button-extra-large-trailing-button-unselected-trailing-space` — Trailing space for the trailing button (extra-large, unselected).
+- `--m3e-split-button-extra-small-trailing-button-selected-leading-space` — Leading space for the trailing button (extra-small, selected).
+- `--m3e-split-button-extra-small-trailing-button-selected-trailing-space` — Trailing space for the trailing button (extra-small, selected).
+- `--m3e-split-button-small-trailing-button-selected-leading-space` — Leading space for the trailing button (small, selected).
+- `--m3e-split-button-small-trailing-button-selected-trailing-space` — Trailing space for the trailing button (small, selected).
+- `--m3e-split-button-medium-trailing-button-selected-leading-space` — Leading space for the trailing button (medium, selected).
+- `--m3e-split-button-medium-trailing-button-selected-trailing-space` — Trailing space for the trailing button (medium, selected).
+- `--m3e-split-button-large-trailing-button-selected-leading-space` — Leading space for the trailing button (large, selected).
+- `--m3e-split-button-large-trailing-button-selected-trailing-space` — Trailing space for the trailing button (large, selected).
+- `--m3e-split-button-extra-large-trailing-button-selected-leading-space` — Leading space for the trailing button (extra-large, selected).
+- `--m3e-split-button-extra-large-trailing-button-selected-trailing-space` — Trailing space for the trailing button (extra-large, selected).
+- `--m3e-split-button-extra-small-inner-corner-size` — Inner corner size for the leading/trailing button (extra-small).
+- `--m3e-split-button-small-inner-corner-size` — Inner corner size for the leading/trailing button (small).
+- `--m3e-split-button-medium-inner-corner-size` — Inner corner size for the leading/trailing button (medium).
+- `--m3e-split-button-large-inner-corner-size` — Inner corner size for the leading/trailing button (large).
+- `--m3e-split-button-extra-large-inner-corner-size` — Inner corner size for the leading/trailing button (extra-large).
+- `--m3e-split-button-extra-small-inner-corner-hover-size` — Inner corner size on hover (extra-small).
+- `--m3e-split-button-small-inner-corner-hover-size` — Inner corner size on hover (small).
+- `--m3e-split-button-medium-inner-corner-hover-size` — Inner corner size on hover (medium).
+- `--m3e-split-button-large-inner-corner-hover-size` — Inner corner size on hover (large).
+- `--m3e-split-button-extra-large-inner-corner-hover-size` — Inner corner size on hover (extra-large).
+- `--m3e-split-button-extra-small-inner-corner-pressed-size` — Inner corner size on press (extra-small).
+- `--m3e-split-button-small-inner-corner-pressed-size` — Inner corner size on press (small).
+- `--m3e-split-button-medium-inner-corner-pressed-size` — Inner corner size on press (medium).
+- `--m3e-split-button-large-inner-corner-pressed-size` — Inner corner size on press (large).
+- `--m3e-split-button-extra-large-inner-corner-pressed-size` — Inner corner size on press (extra-large).
+- `--m3e-split-button-extra-small-between-spacing` — Spacing between leading and trailing buttons (extra-small).
+- `--m3e-split-button-small-between-spacing` — Spacing between leading and trailing buttons (small).
+- `--m3e-split-button-medium-between-spacing` — Spacing between leading and trailing buttons (medium).
+- `--m3e-split-button-large-between-spacing` — Spacing between leading and trailing buttons (large).
+- `--m3e-split-button-extra-large-between-spacing` — Spacing between leading and trailing buttons (extra-large).
 
 </details>
 
@@ -2801,6 +3826,79 @@ An on/off control that can be toggled by clicking.
 
 </details>
 
+### `Tab` — `<m3e-tab>` (`@m3e/tabs`)
+
+An interactive element that, when activated, presents an associated tab panel.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | Whether the element is disabled. |
+| `for` | `string | null` | `null` | The identifier of the interactive control to which this element is attached. |
+| `selected` | `boolean` | `false` | Whether the element is selected. |
+
+**Slots:** `(default)`, `icon`
+
+**Events:** `input`, `change`, `click`
+
+<details><summary>CSS custom properties (19)</summary>
+
+- `--m3e-tab-font-size` — Font size for tab label.
+- `--m3e-tab-font-weight` — Font weight for tab label.
+- `--m3e-tab-line-height` — Line height for tab label.
+- `--m3e-tab-tracking` — Letter spacing for tab label.
+- `--m3e-tab-padding-start` — Padding on the inline start of the tab.
+- `--m3e-tab-padding-end` — Padding on the inline end of the tab.
+- `--m3e-tab-focus-ring-shape` — Border radius for the focus ring.
+- `--m3e-tab-selected-color` — Text color for selected tab.
+- `--m3e-tab-selected-container-hover-color` — Hover state-layer color for selected tab.
+- `--m3e-tab-selected-container-focus-color` — Focus state-layer color for selected tab.
+- `--m3e-tab-selected-ripple-color` — Ripple color for selected tab.
+- `--m3e-tab-unselected-color` — Text color for unselected tab.
+- `--m3e-tab-unselected-container-hover-color` — Hover state-layer color for unselected tab.
+- `--m3e-tab-unselected-container-focus-color` — Focus state-layer color for unselected tab.
+- `--m3e-tab-unselected-ripple-color` — Ripple color for unselected tab.
+- `--m3e-tab-disabled-color` — Text color for disabled tab.
+- `--m3e-tab-disabled-opacity` — Text opacity for disabled tab.
+- `--m3e-tab-spacing` — Column gap between icon and label.
+- `--m3e-tab-icon-size` — Font size for slotted icon.
+
+</details>
+
+### `TabPanel` — `<m3e-tab-panel>` (`@m3e/tabs`)
+
+A panel presented for a tab.
+
+**Slots:** `(default)`
+
+### `Tabs` — `<m3e-tabs>` (`@m3e/tabs`)
+
+Organizes content into separate views where only one view can be visible at a time.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disable-pagination` | `boolean` | `false` | Whether scroll buttons are disabled. |
+| `header-position` | `TabHeaderPosition` | `"before"` | The position of the tab headers. |
+| `next-page-label` | `string` | `"Next page"` | The accessible label given to the button used to move to the next page. |
+| `previous-page-label` | `string` | `"Previous page"` | The accessible label given to the button used to move to the previous page. |
+| `stretch` | `boolean` | `false` | Whether tabs are stretched to fill the header. |
+| `variant` | `TabVariant` | `"secondary"` | The appearance variant of the tabs. |
+
+**Slots:** `(default)`, `panel`, `next-icon`, `prev-icon`
+
+**Events:** `change`
+
+<details><summary>CSS custom properties (7)</summary>
+
+- `--m3e-tabs-paginator-button-icon-size` — Overrides the icon size for paginator buttons.
+- `--m3e-tabs-active-indicator-color` — Color of the active tab indicator.
+- `--m3e-tabs-primary-before-active-indicator-shape` — Border radius for active indicator when header is before and variant is primary.
+- `--m3e-tabs-primary-after-active-indicator-shape` — Border radius for active indicator when header is after and variant is primary.
+- `--m3e-tabs-primary-active-indicator-inset` — Inset for primary variant's active indicator.
+- `--m3e-tabs-primary-active-indicator-thickness` — Thickness for primary variant's active indicator.
+- `--m3e-tabs-secondary-active-indicator-thickness` — Thickness for secondary variant's active indicator.
+
+</details>
+
 ### `TextHighlight` — `<m3e-text-highlight>` (`@m3e/core`)
 
 Highlights text which matches a given search term.
@@ -2855,6 +3953,98 @@ A non-visual element responsible for application-level theming.
 | `motion` | `MotionScheme` | `"standard"` | The motion scheme. |
 
 **Events:** `change`
+
+### `Toc` — `<m3e-toc>` (`@m3e/toc`)
+
+A table of contents that provides in-page scroll navigation.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `for` | `string | null` | `null` | The identifier of the interactive control to which this element is attached. |
+| `max-depth` | `number` | `2` | The maximum depth of the table of contents. |
+
+**Slots:** `(default)`, `overline`, `title`
+
+<details><summary>CSS custom properties (16)</summary>
+
+- `--m3e-toc-width` — Width of the table of contents.
+- `--m3e-toc-item-shape` — Border radius of TOC items and active indicator.
+- `--m3e-toc-active-indicator-color` — Border color of the active indicator.
+- `--m3e-toc-active-indicator-animation-duration` — Animation duration for the active indicator.
+- `--m3e-toc-item-padding` — Inline padding for TOC items and header.
+- `--m3e-toc-header-space` — Block space below and between header elements.
+- `--m3e-toc-overline-font-size` — Font size for the overline slot.
+- `--m3e-toc-overline-font-weight` — Font weight for the overline slot.
+- `--m3e-toc-overline-line-height` — Line height for the overline slot.
+- `--m3e-toc-overline-tracking` — Letter spacing for the overline slot.
+- `--m3e-toc-overline-color` — Text color for the overline slot.
+- `--m3e-toc-title-font-size` — Font size for the title slot.
+- `--m3e-toc-title-font-weight` — Font weight for the title slot.
+- `--m3e-toc-title-line-height` — Line height for the title slot.
+- `--m3e-toc-title-tracking` — Letter spacing for the title slot.
+- `--m3e-toc-title-color` — Text color for the title slot.
+
+</details>
+
+### `TocItem` — `<m3e-toc-item>` (`@m3e/toc`)
+
+An item in a table of contents.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `disabled` | `boolean` | `false` | A value indicating whether the element is disabled. |
+| `selected` | `boolean` | `false` | Whether the element is selected. |
+
+**Slots:** `(default)`
+
+**Events:** `click`
+
+<details><summary>CSS custom properties (15)</summary>
+
+- `--m3e-toc-item-shape` — Border radius of the TOC item.
+- `--m3e-toc-item-padding-block` — Block padding for the TOC item.
+- `--m3e-toc-item-padding` — Inline padding for the TOC item.
+- `--m3e-toc-item-inset` — Indentation per level for the TOC item.
+- `--m3e-toc-active-indicator-animation-duration` — Animation duration for the active indicator.
+- `--m3e-toc-item-font-size` — Font size for unselected items.
+- `--m3e-toc-item-font-weight` — Font weight for unselected items.
+- `--m3e-toc-item-line-height` — Line height for unselected items.
+- `--m3e-toc-item-tracking` — Letter spacing for unselected items.
+- `--m3e-toc-item-color` — Text color for unselected items.
+- `--m3e-toc-item-selected-font-size` — Font size for selected items.
+- `--m3e-toc-item-selected-font-weight` — Font weight for selected items.
+- `--m3e-toc-item-selected-line-height` — Line height for selected items.
+- `--m3e-toc-item-selected-tracking` — Letter spacing for selected items.
+- `--m3e-toc-item-selected-color` — Text color for selected items.
+
+</details>
+
+### `Toolbar` — `<m3e-toolbar>` (`@m3e/toolbar`)
+
+Presents frequently used actions relevant to the current page.
+
+| Attribute | Type | Default | Description |
+|---|---|---|---|
+| `elevated` | `boolean` | `false` | Whether the toolbar is elevated. |
+| `shape` | `ToolbarShape` | `"square"` | The shape of the toolbar. |
+| `variant` | `ToolbarVariant` | `"standard"` | The appearance variant of the toolbar. |
+| `vertical` | `boolean` | `false` | Whether the element is oriented vertically. |
+
+**Slots:** `(default)`
+
+<details><summary>CSS custom properties (9)</summary>
+
+- `--m3e-toolbar-size` — The size (height or width) of the toolbar.
+- `--m3e-toolbar-spacing` — The gap between toolbar items.
+- `--m3e-toolbar-rounded-shape` — Border radius for rounded shape.
+- `--m3e-toolbar-rounded-padding` — Padding for rounded shape.
+- `--m3e-toolbar-square-padding` — Padding for square shape.
+- `--m3e-toolbar-standard-container-color` — Container color for the standard variant.
+- `--m3e-toolbar-standard-color` — Foreground color for the standard variant.
+- `--m3e-toolbar-vibrant-container-color` — Container color for the vibrant variant.
+- `--m3e-toolbar-vibrant-color` — Foreground color for the vibrant variant.
+
+</details>
 
 ### `Tooltip` — `<m3e-tooltip>` (`@m3e/tooltip`)
 

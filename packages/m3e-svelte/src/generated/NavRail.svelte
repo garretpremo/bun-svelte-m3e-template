@@ -2,17 +2,17 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
-  if (browser) void import("@m3e/nav-bar");
-  import type { NavBarMode } from "@m3e/nav-bar";
+  if (browser) void import("@m3e/nav-rail");
+  import type { M3eNavRailElement } from "@m3e/nav-rail";
 
   interface Props {
-    /** The mode in which items in the bar are presented. */
-    mode?: NavBarMode;
+    /** The mode in which items in the rail are presented. */
+    mode?: string;
     /** Renders the items of the bar. */
     children?: Snippet;
     /** Emitted when the selected state of an item changes. */
     onchange?: (e: Event) => void;
-    element?: unknown;
+    element?: M3eNavRailElement;
     // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
     [key: string]: any;
   }
@@ -20,11 +20,11 @@
   let { mode, children, onchange, element = $bindable(), ...rest }: Props = $props();
 </script>
 
-<m3e-nav-bar
+<m3e-nav-rail
   bind:this={element}
   {...rest}
   {mode}
   onchange={onchange}
 >
   {@render children?.()}
-</m3e-nav-bar>
+</m3e-nav-rail>

@@ -2,12 +2,13 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
-  if (browser) void import("@m3e/stepper");
+  if (browser) void import("@m3e/bottom-sheet");
+  import type { M3eDialogActionElement } from "@m3e/bottom-sheet";
 
   interface Props {
     /** Renders the content of the action. */
     children?: Snippet;
-    element?: unknown;
+    element?: M3eDialogActionElement;
     // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
     [key: string]: any;
   }
@@ -15,9 +16,9 @@
   let { children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
-<m3e-stepper-previous
+<m3e-bottom-sheet-action
   bind:this={element}
   {...rest}
 >
   {@render children?.()}
-</m3e-stepper-previous>
+</m3e-bottom-sheet-action>

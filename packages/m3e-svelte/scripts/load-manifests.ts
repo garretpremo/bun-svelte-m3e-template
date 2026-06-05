@@ -11,8 +11,10 @@ const here = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(here, "..");
 
 export function loadManifests(packages: string[]): LoadedElement[] {
-  const out: LoadedElement[] = [];
-  const seen = new Set<string>();
+  // First pass: count how many packages declare each tag.
+  const tagCount = new Map<string, number>();
+  type Candidate = { pkg: string; klass: CemClassDeclaration; exportedNames: Set<string> };
+  const candidates: Candidate[] = [];
   for (const pkg of packages) {
     const cemPath = resolve(pkgRoot, "node_modules", pkg, "dist/custom-elements.json");
     if (!existsSync(cemPath)) {
@@ -25,17 +27,28 @@ export function loadManifests(packages: string[]): LoadedElement[] {
       for (const decl of mod.declarations ?? []) {
         if (decl.kind !== "class") continue;
         const klass = decl as CemClassDeclaration;
-        if (!klass.tagName || seen.has(klass.tagName)) continue;
-        seen.add(klass.tagName);
-        out.push({
-          pkg,
-          tag: klass.tagName,
-          className: klass.name,
-          declaration: klass,
-          exportedNames,
-        });
+        if (!klass.tagName) continue;
+        tagCount.set(klass.tagName, (tagCount.get(klass.tagName) ?? 0) + 1);
+        candidates.push({ pkg, klass, exportedNames });
       }
     }
+  }
+
+  // Second pass: emit one element per tag (first wins), with conflict flag.
+  const out: LoadedElement[] = [];
+  const seen = new Set<string>();
+  for (const { pkg, klass, exportedNames } of candidates) {
+    const tag = klass.tagName!;
+    if (seen.has(tag)) continue;
+    seen.add(tag);
+    out.push({
+      pkg,
+      tag,
+      className: klass.name,
+      declaration: klass,
+      exportedNames,
+      tagConflict: (tagCount.get(tag) ?? 0) > 1,
+    });
   }
   return out;
 }

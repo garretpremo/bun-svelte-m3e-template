@@ -2,12 +2,13 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
-  if (browser) void import("@m3e/stepper");
+  if (browser) void import("@m3e/avatar");
+  import type { M3eAvatarElement } from "@m3e/avatar";
 
   interface Props {
-    /** Renders the content of the action. */
+    /** Renders the content of the avatar. */
     children?: Snippet;
-    element?: unknown;
+    element?: M3eAvatarElement;
     // biome-ignore lint/suspicious/noExplicitAny: pass-through attrs
     [key: string]: any;
   }
@@ -15,9 +16,9 @@
   let { children, element = $bindable(), ...rest }: Props = $props();
 </script>
 
-<m3e-stepper-previous
+<m3e-avatar
   bind:this={element}
   {...rest}
 >
   {@render children?.()}
-</m3e-stepper-previous>
+</m3e-avatar>
