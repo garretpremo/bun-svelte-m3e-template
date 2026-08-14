@@ -1,5 +1,6 @@
 <script lang="ts">
 import "$lib/m3e/setup";
+import "../styles/typescale.css";
 import "../styles/theme.css";
 import "../styles/animations.css";
 import "../styles/material-symbols.css";

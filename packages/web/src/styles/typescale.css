@@ -1,0 +1,103 @@
+/*
+ * The M3 type scale, as a token contract.
+ *
+ * Why this file exists: every @m3e/* component reads its typography through
+ * `var(--md-sys-typescale-<role>-<facet>, <fallback>)` — 60 such reads in
+ * @m3e/core alone — but nothing defined those tokens, so every component fell
+ * back to its own baked-in default. Meanwhile theme.css styles app text with a
+ * separate `--font-size-*` scale. The two were never the same system: text
+ * inside an <m3e-button> and text in an app class were typographically
+ * unrelated by construction, and no single place could change both.
+ *
+ * Defining them here makes the scale the same single source of truth that
+ * `--md-sys-color-*` already is: app CSS references a role, M3E components read
+ * the same value, and a theme overrides one block.
+ *
+ * The values are NOT hand-authored. They are M3E's own fallbacks, so adding
+ * this file changes nothing that currently renders:
+ *   grep -oE 'var\(--md-sys-typescale-[a-z-]+,\s*[^)]+\)' \
+ *     packages/m3e-svelte/node_modules/@m3e/core/dist/index.js | sort -u
+ * They match the published M3 scale (display-large 57/64, body-large 16/24,
+ * label-medium 12/16 at 0.5px tracking). Don't "adjust" one to restyle a single
+ * component — point that component at a different role instead.
+ *
+ * `tracking` is M3's name for letter-spacing. The `emphasized-*` roles M3E also
+ * reads are deliberately omitted: nothing here uses them, and leaving them
+ * undefined keeps M3E on its own defaults rather than pinning values this
+ * template has no opinion about.
+ */
+:root {
+  --md-sys-typescale-display-large-font-size: 3.5625rem;
+  --md-sys-typescale-display-large-line-height: 4rem;
+  --md-sys-typescale-display-large-font-weight: 400;
+  --md-sys-typescale-display-large-tracking: 0.015625rem;
+
+  --md-sys-typescale-display-medium-font-size: 2.8125rem;
+  --md-sys-typescale-display-medium-line-height: 3.25rem;
+  --md-sys-typescale-display-medium-font-weight: 400;
+  --md-sys-typescale-display-medium-tracking: 0;
+
+  --md-sys-typescale-display-small-font-size: 2.25rem;
+  --md-sys-typescale-display-small-line-height: 2.75rem;
+  --md-sys-typescale-display-small-font-weight: 400;
+  --md-sys-typescale-display-small-tracking: 0;
+
+  --md-sys-typescale-headline-large-font-size: 2rem;
+  --md-sys-typescale-headline-large-line-height: 2.5rem;
+  --md-sys-typescale-headline-large-font-weight: 400;
+  --md-sys-typescale-headline-large-tracking: 0;
+
+  --md-sys-typescale-headline-medium-font-size: 1.75rem;
+  --md-sys-typescale-headline-medium-line-height: 2.25rem;
+  --md-sys-typescale-headline-medium-font-weight: 400;
+  --md-sys-typescale-headline-medium-tracking: 0;
+
+  --md-sys-typescale-headline-small-font-size: 1.5rem;
+  --md-sys-typescale-headline-small-line-height: 2rem;
+  --md-sys-typescale-headline-small-font-weight: 400;
+  --md-sys-typescale-headline-small-tracking: 0;
+
+  --md-sys-typescale-title-large-font-size: 1.375rem;
+  --md-sys-typescale-title-large-line-height: 1.75rem;
+  --md-sys-typescale-title-large-font-weight: 400;
+  --md-sys-typescale-title-large-tracking: 0;
+
+  --md-sys-typescale-title-medium-font-size: 1rem;
+  --md-sys-typescale-title-medium-line-height: 1.5rem;
+  --md-sys-typescale-title-medium-font-weight: 500;
+  --md-sys-typescale-title-medium-tracking: 0.009375rem;
+
+  --md-sys-typescale-title-small-font-size: 0.875rem;
+  --md-sys-typescale-title-small-line-height: 1.25rem;
+  --md-sys-typescale-title-small-font-weight: 500;
+  --md-sys-typescale-title-small-tracking: 0.00625rem;
+
+  --md-sys-typescale-body-large-font-size: 1rem;
+  --md-sys-typescale-body-large-line-height: 1.5rem;
+  --md-sys-typescale-body-large-font-weight: 400;
+  --md-sys-typescale-body-large-tracking: 0.03125rem;
+
+  --md-sys-typescale-body-medium-font-size: 0.875rem;
+  --md-sys-typescale-body-medium-line-height: 1.25rem;
+  --md-sys-typescale-body-medium-font-weight: 400;
+  --md-sys-typescale-body-medium-tracking: 0.015625rem;
+
+  --md-sys-typescale-body-small-font-size: 0.75rem;
+  --md-sys-typescale-body-small-line-height: 1rem;
+  --md-sys-typescale-body-small-font-weight: 400;
+  --md-sys-typescale-body-small-tracking: 0.025rem;
+
+  --md-sys-typescale-label-large-font-size: 0.875rem;
+  --md-sys-typescale-label-large-line-height: 1.25rem;
+  --md-sys-typescale-label-large-font-weight: 500;
+  --md-sys-typescale-label-large-tracking: 0.00625rem;
+
+  --md-sys-typescale-label-medium-font-size: 0.75rem;
+  --md-sys-typescale-label-medium-line-height: 1rem;
+  --md-sys-typescale-label-medium-font-weight: 500;
+  --md-sys-typescale-label-medium-tracking: 0.03125rem;
+
+  --md-sys-typescale-label-small-font-size: 0.6875rem;
+  --md-sys-typescale-label-small-line-height: 1rem;
+  --md-sys-typescale-label-small-font-weight: 500;
+  --md-sys-typescale-label-small-tracking: 0.03125rem;}
