@@ -59,39 +59,65 @@ body {
   line-height: var(--line-height-base);
 }
 
-/* Page typography helpers */
-.page-content h1 {
+/*
+ * Page typography helpers — defaults for *unclassed* prose only.
+ *
+ * Every selector here is wrapped in `:where()`, which contributes zero
+ * specificity. That is load-bearing, not stylistic. `.page-content h2` sits at
+ * (0,1,1) and silently outranks any single-class utility at (0,1,0) — and
+ * `+layout.svelte` wraps every route in `<main class="page-content">`, so this
+ * applies app-wide. A downstream project hit exactly this: `.card-head`
+ * declared 16px and rendered at 32px (--font-size-3xl), a `.h1` utility
+ * declared 36px and rendered at 56px (--font-size-4xl), a `.sub` utility
+ * declared 14px and rendered at 16px (--font-size-md), and a code utility lost
+ * its font-family to the `code` rule below.
+ *
+ * The failure mode is nasty: the utility looks authoritative in source and is
+ * simply ignored at runtime. Nothing errors, and jsdom-based unit tests compute
+ * no cascade so they cannot see it. The obvious workaround — bumping the
+ * utility's specificity — then outranks that utility's own modifier classes and
+ * causes a second, subtler bug.
+ *
+ * At zero specificity these still style bare <h1>/<p>/<code> inside
+ * `.page-content` exactly as before, but any class at all now wins. Do not
+ * unwrap a `:where()` to make something bigger — point it at a different scale
+ * value instead. `theme-css.test.ts` fails if one is unwrapped.
+ */
+:where(.page-content h1) {
   font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
   color: var(--md-sys-color-on-surface);
 }
-.page-content h2 {
+:where(.page-content h2) {
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
   color: var(--md-sys-color-on-surface);
 }
-.page-content h3 {
+:where(.page-content h3) {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-medium);
   color: var(--md-sys-color-on-surface);
   margin-top: var(--space-lg);
 }
-.page-content p {
+:where(.page-content p) {
   font-size: var(--font-size-md);
   line-height: var(--line-height-base);
   color: var(--md-sys-color-on-surface-variant);
 }
-.page-content .body-large {
+/* Zeroed alongside `p` above rather than left at (0,2,0): with both at zero,
+   source order decides, and this follows `p`, so `<p class="body-large">` still
+   wins. Left unwrapped it would outrank any utility placed on the same element. */
+:where(.page-content .body-large) {
   font-size: var(--font-size-body-large);
   line-height: var(--line-height-loose);
   color: var(--md-sys-color-on-surface-variant);
   max-width: 650px;
 }
-.page-content code {
+:where(.page-content code) {
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
     monospace;
   font-variant-numeric: tabular-nums;
