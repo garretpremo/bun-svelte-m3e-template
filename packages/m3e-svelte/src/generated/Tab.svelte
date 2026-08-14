@@ -2,6 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/tabs");
   import type { M3eTabElement } from "@m3e/tabs";
 
@@ -27,7 +28,17 @@
     [key: string]: any;
   }
 
-  let { disabled, for_, selected, children, icon, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+  let { disabled, for_, selected = $bindable(false), children, icon, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+
+  function syncFromDom() {
+    if (!element) return;
+    const node = element as unknown as Record<string, unknown>;
+    { const next = node["selected"]; if (next != null) selected = next as boolean; }
+  }
+
+  $effect(() => {
+    if (selected !== undefined) syncManagedProperty(element, "selected", selected);
+  });
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -37,9 +48,8 @@
   {...rest}
   disabled={disabled || undefined}
   for={for_}
-  selected={selected || undefined}
-  oninput={oninput}
-  onchange={onchange}
+  oninput={(e: Event) => { syncFromDom(); oninput?.(e); }}
+  onchange={(e: Event) => { syncFromDom(); onchange?.(e); }}
   onclick={onclick}
 >
   {#if icon}<div slot="icon" style="display:contents">{@render icon()}</div>{/if}

@@ -2,17 +2,17 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
-  import { syncProperty } from "../runtime/upgrade";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/segmented-button");
   import type { M3eButtonSegmentElement } from "@m3e/segmented-button";
 
   interface Props {
     /** Whether the element is disabled. */
     disabled?: boolean;
-    /** A string representing the value of the segment. */
-    value?: string;
     /** Whether the element is checked. */
     checked?: boolean;
+    /** A string representing the value of the segment. */
+    value?: string;
     /** Renders the label of the option. */
     children?: Snippet;
     /** Renders an icon before the option's label. */
@@ -28,16 +28,20 @@
     [key: string]: any;
   }
 
-  let { disabled, value, checked = $bindable(false), children, icon, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+  let { disabled, checked = $bindable(false), value = $bindable(undefined), children, icon, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
 
   function syncFromDom() {
     if (!element) return;
     const node = element as unknown as Record<string, unknown>;
-    checked = node["checked"] as boolean;
+    { const next = node["checked"]; if (next != null) checked = next as boolean; }
+    { const next = node["value"]; if (next != null) value = next as string; }
   }
 
   $effect(() => {
-    if (checked !== undefined) syncProperty(element, "checked", checked);
+    if (checked !== undefined) syncManagedProperty(element, "checked", checked);
+  });
+  $effect(() => {
+    if (value !== undefined) syncManagedProperty(element, "value", value);
   });
 </script>
 
@@ -47,7 +51,6 @@
   bind:this={element}
   {...rest}
   disabled={disabled || undefined}
-  {value}
   oninput={(e: Event) => { syncFromDom(); oninput?.(e); }}
   onchange={(e: Event) => { syncFromDom(); onchange?.(e); }}
   onclick={onclick}

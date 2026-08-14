@@ -2,6 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/fab-menu");
 
   interface Props {

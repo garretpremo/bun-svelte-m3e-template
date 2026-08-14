@@ -2,6 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/option");
   import type { M3eOptionElement } from "@m3e/option";
 
@@ -19,15 +20,20 @@
     [key: string]: any;
   }
 
-  let { disabled, selected, value, children, element = $bindable(), ...rest }: Props = $props();
+  let { disabled, selected = $bindable(false), value = $bindable(undefined), children, element = $bindable(), ...rest }: Props = $props();
+
+  $effect(() => {
+    if (selected !== undefined) syncManagedProperty(element, "selected", selected);
+  });
+  $effect(() => {
+    if (value !== undefined) syncManagedProperty(element, "value", value);
+  });
 </script>
 
 <m3e-option
   bind:this={element}
   {...rest}
   disabled={disabled || undefined}
-  selected={selected || undefined}
-  {value}
 >
   {@render children?.()}
 </m3e-option>

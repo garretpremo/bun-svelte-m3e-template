@@ -2,7 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
-  import { syncProperty } from "../runtime/upgrade";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/menu");
   import type { M3eMenuItemRadioElement } from "@m3e/menu";
 
@@ -27,7 +27,7 @@
   let { disabled, checked = $bindable(false), children, icon, trailingIcon, onclick, element = $bindable(), ...rest }: Props = $props();
 
   $effect(() => {
-    if (checked !== undefined) syncProperty(element, "checked", checked);
+    if (checked !== undefined) syncManagedProperty(element, "checked", checked);
   });
 </script>
 

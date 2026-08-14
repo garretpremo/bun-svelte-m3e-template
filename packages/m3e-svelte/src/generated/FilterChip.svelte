@@ -2,6 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/chips");
   import type { M3eFilterChipElement, ChipVariant } from "@m3e/chips";
 
@@ -10,12 +11,12 @@
     disabled?: boolean;
     /** A value indicating whether the element is disabled and interactive. */
     disabledInteractive?: boolean;
+    /** The appearance variant of the chip. */
+    variant?: ChipVariant;
     /** A value indicating whether the element is selected. */
     selected?: boolean;
     /** A string representing the value of the chip. */
     value?: string;
-    /** The appearance variant of the chip. */
-    variant?: ChipVariant;
     /** Renders the label of the chip. */
     children?: Snippet;
     /** Renders an icon before the chip's label. */
@@ -33,7 +34,21 @@
     [key: string]: any;
   }
 
-  let { disabled, disabledInteractive, selected, value, variant, children, icon, trailingIcon, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+  let { disabled, disabledInteractive, variant, selected = $bindable(false), value = $bindable(undefined), children, icon, trailingIcon, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+
+  function syncFromDom() {
+    if (!element) return;
+    const node = element as unknown as Record<string, unknown>;
+    { const next = node["selected"]; if (next != null) selected = next as boolean; }
+    { const next = node["value"]; if (next != null) value = next as string; }
+  }
+
+  $effect(() => {
+    if (selected !== undefined) syncManagedProperty(element, "selected", selected);
+  });
+  $effect(() => {
+    if (value !== undefined) syncManagedProperty(element, "value", value);
+  });
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -43,11 +58,9 @@
   {...rest}
   disabled={disabled || undefined}
   disabled-interactive={disabledInteractive || undefined}
-  selected={selected || undefined}
-  {value}
   {variant}
-  oninput={oninput}
-  onchange={onchange}
+  oninput={(e: Event) => { syncFromDom(); oninput?.(e); }}
+  onchange={(e: Event) => { syncFromDom(); onchange?.(e); }}
   onclick={onclick}
 >
   {#if icon}<div slot="icon" style="display:contents">{@render icon()}</div>{/if}

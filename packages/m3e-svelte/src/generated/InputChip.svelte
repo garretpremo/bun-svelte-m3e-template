@@ -2,6 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/chips");
   import type { M3eInputChipElement, ChipVariant } from "@m3e/chips";
 
@@ -14,10 +15,10 @@
     removable?: boolean;
     /** The accessible label given to the button used to remove the chip. */
     removeLabel?: string;
-    /** A string representing the value of the chip. */
-    value?: string;
     /** The appearance variant of the chip. */
     variant?: ChipVariant;
+    /** A string representing the value of the chip. */
+    value?: string;
     /** Renders the label of the chip. */
     children?: Snippet;
     /** Renders an avatar before the chip's label. */
@@ -37,7 +38,11 @@
     [key: string]: any;
   }
 
-  let { disabled, disabledInteractive, removable, removeLabel, value, variant, children, avatar, icon, removeIcon, trailingIcon, onremove, onclick, element = $bindable(), ...rest }: Props = $props();
+  let { disabled, disabledInteractive, removable, removeLabel, variant, value = $bindable(undefined), children, avatar, icon, removeIcon, trailingIcon, onremove, onclick, element = $bindable(), ...rest }: Props = $props();
+
+  $effect(() => {
+    if (value !== undefined) syncManagedProperty(element, "value", value);
+  });
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -49,7 +54,6 @@
   disabled-interactive={disabledInteractive || undefined}
   removable={removable || undefined}
   remove-label={removeLabel}
-  {value}
   {variant}
   onremove={onremove}
   onclick={onclick}

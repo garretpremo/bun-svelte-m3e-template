@@ -2,6 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/toc");
   import type { M3eTocItemElement } from "@m3e/toc";
 
@@ -19,7 +20,11 @@
     [key: string]: any;
   }
 
-  let { disabled, selected, children, onclick, element = $bindable(), ...rest }: Props = $props();
+  let { disabled, selected = $bindable(false), children, onclick, element = $bindable(), ...rest }: Props = $props();
+
+  $effect(() => {
+    if (selected !== undefined) syncManagedProperty(element, "selected", selected);
+  });
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -28,7 +33,6 @@
   bind:this={element}
   {...rest}
   disabled={disabled || undefined}
-  selected={selected || undefined}
   onclick={onclick}
 >
   {@render children?.()}

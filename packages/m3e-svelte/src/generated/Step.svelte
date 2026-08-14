@@ -2,6 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/stepper");
   import type { M3eStepElement } from "@m3e/stepper";
 
@@ -16,10 +17,10 @@
     for_?: string | null;
     /** Whether the step is optional. */
     optional?: boolean;
-    /** Whether the element is selected. */
-    selected?: boolean;
     /** Whether the step has an error. */
     invalid?: boolean;
+    /** Whether the element is selected. */
+    selected?: boolean;
     /** Renders the label of the step. */
     children?: Snippet;
     /** Renders the icon of the step. */
@@ -45,7 +46,17 @@
     [key: string]: any;
   }
 
-  let { completed, disabled, editable, for_, optional, selected, invalid, children, icon, doneIcon, editIcon, errorIcon, hint, error, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+  let { completed, disabled, editable, for_, optional, invalid, selected = $bindable(false), children, icon, doneIcon, editIcon, errorIcon, hint, error, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+
+  function syncFromDom() {
+    if (!element) return;
+    const node = element as unknown as Record<string, unknown>;
+    { const next = node["selected"]; if (next != null) selected = next as boolean; }
+  }
+
+  $effect(() => {
+    if (selected !== undefined) syncManagedProperty(element, "selected", selected);
+  });
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -58,10 +69,9 @@
   editable={editable || undefined}
   for={for_}
   optional={optional || undefined}
-  selected={selected || undefined}
   invalid={invalid || undefined}
-  oninput={oninput}
-  onchange={onchange}
+  oninput={(e: Event) => { syncFromDom(); oninput?.(e); }}
+  onchange={(e: Event) => { syncFromDom(); onchange?.(e); }}
   onclick={onclick}
 >
   {#if icon}<div slot="icon" style="display:contents">{@render icon()}</div>{/if}

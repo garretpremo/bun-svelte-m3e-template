@@ -7,6 +7,7 @@ import { listPeerPackages, loadManifests } from "./load-manifests";
 import { renderIndex } from "./render-index";
 import { renderReadme } from "./render-readme";
 import { renderStyles } from "./render-styles";
+import { discoverManagedChildTags } from "./selection-managed";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(here, "..");
@@ -33,6 +34,22 @@ function main() {
       className: el.className,
       classification: classify(el.tag, el.declaration.attributes ?? []),
     };
+  }
+
+  // Cross-check the discovered managed-child tags against the tags actually
+  // wrapped. These are two different namespaces and they do disagree: the
+  // runtime queries `m3e-fab-menu-item`, while the CEM registers that element
+  // as `m3e-menu-item`. An unmatched tag is not necessarily a bug, but it
+  // should never be silent — silence is what let the old name-matched
+  // classification drift out of step with the library unnoticed.
+  const { tags: managedTags, source: managedSource } = discoverManagedChildTags();
+  const unwrapped = [...managedTags].filter((t) => !(t in manifest)).sort();
+  if (unwrapped.length > 0) {
+    console.warn(
+      `[m3e-svelte] ${unwrapped.length} tag(s) claimed by a SelectionManager have no wrapper:\n${unwrapped
+        .map((t) => `  ${t} (queried in ${managedSource.get(t)})`)
+        .join("\n")}\n  Expected when a package's runtime query and its CEM tagName differ.`,
+    );
   }
 
   writeFileSync(

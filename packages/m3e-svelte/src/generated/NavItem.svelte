@@ -2,6 +2,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { browser } from "../runtime/env";
+  import { syncManagedProperty } from "../runtime/upgrade";
   if (browser) void import("@m3e/nav-bar");
   import type { M3eNavItemElement, NavItemOrientation } from "@m3e/nav-bar";
 
@@ -18,10 +19,10 @@
     orientation?: NavItemOrientation;
     /** The relationship between the `target` of the link button and the document. */
     rel?: string;
-    /** A value indicating whether the element is selected. */
-    selected?: boolean;
     /** The target of the link button. */
     target?: string;
+    /** A value indicating whether the element is selected. */
+    selected?: boolean;
     /** Renders the label of the item. */
     children?: Snippet;
     /** Renders the icon of the item. */
@@ -39,7 +40,17 @@
     [key: string]: any;
   }
 
-  let { disabled, disabledInteractive, download, href, orientation, rel, selected, target, children, icon, selectedIcon, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+  let { disabled, disabledInteractive, download, href, orientation, rel, target, selected = $bindable(false), children, icon, selectedIcon, oninput, onchange, onclick, element = $bindable(), ...rest }: Props = $props();
+
+  function syncFromDom() {
+    if (!element) return;
+    const node = element as unknown as Record<string, unknown>;
+    { const next = node["selected"]; if (next != null) selected = next as boolean; }
+  }
+
+  $effect(() => {
+    if (selected !== undefined) syncManagedProperty(element, "selected", selected);
+  });
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -53,10 +64,9 @@
   {href}
   {orientation}
   {rel}
-  selected={selected || undefined}
   {target}
-  oninput={oninput}
-  onchange={onchange}
+  oninput={(e: Event) => { syncFromDom(); oninput?.(e); }}
+  onchange={(e: Event) => { syncFromDom(); onchange?.(e); }}
   onclick={onclick}
 >
   {#if icon}<div slot="icon" style="display:contents">{@render icon()}</div>{/if}

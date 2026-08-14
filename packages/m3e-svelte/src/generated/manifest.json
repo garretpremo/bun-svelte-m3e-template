@@ -72,7 +72,7 @@
   "m3e-filter-chip": {
     "package": "@m3e/chips",
     "className": "M3eFilterChipElement",
-    "classification": "passive"
+    "classification": "selection-managed"
   },
   "m3e-filter-chip-set": {
     "package": "@m3e/chips",
@@ -82,7 +82,7 @@
   "m3e-input-chip": {
     "package": "@m3e/chips",
     "className": "M3eInputChipElement",
-    "classification": "passive"
+    "classification": "selection-managed"
   },
   "m3e-input-chip-set": {
     "package": "@m3e/chips",
@@ -212,7 +212,7 @@
   "m3e-menu-item": {
     "package": "@m3e/fab-menu",
     "className": "M3eFabMenuItemElement",
-    "classification": "passive"
+    "classification": "selection-managed"
   },
   "m3e-fab-menu-trigger": {
     "package": "@m3e/fab-menu",
@@ -292,7 +292,7 @@
   "m3e-menu-item-checkbox": {
     "package": "@m3e/menu",
     "className": "M3eMenuItemCheckboxElement",
-    "classification": "property-driven"
+    "classification": "selection-managed"
   },
   "m3e-menu-item-group": {
     "package": "@m3e/menu",
@@ -302,7 +302,7 @@
   "m3e-menu-item-radio": {
     "package": "@m3e/menu",
     "className": "M3eMenuItemRadioElement",
-    "classification": "property-driven"
+    "classification": "selection-managed"
   },
   "m3e-menu-trigger": {
     "package": "@m3e/menu",
@@ -317,7 +317,7 @@
   "m3e-nav-item": {
     "package": "@m3e/nav-bar",
     "className": "M3eNavItemElement",
-    "classification": "passive"
+    "classification": "selection-managed"
   },
   "m3e-nav-menu": {
     "package": "@m3e/nav-menu",
@@ -352,7 +352,7 @@
   "m3e-option": {
     "package": "@m3e/option",
     "className": "M3eOptionElement",
-    "classification": "passive"
+    "classification": "selection-managed"
   },
   "m3e-option-panel": {
     "package": "@m3e/option",
@@ -377,7 +377,7 @@
   "m3e-radio": {
     "package": "@m3e/radio-group",
     "className": "M3eRadioElement",
-    "classification": "property-driven"
+    "classification": "selection-managed"
   },
   "m3e-radio-group": {
     "package": "@m3e/radio-group",
@@ -387,7 +387,7 @@
   "m3e-button-segment": {
     "package": "@m3e/segmented-button",
     "className": "M3eButtonSegmentElement",
-    "classification": "property-driven"
+    "classification": "selection-managed"
   },
   "m3e-segmented-button": {
     "package": "@m3e/segmented-button",
@@ -432,7 +432,7 @@
   "m3e-step": {
     "package": "@m3e/stepper",
     "className": "M3eStepElement",
-    "classification": "passive"
+    "classification": "selection-managed"
   },
   "m3e-step-panel": {
     "package": "@m3e/stepper",
@@ -462,7 +462,7 @@
   "m3e-tab": {
     "package": "@m3e/tabs",
     "className": "M3eTabElement",
-    "classification": "passive"
+    "classification": "selection-managed"
   },
   "m3e-tab-panel": {
     "package": "@m3e/tabs",
@@ -492,7 +492,7 @@
   "m3e-toc-item": {
     "package": "@m3e/toc",
     "className": "M3eTocItemElement",
-    "classification": "passive"
+    "classification": "selection-managed"
   },
   "m3e-toolbar": {
     "package": "@m3e/toolbar",
