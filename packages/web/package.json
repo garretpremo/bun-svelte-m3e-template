@@ -17,6 +17,7 @@
   "dependencies": {
     "@app/m3e-svelte": "workspace:*",
     "@app/server": "workspace:*",
+    "@lit/reactive-element": "^2.1.2",
     "@m3e/app-bar": "^1.3.1",
     "@m3e/autocomplete": "^1.3.1",
     "@m3e/avatar": "^1.3.1",
@@ -63,6 +64,9 @@
     "@m3e/toc": "^1.3.1",
     "@m3e/toolbar": "^1.3.1",
     "@m3e/tooltip": "^1.3.1",
+    "lit": "^3.3.2",
+    "lit-element": "^4.2.2",
+    "lit-html": "^3.3.2",
     "zod": "^4.0.0"
   },
   "devDependencies": {
